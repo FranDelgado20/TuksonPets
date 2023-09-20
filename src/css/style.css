@@ -1,0 +1,42 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.main-content {
+  margin-top: 74.66px;
+  flex-grow: 1;
+}
+footer {
+  background-color: #f5f1f1;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+}
+.wp,
+.ig,
+.fb {
+  color: black;
+}
+.wp:hover {
+  color: #00c91b;
+  transition: 300ms;
+}
+.ig:hover {
+  color: #f16a85;
+  transition: 300ms;
+}
+.fb:hover {
+  color: #0b85ee;
+  transition: 300ms;
+}
+@media (min-width: 992px) {
+  .displayNone {
+    display: none;
+  }
+}
+@media (max-width: 991px) {
+  .margenLogo {
+    margin-bottom: 15px;
+  }
+}
