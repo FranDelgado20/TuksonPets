@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const FooterComp = () => {
   return (
-    <footer className="py-3">
+    <footer className="py-3 bg-info-subtle">
       <div className="container-fluid">
         <div className="row justify-content-center">
           <div className="col-lg-4 col-md-6 col-sm-12 margenLogo">
@@ -16,7 +16,7 @@ const FooterComp = () => {
             <h5>Más información</h5>
             <Link className="mx-1 nav-link" to={"/about"}>Sobre nosotros</Link>
             <Link className="mx-1 nav-link" to={"/contact"}>Contacto</Link>
-            <h6>Visitanos: Av. Gobernador del Campo</h6>
+            <h6>Visitanos: Av. Alem 1086</h6>
           </div>
           <hr className="displayNone" />
           <div className="col-lg-4 col-md-6 col-sm-12">
