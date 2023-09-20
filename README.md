@@ -19,5 +19,14 @@ Hola muy buenas! Nuestro proyecto "Tukson Pets" se refiere a una clínica veteri
   <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/1200px-Unofficial_JavaScript_logo_2.svg.png' width='40px'>
   <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png' width='40px'>
   <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/2560px-Node.js_logo.svg.png' width='60px'>
-  <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/2560px-MongoDB_Logo.svg.png' width='60px'>
+  <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/2560px-MongoDB_Logo.svg.png' width='100px'>
   </div>
+  <hr>
+  <h3>¿Como instalar este proyecto en tu PC?</h3>
+  Debes seguir los siguentes pasos:
+  <ol>
+  <li>Clonar el repositorio del proyecto, para ello debes utilizar una consola de comandos (Windows Powershell, GitBash, VSCode) y utilizar el comando: "git clone https://github.com/FranDelgado20/TuksonPets.git"</li>
+  <li>Instalar todas las depencias que posee el proyecto, para ello utiliza el comando: "npm install" o "npm i"</li>
+  <li>Para iniciar la visualización del proyecto, utiliza el comando: "npm run dev" y abre el link de localhost</li>
+  </ol>
+  Y listo! Con esto tendrás el proyecto instalado y corriendo en tu PC.
