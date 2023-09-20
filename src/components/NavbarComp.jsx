@@ -6,7 +6,7 @@ import { Link, NavLink } from "react-router-dom";
 
 const NavbarComp = () => {
   return (
-    <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" fixed="top">
+    <Navbar collapseOnSelect expand="lg" className="bg-info-subtle" fixed="top">
       <Container fluid>
         <Link to={"/"}>
           <img
