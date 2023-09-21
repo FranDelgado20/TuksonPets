@@ -31,6 +31,15 @@ footer {
   color: #0b85ee;
   transition: 300ms;
 }
+.linkFooter{
+  text-decoration: none;
+  color: rgb(68, 68, 68);
+  display: block;
+}
+.linkFooter:hover{
+  text-decoration: underline;
+  color: black;
+}
 @media (min-width: 992px) {
   .displayNone {
     display: none;

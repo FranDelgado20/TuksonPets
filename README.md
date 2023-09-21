@@ -26,7 +26,7 @@ Hola muy buenas! Nuestro proyecto "Tukson Pets" se refiere a una clínica veteri
   Debes seguir los siguentes pasos:
   <ol>
   <li>Clonar el repositorio del proyecto, para ello debes utilizar una consola de comandos (Windows Powershell, GitBash, VSCode) y utilizar el comando: "git clone https://github.com/FranDelgado20/TuksonPets.git"</li>
-  <li>Instalar todas las depencias que posee el proyecto, para ello utiliza el comando: "npm install" o "npm i"</li>
-  <li>Para iniciar la visualización del proyecto, utiliza el comando: "npm run dev" y abre el link de localhost</li>
+  <li>Instalar todas las dependencias que posee el proyecto, para ello utiliza el comando: "npm install" o "npm i"</li>
+  <li>Para iniciar la visualización del proyecto, utiliza el comando: "npm run dev" y abre el link http://localhost:****/</li>
   </ol>
   Y listo! Con esto tendrás el proyecto instalado y corriendo en tu PC.
