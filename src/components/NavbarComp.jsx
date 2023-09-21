@@ -17,7 +17,7 @@ const NavbarComp = () => {
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto ms-4 mt-3">
+          <Nav className="me-auto ms-4 marginNavbar">
             <NavLink to={"/"} className={"nav-link"}>
               Inicio
             </NavLink>
@@ -28,7 +28,7 @@ const NavbarComp = () => {
               Solicitar turnos
             </NavLink>
           </Nav>
-          <Nav className="ms-4 mt-3">
+          <Nav className="ms-4 marginNavbar">
             <NavLink to={"/login"} className={"nav-link"}>
               Iniciar sesión
             </NavLink>
