@@ -16,7 +16,7 @@ const ErrorPage = () => {
       </Row>
       <hr />
       <div className="text-center">
-        <Link className="btn btn-info fs-5">Volver a inicio</Link>
+        <Link className="btn  fs-5 botones" to={'/'}>Volver a inicio</Link>
       </div>
     </Container>
   );
