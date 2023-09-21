@@ -14,8 +14,8 @@ const FooterComp = () => {
           <hr className="displayNone" />
           <div className="col-lg-4 col-md-6 col-sm-12">
             <h5>Más información</h5>
-            <Link className="mx-1 nav-link" to={"/about"}>Sobre nosotros</Link>
-            <Link className="mx-1 nav-link" to={"/contact"}>Contacto</Link>
+            <Link className="my-1 nav-link" to={"/aboutus"}>Sobre nosotros</Link>
+            <Link className="my-1 nav-link" to={"/contact"}>Contacto</Link>
             <h6>Visitanos: Av. Alem 1086</h6>
           </div>
           <hr className="displayNone" />
