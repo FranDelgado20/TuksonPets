@@ -92,7 +92,7 @@ const ContactPage = () => {
                   </small>
                 </Form.Group>
                 <div className="text-end">
-                <Button variant="info" type="submit" onClick={handleSubmit}>
+                <Button variant="info" className="botonContact" type="submit" onClick={handleSubmit}>
                 <i className="bi bi-send-check me-1"></i>
                   Enviar comentarios
                 </Button>
