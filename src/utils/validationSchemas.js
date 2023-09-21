@@ -11,3 +11,9 @@ export const errorLoginSchema = yup.object().shape({
     email: yup.string().email('Formato Email invalido').required('Campo de correo electronico obligatorio'),
     pass: yup.string().required("Campo contraseña obligatorio")
 })
+
+export const errorContactSchema = yup.object().shape({
+    email: yup.string().email('Formato Email invalido').required('Campo de correo electronico obligatorio'),
+    name: yup.string().required("Campo nombre y apellido obligatorio"),
+    coment: yup.string().required("Campo Comentarios es obligatorio"),
+})

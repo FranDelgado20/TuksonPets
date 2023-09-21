@@ -5,6 +5,7 @@ import ErrorPage from '../pages/ErrorPage'
 import RegisterPage from '../pages/RegisterPage'
 import AboutUsPage from '../pages/AboutUsPage'
 import LoginPage from '../pages/LoginPage'
+import ContactPage from '../pages/ContactPage'
 
 const RoutesView = () => {
   return (
@@ -14,6 +15,7 @@ const RoutesView = () => {
         <Route path='/aboutus' element={<AboutUsPage/>}/>
         <Route path='/' element={<HomePage/>}/>
         <Route path='*' element={<ErrorPage/>}/>
+        <Route path='/contact' element={<ContactPage/>}/>
     </Routes>
   )
 }
