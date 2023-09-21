@@ -34,7 +34,7 @@ const RegisterPage = () => {
             handleSubmit,
             isSubmitting,
           }) => (
-            <Form className="bg-info-subtle p-3 w-75 rounded-3">
+            <Form className="bg-info-subtle p-3 w-75 rounded-3 sombra">
               <h3>Crea tu cuenta aquí</h3>
               <hr />
               <Form.Group className="mb-3" controlId="emailId">
@@ -117,9 +117,9 @@ const RegisterPage = () => {
               </Form.Group>
               <hr />
               <div className="text-end">
-                <Button variant="info" type="submit" onClick={handleSubmit}>
+                <button className="btn botones" type="submit" onClick={handleSubmit}>
                   Registrarse
-                </Button>
+                </button>
               </div>
             </Form>
           )}

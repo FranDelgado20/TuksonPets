@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const FooterComp = () => {
@@ -14,9 +15,9 @@ const FooterComp = () => {
           <hr className="displayNone" />
           <div className="col-lg-4 col-md-6 col-sm-12">
             <h5>Más información</h5>
-            <Link className="my-1 nav-link" to={"/aboutus"}>Sobre nosotros</Link>
-            <Link className="my-1 nav-link" to={"/contact"}>Contacto</Link>
-            <h6>Visitanos: Av. Alem 1086</h6>
+            <Link className="my-1 linkFooter" to={"/aboutus"}>Sobre nosotros</Link>
+            <Link className="my-1 linkFooter" to={"/contact"}>Contacto</Link>
+            <h5 className="mt-2">Visitanos: Av. Alem 1086</h5>
           </div>
           <hr className="displayNone" />
           <div className="col-lg-4 col-md-6 col-sm-12">
