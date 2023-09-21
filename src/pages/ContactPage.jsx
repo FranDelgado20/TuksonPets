@@ -1,7 +1,6 @@
 import { Formik } from "formik";
 import React from "react";
 import { Container } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { errorContactSchema } from "../utils/validationSchemas";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -92,10 +91,11 @@ const ContactPage = () => {
                   </small>
                 </Form.Group>
                 <div className="text-end">
-                  <Button variant="info" type="submit" onClick={handleSubmit}>
-                    <i className="bi bi-send-check me-1"></i>
-                    Enviar comentarios
-                  </Button>
+                <button className="btn botonContact" type="submit" onClick={handleSubmit}>
+                <i className="bi bi-send-check me-1"></i>
+                  Enviar comentarios
+                </button>
+
                 </div>
               </Form>
             )}

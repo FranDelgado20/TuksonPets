@@ -1,7 +1,6 @@
 import { Formik } from "formik";
 import React from "react";
 import { Container } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { errorLoginSchema } from "../utils/validationSchemas";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -29,7 +28,7 @@ const LoginPage = () => {
           handleSubmit,
           isSubmitting,
         }) => (
-          <Form className="bg-info-subtle p-3 w-75 rounded-3">
+          <Form className="bg-info-subtle p-3 w-75 rounded-3 sombra">
             <h3>Ingresá a tu cuenta</h3>
             <hr />
             <Form.Group className="mb-3" controlId="emailId">
@@ -74,9 +73,9 @@ const LoginPage = () => {
               <hr />
             <div className="text-end">
 
-            <Button variant="info" type="submit" onClick={handleSubmit}>
+            <button className="btn botones" type="submit" onClick={handleSubmit}>
               Ingresar
-            </Button>
+            </button>
             </div>
           </Form>
         )}

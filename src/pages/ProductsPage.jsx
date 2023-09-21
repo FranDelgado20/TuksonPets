@@ -11,7 +11,7 @@ const ProductsPage = () => {
         <hr />
         <div className="d-flex justify-content-center">
           <Form.Group
-            className="mb-3 bg-info-subtle p-3 rounded-4 w-50"
+            className="mb-3 bg-info-subtle p-3 rounded-4 w-50 sombra"
             controlId="categoryId"
           >
             <Form.Label>Filtra los productos por categoría</Form.Label>
