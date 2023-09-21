@@ -4,16 +4,16 @@ export const errorRegisterSchema = yup.object().shape({
     email: yup.string().email("Formato Email inválido").required("Campo correo electrónico obligatorio"),
     name: yup.string().required("Campo nombre y apellido obligatorio"),
     pass: yup.string().required("Campo contraseña obligatorio").min(8, "La contraseña debe ser de al menos 8 caracteres"),
-    repeatPass: yup.string().required("Campo repetir contraseña obligatorio")
+    repeatPass: yup.string().required("Campo repetir contraseña obligatorio").min(8, "La contraseña debe ser de al menos 8 caracteres")
 })
 
 export const errorLoginSchema = yup.object().shape({
-    email: yup.string().email('Formato Email invalido').required('Campo de correo electronico obligatorio'),
+    email: yup.string().email('Formato Email invalido').required('Campo correo electronico obligatorio'),
     pass: yup.string().required("Campo contraseña obligatorio")
 })
 
 export const errorContactSchema = yup.object().shape({
-    email: yup.string().email('Formato Email invalido').required('Campo de correo electronico obligatorio'),
+    email: yup.string().email('Formato Email invalido').required('Campo correo electronico obligatorio'),
     name: yup.string().required("Campo nombre y apellido obligatorio"),
-    coment: yup.string().required("Campo Comentarios es obligatorio"),
+    coment: yup.string().required("Campo comentarios obligatorio"),
 })

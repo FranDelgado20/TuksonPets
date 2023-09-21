@@ -6,10 +6,12 @@ import RegisterPage from '../pages/RegisterPage'
 import AboutUsPage from '../pages/AboutUsPage'
 import LoginPage from '../pages/LoginPage'
 import ContactPage from '../pages/ContactPage'
+import ProductsPage from '../pages/ProductsPage'
 
 const RoutesView = () => {
   return (
     <Routes>
+        <Route path='/products' element={<ProductsPage/>}/>
         <Route path='/register' element={<RegisterPage/>}/>
         <Route path='/login' element={<LoginPage/>}/>
         <Route path='/aboutus' element={<AboutUsPage/>}/>
