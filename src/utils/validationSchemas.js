@@ -17,3 +17,10 @@ export const errorContactSchema = yup.object().shape({
     name: yup.string().required("Campo nombre y apellido obligatorio"),
     coment: yup.string().required("Campo comentarios obligatorio"),
 })
+
+export const errorProdSchema = yup.object().shape({
+    name: yup.string().required('Campo nombre del producto obligatorio'),
+    price: yup.number().required("Campo precio del producto obligatorio"),
+    desc: yup.string().required("Campo descripción obligatorio"),
+    img: yup.string().required("Campo URL de imagen obligatorio").url("Formato URL inválido"),
+})
