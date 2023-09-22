@@ -8,6 +8,7 @@ import LoginPage from '../pages/LoginPage'
 import ContactPage from '../pages/ContactPage'
 import ProductsPage from '../pages/ProductsPage'
 import AdminPage from '../pages/AdminPage'
+import CartPage from '../pages/CartPage'
 
 const RoutesView = () => {
   return (
@@ -17,6 +18,7 @@ const RoutesView = () => {
         <Route path='/register' element={<RegisterPage/>}/>
         <Route path='/login' element={<LoginPage/>}/>
         <Route path='/aboutus' element={<AboutUsPage/>}/>
+        <Route path='/cart' element={<CartPage/>}/>
         <Route path='/' element={<HomePage/>}/>
         <Route path='*' element={<ErrorPage/>}/>
         <Route path='/contact' element={<ContactPage/>}/>
