@@ -1,11 +1,15 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
+import ModalComp from "../components/ModalComp";
 
 const AdminPage = () => {
   return (
     <Container className="my-5">
-      <h3 className="mt-2">Productos</h3>
+      <div className="d-flex justify-content-between">
+        <h3>Productos</h3>
+        <ModalComp type="prod"/>
+      </div>
       <hr />
       <Table striped bordered hover responsive variant="info">
         <thead>
@@ -19,7 +23,10 @@ const AdminPage = () => {
           </tr>
         </thead>
       </Table>
-      <h3 className="mt-2">Servicios</h3>
+      <div className="mt-2 d-flex justify-content-between">
+        <h3>Servicios</h3>
+        <ModalComp type="serv"/>
+      </div>
       <hr />
       <Table striped bordered hover responsive variant="info">
         <thead>
@@ -33,7 +40,10 @@ const AdminPage = () => {
           </tr>
         </thead>
       </Table>
-      <h3 className="mt-2">Usuarios registrados</h3>
+      <div className="mt-2 d-flex justify-content-between">
+        <h3>Usuarios registrados</h3>
+        <ModalComp type="user"/>
+      </div>
       <hr />
       <Table striped bordered hover responsive variant="info">
         <thead>
@@ -45,12 +55,29 @@ const AdminPage = () => {
           </tr>
         </thead>
       </Table>
-      <h3 className="mt-2">Pacientes y sus dueños</h3>
+      <div className="mt-2 d-flex justify-content-between">
+        <h3>Turnos</h3>
+        <ModalComp type="turn"/>
+      </div>
       <hr />
       <Table striped bordered hover responsive variant="info">
         <thead>
           <tr>
             <th>ID</th>
+            <th>Nombre del paciente</th>
+            <th>Veterinario</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Servicio seleccionado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+      </Table>
+      <h3 className="mt-2">Pacientes y sus dueños</h3>
+      <hr />
+      <Table striped bordered hover responsive variant="info">
+        <thead>
+          <tr>
             <th>Nombre del paciente</th>
             <th>Raza</th>
             <th>Especie</th>
@@ -60,20 +87,7 @@ const AdminPage = () => {
           </tr>
         </thead>
       </Table>
-      <h3 className="mt-2">Turnos</h3>
-      <hr />
-      <Table striped bordered hover responsive variant="info">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre del paciente</th>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Servicio seleccionado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-      </Table>
+
     </Container>
   );
 };
