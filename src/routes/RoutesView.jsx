@@ -10,6 +10,9 @@ import ProductsPage from '../pages/ProductsPage'
 import AdminPage from '../pages/AdminPage'
 import CartPage from '../pages/CartPage'
 
+import OneProd from '../pages/OneProd'
+import OneService from '../pages/OneService'
+
 const RoutesView = () => {
   return (
     <Routes>
@@ -19,6 +22,8 @@ const RoutesView = () => {
         <Route path='/login' element={<LoginPage/>}/>
         <Route path='/aboutus' element={<AboutUsPage/>}/>
         <Route path='/cart' element={<CartPage/>}/>
+        <Route path='/oneProd' element={<OneProd/>}/>
+        <Route path='/oneServ' element={<OneService/>}/>
         <Route path='/' element={<HomePage/>}/>
         <Route path='*' element={<ErrorPage/>}/>
         <Route path='/contact' element={<ContactPage/>}/>

@@ -13,7 +13,7 @@ const CardComp = () => {
             Some quick example text to build on the card title and make up the
             bulk of the card's content.
           </Card.Text>
-          <button className="btn botones">Go somewhere</button>
+          <button className="btn botones"  >Go somewhere</button>
         </Card.Body>
       </Card>
     </Col>
