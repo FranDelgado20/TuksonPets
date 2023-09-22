@@ -24,3 +24,11 @@ export const errorProdSchema = yup.object().shape({
     desc: yup.string().required("Campo descripción obligatorio"),
     img: yup.string().required("Campo URL de imagen obligatorio").url("Formato URL inválido"),
 })
+
+export const errorTurnSchema = yup.object().shape({
+    namePatient: yup.string().required('Campo nombre del paciente obligatorio'),
+    nameServ: yup.string().required('Campo servicio obligatorio'),
+    vet: yup.string().required("Campo veterinario obligatorio"),
+    date: yup.string().required("Campo fecha obligatorio"),
+    time: yup.string().required("Campo hora obligatorio"),
+})
