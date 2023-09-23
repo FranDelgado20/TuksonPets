@@ -1,5 +1,4 @@
 import React from "react";
-import { NavLink } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const FooterComp = () => {
@@ -9,7 +8,7 @@ const FooterComp = () => {
         <div className="row justify-content-center">
           <div className="col-lg-4 col-md-6 col-sm-12 margenLogo">
             <div className="img-fluid text-center">
-              <img src="/TuksonPetsLogo.png" alt="Tukson Pets Logo" width="300px" />
+              <img src="/TuksonPetsLogo.png" alt="Tukson Pets Logo" width="300px" className="img-fluid" />
             </div>
           </div>
           <hr className="displayNone" />
