@@ -4,6 +4,7 @@ import { Container } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { errorLoginSchema } from "../utils/validationSchemas";
 import InputGroup from "react-bootstrap/InputGroup";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const handleClick = (values) => {
@@ -71,10 +72,10 @@ const LoginPage = () => {
                 </small>
               </Form.Group>
               <hr />
-            <div className="text-end">
-
+            <div className="d-flex justify-content-between">
+            <Link to={"/register"} className="linkFooter">¿Aún no tienes cuenta? Registrate aquí</Link>
             <button className="btn botones" type="submit" onClick={handleSubmit}>
-              Ingresar
+              Iniciar sesión
             </button>
             </div>
           </Form>

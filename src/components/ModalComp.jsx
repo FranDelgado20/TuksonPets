@@ -3,11 +3,9 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import {
-  errorProdSchema,
-  errorRegisterSchema,
-  errorTurnSchema,
-} from "../utils/validationSchemas";
+import { errorProdSchema } from "../utils/validationSchemas";
+import RegisterComp from "./RegisterComp";
+import TurnsComp from "./TurnsComp";
 
 const ModalComp = ({ type }) => {
   const [show, setShow] = useState(false);
@@ -18,9 +16,7 @@ const ModalComp = ({ type }) => {
   const createUser = (values) => {
     console.log(values);
   };
-  const createTurn = (values) => {
-    console.log(values);
-  };
+
   return (
     <>
       {type === "prod" ? (
@@ -303,127 +299,7 @@ const ModalComp = ({ type }) => {
                 <Modal.Title>Crea un nuevo usuario aquí</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <Formik
-                  initialValues={{
-                    email: "",
-                    name: "",
-                    pass: "",
-                    repeatPass: "",
-                  }}
-                  validationSchema={errorRegisterSchema}
-                  onSubmit={(values) => createUser(values)}
-                >
-                  {({
-                    values,
-                    errors,
-                    touched,
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    isSubmitting,
-                  }) => (
-                    <Form>
-                      <Form.Group className="mb-3" controlId="emailId">
-                        <Form.Label>Correo electrónico</Form.Label>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text id="groupEmail">
-                            <i className="bi bi-envelope-at-fill"></i>
-                          </InputGroup.Text>
-                          <Form.Control
-                            placeholder="name@example.com"
-                            type="email"
-                            name="email"
-                            value={values.email}
-                            onChange={handleChange}
-                            className={
-                              errors.email && touched.email && "is-invalid"
-                            }
-                          />
-                        </InputGroup>
-                        <small className="text-danger">
-                          {errors.email && touched.email && errors.email}
-                        </small>
-                      </Form.Group>
-                      <Form.Group className="mb-3" controlId="usernameId">
-                        <Form.Label>Nombre y Apellido</Form.Label>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text id="groupUsername">
-                            <i className="bi bi-person-circle"></i>
-                          </InputGroup.Text>
-                          <Form.Control
-                            placeholder="Ejemplo: Juan González"
-                            type="text"
-                            name="name"
-                            value={values.name}
-                            onChange={handleChange}
-                            className={
-                              errors.name && touched.name && "is-invalid"
-                            }
-                          />
-                        </InputGroup>
-                        <small className="text-danger">
-                          {errors.name && touched.name && errors.name}
-                        </small>
-                      </Form.Group>
-                      <Form.Group className="mb-3" controlId="passId">
-                        <Form.Label>Contraseña</Form.Label>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text id="groupPass">
-                            <i className="bi bi-key-fill"></i>
-                          </InputGroup.Text>
-                          <Form.Control
-                            placeholder="***********"
-                            type="password"
-                            name="pass"
-                            value={values.pass}
-                            onChange={handleChange}
-                            className={
-                              errors.pass && touched.pass && "is-invalid"
-                            }
-                          />
-                        </InputGroup>
-                        <small className="text-danger">
-                          {errors.pass && touched.pass && errors.pass}
-                        </small>
-                      </Form.Group>
-                      <Form.Group className="mb-3" controlId="repeatPassId">
-                        <Form.Label>Repetir contraseña</Form.Label>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text id="groupRepeatPass">
-                            <i className="bi bi-key-fill"></i>
-                          </InputGroup.Text>
-                          <Form.Control
-                            placeholder="***********"
-                            type="password"
-                            name="repeatPass"
-                            value={values.repeatPass}
-                            onChange={handleChange}
-                            className={
-                              errors.repeatPass &&
-                              touched.repeatPass &&
-                              "is-invalid"
-                            }
-                          />
-                        </InputGroup>
-                        <small className="text-danger">
-                          {errors.repeatPass &&
-                            touched.repeatPass &&
-                            errors.repeatPass}
-                        </small>
-                      </Form.Group>
-                      <hr />
-                      <div className="text-end">
-                        <button
-                          className="btn botones"
-                          type="submit"
-                          onClick={handleSubmit}
-                        >
-                          Crear usuario
-                        </button>
-                      </div>
-                    </Form>
-                  )}
-                </Formik>
+                <RegisterComp type={"admin"} />
               </Modal.Body>
             </div>
           </Modal>
@@ -440,157 +316,7 @@ const ModalComp = ({ type }) => {
                 <Modal.Title>Crea un nuevo turno aquí</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <Formik
-                  initialValues={{
-                    nameServ: "",
-                    namePatient: "",
-                    date: "",
-                    time: "",
-                    vet: "",
-                  }}
-                  validationSchema={errorTurnSchema}
-                  onSubmit={(values) => createTurn(values)}
-                >
-                  {({
-                    values,
-                    errors,
-                    touched,
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    isSubmitting,
-                  }) => (
-                    <Form>
-                      <Form.Group className="mb-3" controlId="nameId">
-                        <Form.Label>Nombre del paciente</Form.Label>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text id="groupName">
-                            <i className="bi bi-tag-fill"></i>
-                          </InputGroup.Text>
-                          <Form.Control
-                            placeholder="Ej: Toby"
-                            type="text"
-                            name="namePatient"
-                            value={values.namePatient}
-                            onChange={handleChange}
-                            className={
-                              errors.namePatient &&
-                              touched.namePatient &&
-                              "is-invalid"
-                            }
-                          />
-                        </InputGroup>
-                        <small className="text-danger">
-                          {errors.namePatient &&
-                            touched.namePatient &&
-                            errors.namePatient}
-                        </small>
-                      </Form.Group>
-                      <Form.Group className="mb-3" controlId="servId">
-                        <Form.Label>Servicio deseado</Form.Label>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text id="groupPrice">
-                          <i className="bi bi-list-task"></i>
-                          </InputGroup.Text>
-                          <Form.Select
-                            name="nameServ"
-                            value={values.nameServ}
-                            onChange={handleChange}
-                            className={
-                              errors.nameServ && touched.nameServ && "is-invalid"
-                            }
-                          >
-                            <option>Servicio no seleccionado</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                          </Form.Select>
-                        </InputGroup>
-                        <small className="text-danger">
-                          {errors.nameServ && touched.nameServ && errors.nameServ}
-                        </small>
-                      </Form.Group>
-                      <Form.Group className="mb-3" controlId="vetId">
-                        <Form.Label>Veterinario</Form.Label>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text id="groupVet">
-                            <i className="bi bi-file-text-fill"></i>
-                          </InputGroup.Text>
-                          <Form.Select
-                            name="vet"
-                            value={values.vet}
-                            onChange={handleChange}
-                            className={
-                              errors.vet && touched.vet && "is-invalid"
-                            }
-                          >
-                            <option>Veterinario no seleccionado</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                            <option value="4">Four</option>
-                          </Form.Select>
-                        </InputGroup>
-                        <small className="text-danger">
-                          {errors.vet && touched.vet && errors.vet}
-                        </small>
-                      </Form.Group>
-                      <div className="d-flex justify-content-around">
-
-                      <Form.Group className="mb-3" controlId="dateId">
-                        <Form.Label>Fecha</Form.Label>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text id="groupDate">
-                          <i className="bi bi-calendar"></i>
-                          </InputGroup.Text>
-                          <Form.Control
-                            type="date"
-                            name="date"
-                            value={values.date}
-                            onChange={handleChange}
-                            className={
-                              errors.date && touched.date && "is-invalid"
-                            }
-                          />
-                        </InputGroup>
-                        <small className="text-danger">
-                          {errors.date && touched.date && errors.date}
-                        </small>
-                      </Form.Group>
-                      <Form.Group className="mb-3" controlId="timeId">
-                        <Form.Label>Fecha</Form.Label>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text id="groupTime">
-                          <i className="bi bi-clock"></i>
-                          </InputGroup.Text>
-                          <Form.Control
-                            type="time"
-                            name="time"
-                            value={values.time}
-                            onChange={handleChange}
-                            className={
-                              errors.time && touched.time && "is-invalid"
-                            }
-                          />
-                        </InputGroup>
-                        <small className="text-danger">
-                          {errors.time && touched.time && errors.time}
-                        </small>
-                      </Form.Group>
-                      </div>
-                      <hr />
-                      <div className="text-end">
-                        <button
-                          className="btn botones"
-                          type="submit"
-                          onClick={handleSubmit}
-                        >
-                          Crear servicio
-                        </button>
-                      </div>
-                    </Form>
-                  )}
-                </Formik>
+                <TurnsComp type={"admin"} />
               </Modal.Body>
             </div>
           </Modal>

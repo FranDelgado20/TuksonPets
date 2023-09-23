@@ -6,7 +6,7 @@ const AboutUsPage = () => {
     <Container className="my-5">
       <Row>
         <Col lg={12} md={12} sm={12}>
-          <h3 class="text-center">Tukson Pets - Clínica veterinaria 🐶 🐱 💉</h3>
+          <h3 className="text-center">Tukson Pets - Clínica veterinaria 🐶 🐱 💉</h3>
           <hr />
           <p>
             Tukson Pets es la página dedicada a la clínica veterinaria del mismo
@@ -28,7 +28,7 @@ const AboutUsPage = () => {
               />
             </Col>
             <Col lg={10} md={6} sm={12}>
-              <h4 class="mt-2">Santiago Agustín Jaime | Scrum Master</h4>
+              <h4 className="mt-2">Santiago Agustín Jaime | Scrum Master</h4>
               <hr />
               <p>
                 Hola! Soy Santiago Agustín Jaime y tengo 20 años. En el año 2021
@@ -63,7 +63,7 @@ const AboutUsPage = () => {
               />
             </Col>
             <Col lg={10} md={6} sm={12}>
-              <h4 class="mt-2">Francisco Delgado | Tech Leader</h4>
+              <h4 className="mt-2">Francisco Delgado | Tech Leader</h4>
               <hr />
               <p>
                 Soy estudiante de Medicina de la UNT y estoy cursando el 3°año

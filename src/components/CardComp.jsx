@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 const CardComp = () => {
   return (
     <Col lg={3} md={6} sm={12} className="my-2">
-      <Card className="bg-info-subtle">
+      <Card className="bg-info-subtle sombra">
         <Card.Img variant="top" src="" alt="Imagen" />
         <Card.Body>
           <Card.Title>Card Title</Card.Title>

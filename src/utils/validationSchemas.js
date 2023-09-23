@@ -8,12 +8,12 @@ export const errorRegisterSchema = yup.object().shape({
 })
 
 export const errorLoginSchema = yup.object().shape({
-    email: yup.string().email('Formato Email invalido').required('Campo correo electronico obligatorio'),
+    email: yup.string().email('Formato Email inválido').required('Campo correo electrónico obligatorio'),
     pass: yup.string().required("Campo contraseña obligatorio")
 })
 
 export const errorContactSchema = yup.object().shape({
-    email: yup.string().email('Formato Email invalido').required('Campo correo electronico obligatorio'),
+    email: yup.string().email('Formato Email invalido').required('Campo correo electrónico obligatorio'),
     name: yup.string().required("Campo nombre y apellido obligatorio"),
     coment: yup.string().required("Campo comentarios obligatorio"),
 })
