@@ -19,7 +19,7 @@ const OneProd = () => {
           <hr />
           <div className="text-end">
             <button className="btn botones ">
-            <i class="bi bi-cart-plus-fill me-2"></i>
+            <i className="bi bi-cart-plus-fill me-2"></i>
                 Agregar al carrito</button>
           </div>
         </Col>

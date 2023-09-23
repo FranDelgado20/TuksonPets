@@ -18,7 +18,7 @@ const OneService = () => {
         <hr />
         <div className="text-end">
           <button className="btn botones ">
-          <i class="bi bi-calendar-plus-fill me-2"></i>
+          <i className="bi bi-calendar-plus-fill me-2"></i>
               Solicitar turno</button>
         </div>
       </Col>
