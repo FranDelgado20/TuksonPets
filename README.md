@@ -1,5 +1,5 @@
 <h2 class="h2">Tukson Pets 🐶 🐱 💉</h2>
-Hola muy buenas! Nuestro proyecto "Tukson Pets" se refiere a una clínica veterinaria ubicada en San Miguel de Tucumán. Esta Pagina Web esta creada con el uso de HTML, CSS, JS, React, NodeJS, MongoDB y otras herramientas que nos ayudaron a mejorar esteticamente los detalles de la misma. 
+Hola muy buenas! Nuestro proyecto "Tukson Pets" se refiere a una clínica veterinaria ubicada en San Miguel de Tucumán. Esta Pagina Web esta creada con el uso de HTML, CSS, JS, React, NodeJS, MongoDB y otras herramientas que nos ayudaron a mejorar esteticamente los detalles de la misma. Este repositorio contiene la parte del Frontend del proyecto. Si quieres ver el Backend, clickea el siguiente enlace: https://github.com/FranDelgado20/TuksonPetsBack
 <hr>
 <h3>Nuestro equipo esta conformado por:</h3> 
 <ul>
