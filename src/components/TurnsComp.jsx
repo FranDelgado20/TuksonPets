@@ -15,6 +15,8 @@ const TurnsComp = ({ type }) => {
           initialValues={{
             nameServ: "",
             namePatient: "",
+            nameOwner: "",
+            tel: "",
             date: "",
             time: "",
             vet: "",
@@ -32,10 +34,10 @@ const TurnsComp = ({ type }) => {
             isSubmitting,
           }) => (
             <Form>
-              <Form.Group className="mb-3" controlId="nameId">
+              <Form.Group className="mb-3" controlId="namePatientId">
                 <Form.Label>Nombre del paciente</Form.Label>
                 <InputGroup className="mb-3">
-                  <InputGroup.Text id="groupName">
+                  <InputGroup.Text id="groupNamePatient">
                     <i className="bi bi-tag-fill"></i>
                   </InputGroup.Text>
                   <Form.Control
@@ -53,6 +55,46 @@ const TurnsComp = ({ type }) => {
                   {errors.namePatient &&
                     touched.namePatient &&
                     errors.namePatient}
+                </small>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="nameOwnerId">
+                <Form.Label>Nombre del dueño</Form.Label>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text id="groupNameOwner">
+                    <i className="bi bi-person-circle"></i>
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Ej: Juan González"
+                    type="text"
+                    name="nameOwner"
+                    value={values.nameOwner}
+                    onChange={handleChange}
+                    className={
+                      errors.nameOwner && touched.nameOwner && "is-invalid"
+                    }
+                  />
+                </InputGroup>
+                <small className="text-danger">
+                  {errors.nameOwner && touched.nameOwner && errors.nameOwner}
+                </small>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="telId">
+                <Form.Label>Nombre del dueño</Form.Label>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text id="groupTel">
+                    <i className="bi bi-telephone-fill"></i>
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Formato: 000-0000000"
+                    type="number"
+                    name="tel"
+                    value={values.tel}
+                    onChange={handleChange}
+                    className={errors.tel && touched.tel && "is-invalid"}
+                  />
+                </InputGroup>
+                <small className="text-danger">
+                  {errors.tel && touched.tel && errors.tel}
                 </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="servId">
@@ -83,7 +125,7 @@ const TurnsComp = ({ type }) => {
                 <Form.Label>Veterinario</Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Text id="groupVet">
-                    <i className="bi bi-person-circle"></i>
+                    <i className="bi bi-capsule"></i>
                   </InputGroup.Text>
                   <Form.Select
                     name="vet"
@@ -158,6 +200,8 @@ const TurnsComp = ({ type }) => {
           initialValues={{
             nameServ: "",
             namePatient: "",
+            nameOwner: "",
+            tel: "",
             date: "",
             time: "",
             vet: "",
@@ -177,10 +221,10 @@ const TurnsComp = ({ type }) => {
             <Form className="bg-info-subtle p-3 rounded-4 w-75">
               <h3>Solicita tu turno aquí</h3>
               <hr />
-              <Form.Group className="mb-3" controlId="nameId">
+              <Form.Group className="mb-3" controlId="namePatientId">
                 <Form.Label>Nombre del paciente</Form.Label>
                 <InputGroup className="mb-3">
-                  <InputGroup.Text id="groupName">
+                  <InputGroup.Text id="groupNamePatient">
                     <i className="bi bi-tag-fill"></i>
                   </InputGroup.Text>
                   <Form.Control
@@ -198,6 +242,46 @@ const TurnsComp = ({ type }) => {
                   {errors.namePatient &&
                     touched.namePatient &&
                     errors.namePatient}
+                </small>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="nameOwnerId">
+                <Form.Label>Nombre del dueño</Form.Label>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text id="groupNameOwner">
+                    <i className="bi bi-person-circle"></i>
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Ej: Juan González"
+                    type="text"
+                    name="nameOwner"
+                    value={values.nameOwner}
+                    onChange={handleChange}
+                    className={
+                      errors.nameOwner && touched.nameOwner && "is-invalid"
+                    }
+                  />
+                </InputGroup>
+                <small className="text-danger">
+                  {errors.nameOwner && touched.nameOwner && errors.nameOwner}
+                </small>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="telId">
+                <Form.Label>Número de teléfono</Form.Label>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text id="groupTel">
+                    <i className="bi bi-telephone-fill"></i>
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Formato: 000-0000000"
+                    type="number"
+                    name="tel"
+                    value={values.tel}
+                    onChange={handleChange}
+                    className={errors.tel && touched.tel && "is-invalid"}
+                  />
+                </InputGroup>
+                <small className="text-danger">
+                  {errors.tel && touched.tel && errors.tel}
                 </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="servId">
@@ -228,7 +312,7 @@ const TurnsComp = ({ type }) => {
                 <Form.Label>Veterinario</Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Text id="groupVet">
-                    <i className="bi bi-file-text-fill"></i>
+                    <i className="bi bi-capsule"></i>
                   </InputGroup.Text>
                   <Form.Select
                     name="vet"
@@ -292,7 +376,7 @@ const TurnsComp = ({ type }) => {
                   type="submit"
                   onClick={handleSubmit}
                 >
-                  Crear servicio
+                  Solicitar turno
                 </button>
               </div>
             </Form>
