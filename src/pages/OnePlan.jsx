@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Row, Col } from "react-bootstrap";
-const OneService = () => {
+const OnePlan = () => {
   return (
     <Container className="my-3">
     <Row>
@@ -19,7 +19,7 @@ const OneService = () => {
         <div className="text-end">
           <button className="btn botones ">
           <i className="bi bi-calendar-plus-fill me-2"></i>
-              Solicitar turno</button>
+              Solicitar plan</button>
         </div>
       </Col>
     </Row>
@@ -27,4 +27,4 @@ const OneService = () => {
   )
 }
 
-export default OneService
+export default OnePlan
