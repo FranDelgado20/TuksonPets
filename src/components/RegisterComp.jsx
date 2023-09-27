@@ -19,6 +19,7 @@ const RegisterComp = ({ type }) => {
             name: "",
             pass: "",
             repeatPass: "",
+            tel: ""
           }}
           validationSchema={errorRegisterSchema}
           onSubmit={(values) => handleClick(values)}
@@ -54,10 +55,10 @@ const RegisterComp = ({ type }) => {
                   {errors.email && touched.email && errors.email}
                 </small>
               </Form.Group>
-              <Form.Group className="mb-3" controlId="usernameId">
+              <Form.Group className="mb-3" controlId="nameId">
                 <Form.Label>Nombre y Apellido</Form.Label>
                 <InputGroup className="mb-3">
-                  <InputGroup.Text id="groupUsername">
+                  <InputGroup.Text id="groupName">
                     <i className="bi bi-person-circle"></i>
                   </InputGroup.Text>
                   <Form.Control
@@ -71,6 +72,25 @@ const RegisterComp = ({ type }) => {
                 </InputGroup>
                 <small className="text-danger">
                   {errors.name && touched.name && errors.name}
+                </small>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="telId">
+                <Form.Label>Número de teléfono</Form.Label>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text id="groupTel">
+                    <i className="bi bi-telephone-fill"></i>
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Formato: 000-0000000"
+                    type="number"
+                    name="tel"
+                    value={values.tel}
+                    onChange={handleChange}
+                    className={errors.tel && touched.tel && "is-invalid"}
+                  />
+                </InputGroup>
+                <small className="text-danger">
+                  {errors.tel && touched.tel && errors.tel}
                 </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="passId">
