@@ -14,7 +14,7 @@ export const errorLoginSchema = yup.object().shape({
 })
 
 export const errorContactSchema = yup.object().shape({
-    email: yup.string().email('Formato Email invalido').required('Campo correo electrónico obligatorio'),
+    email: yup.string().email('Formato Email inválido').required('Campo correo electrónico obligatorio'),
     name: yup.string().required("Campo nombre y apellido obligatorio"),
     coment: yup.string().required("Campo comentarios obligatorio"),
 })
@@ -28,7 +28,7 @@ export const errorProdSchema = yup.object().shape({
 
 export const errorTurnSchema = yup.object().shape({
     namePatient: yup.string().required('Campo nombre del paciente obligatorio'),
-    nameServ: yup.string().required('Campo servicio obligatorio'),
+    desc: yup.string().required('Campo descripción obligatorio'),
     nameOwner: yup.string().required('Campo nombre del dueño obligatorio'),
     tel: yup.number().required('Campo número telefónico obligatorio').min(10, "Formáto inválido. El número de teléfono debe tener 10 caracteres"),
     vet: yup.string().required("Campo veterinario obligatorio"),
@@ -36,8 +36,8 @@ export const errorTurnSchema = yup.object().shape({
     time: yup.string().required("Campo hora obligatorio"),
 })
 export const errorPlanSchema = yup.object().shape({
-    email: yup.string().email('Formato Email invalido').required('Campo email obligatorio'),
-    desc: yup.string().required('Campo descripcion obligatorio'),
+    email: yup.string().email('Formato Email inválido').required('Campo email obligatorio'),
+    desc: yup.string().required('Campo descripción obligatorio'),
     name: yup.string().required('Campo nombre y apellido obligatorio'),
     tel: yup.number().required('Campo número telefónico obligatorio').min(10, "Formáto inválido. El número de teléfono debe tener 10 caracteres"),
    
