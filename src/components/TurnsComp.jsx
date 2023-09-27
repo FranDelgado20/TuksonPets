@@ -13,7 +13,7 @@ const TurnsComp = ({ type }) => {
       {type === "admin" ? (
         <Formik
           initialValues={{
-            nameServ: "",
+            desc: "",
             namePatient: "",
             nameOwner: "",
             tel: "",
@@ -89,28 +89,28 @@ const TurnsComp = ({ type }) => {
                   {errors.tel && touched.tel && errors.tel}
                 </small>
               </Form.Group>
-              <Form.Group className="mb-3" controlId="servId">
-                <Form.Label>Servicio deseado</Form.Label>
+              <Form.Group className="mb-3" controlId="descId">
+                <Form.Label>Detalles de la cita</Form.Label>
                 <InputGroup className="mb-3">
-                  <InputGroup.Text id="groupPrice">
-                    <i className="bi bi-list-task"></i>
+                  <InputGroup.Text id="groupDesc">
+                  <i className="bi bi-file-text-fill"></i>
                   </InputGroup.Text>
-                  <Form.Select
-                    name="nameServ"
-                    value={values.nameServ}
+                  <Form.Control
+                    name="desc"
+                    as={'textarea'}
+                    rows={'3'}
+                    value={values.desc}
+                    placeholder="Cuentenos el motivo de la cita"
                     onChange={handleChange}
                     className={
-                      errors.nameServ && touched.nameServ && "is-invalid"
+                      errors.desc && touched.desc && "is-invalid"
                     }
                   >
-                    <option>Servicio no seleccionado</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </Form.Select>
+                    
+                  </Form.Control>
                 </InputGroup>
                 <small className="text-danger">
-                  {errors.nameServ && touched.nameServ && errors.nameServ}
+                  {errors.desc && touched.desc && errors.desc}
                 </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="vetId">
@@ -305,7 +305,7 @@ const TurnsComp = ({ type }) => {
       ) : (
         <Formik
           initialValues={{
-            nameServ: "",
+            desc: "",
             namePatient: "",
             nameOwner: "",
             tel: "",
@@ -383,28 +383,28 @@ const TurnsComp = ({ type }) => {
                   {errors.tel && touched.tel && errors.tel}
                 </small>
               </Form.Group>
-              <Form.Group className="mb-3" controlId="servId">
-                <Form.Label>Servicio deseado</Form.Label>
+              <Form.Group className="mb-3" controlId="descId">
+                <Form.Label>Detalles de la cita</Form.Label>
                 <InputGroup className="mb-3">
-                  <InputGroup.Text id="groupPrice">
-                    <i className="bi bi-list-task"></i>
+                  <InputGroup.Text id="groupDesc">
+                  <i className="bi bi-file-text-fill"></i>
                   </InputGroup.Text>
-                  <Form.Select
-                    name="nameServ"
-                    value={values.nameServ}
+                  <Form.Control
+                    name="desc"
+                    as={'textarea'}
+                    rows={'3'}
+                    placeholder="Cuentenos el motivo de la cita"
+                    value={values.desc}
                     onChange={handleChange}
                     className={
-                      errors.nameServ && touched.nameServ && "is-invalid"
+                      errors.desc && touched.desc && "is-invalid"
                     }
                   >
-                    <option>Servicio no seleccionado</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </Form.Select>
+                    
+                  </Form.Control>
                 </InputGroup>
                 <small className="text-danger">
-                  {errors.nameServ && touched.nameServ && errors.nameServ}
+                  {errors.desc && touched.desc && errors.desc}
                 </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="vetId">
