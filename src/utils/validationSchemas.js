@@ -5,7 +5,7 @@ export const errorRegisterSchema = yup.object().shape({
     name: yup.string().required("Campo nombre y apellido obligatorio"),
     pass: yup.string().required("Campo contraseña obligatorio").min(8, "La contraseña debe ser de al menos 8 caracteres"),
     repeatPass: yup.string().required("Campo repetir contraseña obligatorio").min(8, "La contraseña debe ser de al menos 8 caracteres"),
-    tel: yup.number().required("Campo número telefónico obligatiorio").min(10, "Formato inválido. El número debe tener 10 caracteres")
+    tel: yup.number().required("Campo número telefónico obligatorio").min(10, "Formato inválido. El número de teléfono debe tener 10 caracteres")
 })
 
 export const errorLoginSchema = yup.object().shape({
