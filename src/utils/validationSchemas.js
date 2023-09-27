@@ -29,6 +29,8 @@ export const errorProdSchema = yup.object().shape({
 export const errorTurnSchema = yup.object().shape({
     namePatient: yup.string().required('Campo nombre del paciente obligatorio'),
     nameServ: yup.string().required('Campo servicio obligatorio'),
+    nameOwner: yup.string().required('Campo nombre del dueño obligatorio'),
+    tel: yup.number().required('Campo número telefónico obligatorio').min(10, "Formáto inválido. El número de teléfono debe tener 10 caracteres"),
     vet: yup.string().required("Campo veterinario obligatorio"),
     date: yup.string().required("Campo fecha obligatorio"),
     time: yup.string().required("Campo hora obligatorio"),
