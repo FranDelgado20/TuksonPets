@@ -35,3 +35,10 @@ export const errorTurnSchema = yup.object().shape({
     date: yup.string().required("Campo fecha obligatorio"),
     time: yup.string().required("Campo hora obligatorio"),
 })
+export const errorPlanSchema = yup.object().shape({
+    email: yup.string().email('Formato Email invalido').required('Campo email obligatorio'),
+    desc: yup.string().required('Campo descripcion obligatorio'),
+    name: yup.string().required('Campo nombre y apellido obligatorio'),
+    tel: yup.number().required('Campo número telefónico obligatorio').min(10, "Formáto inválido. El número de teléfono debe tener 10 caracteres"),
+   
+})
