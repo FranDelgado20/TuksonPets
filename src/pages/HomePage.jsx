@@ -18,7 +18,6 @@ const HomePage = () => {
               <CardComp />
             </Row>
           </Col>
-
           <Col lg={6} md={12} sm={12}>
             <h2>Servicios</h2>
             <hr />
@@ -40,45 +39,44 @@ const HomePage = () => {
           </Col>
 
           <Col lg={6} md={12} sm={12}>
-            <h2 className="mt-3">Publicidad</h2>
+            <h2 className="mt-3">Nuestros patrocinadores</h2>
             <hr />
             <div className="d-flex justify-content-center">
-
-            <Carousel data-bs-theme="dark">
-              <Carousel.Item>
-                <img
-                  className="d-block"
-                  src="/patrocinadores/purina.png"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block"
-                  src="/patrocinadores/royalCanin.png"
-                  alt="Second slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block"
-                  src="/patrocinadores/whiskas.png"
-                  alt="Third slide"
-                />
-              </Carousel.Item>
-            </Carousel>
+              <Carousel data-bs-theme="dark">
+                <Carousel.Item>
+                  <img
+                    className="d-block"
+                    src="/patrocinadores/purina.png"
+                    alt="First slide"
+                  />
+                </Carousel.Item>
+                <Carousel.Item>
+                  <img
+                    className="d-block"
+                    src="/patrocinadores/royalCanin.png"
+                    alt="Second slide"
+                  />
+                </Carousel.Item>
+                <Carousel.Item>
+                  <img
+                    className="d-block"
+                    src="/patrocinadores/whiskas.png"
+                    alt="Third slide"
+                  />
+                </Carousel.Item>
+              </Carousel>
             </div>
           </Col>
           <Col lg={6} md={12} sm={12}>
             <h2 className="mt-3">Comentarios</h2>
             <hr />
-            <div className="bg-info-subtle my-2  p-3 w-75 rounded-3 sombra">
+            <div className="bg-info-subtle my-2 p-3 w-75 rounded-3 sombra">
               Comentario
             </div>
-            <div className="bg-info-subtle  my-2 p-3 w-75 rounded-3 sombra">
+            <div className="bg-info-subtle my-2 p-3 w-75 rounded-3 sombra">
               Comentario
             </div>
-            <div className="bg-info-subtle  my-2 p-3 w-75 rounded-3 sombra">
+            <div className="bg-info-subtle my-2 p-3 w-75 rounded-3 sombra">
               Comentario
             </div>
           </Col>
