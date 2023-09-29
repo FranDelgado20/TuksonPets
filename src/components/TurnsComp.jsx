@@ -93,21 +93,17 @@ const TurnsComp = ({ type }) => {
                 <Form.Label>Detalles de la cita</Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Text id="groupDesc">
-                  <i className="bi bi-file-text-fill"></i>
+                    <i className="bi bi-file-text-fill"></i>
                   </InputGroup.Text>
                   <Form.Control
                     name="desc"
-                    as={'textarea'}
-                    rows={'3'}
+                    as={"textarea"}
+                    rows={"3"}
                     value={values.desc}
                     placeholder="Cuentenos el motivo de la cita"
                     onChange={handleChange}
-                    className={
-                      errors.desc && touched.desc && "is-invalid"
-                    }
-                  >
-                    
-                  </Form.Control>
+                    className={errors.desc && touched.desc && "is-invalid"}
+                  ></Form.Control>
                 </InputGroup>
                 <small className="text-danger">
                   {errors.desc && touched.desc && errors.desc}
@@ -126,10 +122,10 @@ const TurnsComp = ({ type }) => {
                     className={errors.vet && touched.vet && "is-invalid"}
                   >
                     <option>Veterinario no seleccionado</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                    <option value="4">Four</option>
+                    <option value="dr.fran">Dr. Francisco Delgado</option>
+                    <option value="dra.sureia">Dra. Sureia Matar</option>
+                    <option value="dr.luciano">Dr. Luciano Kozameh</option>
+                    <option value="dr.francis">Dr. Francis Sir</option>
                   </Form.Select>
                 </InputGroup>
                 <small className="text-danger">
@@ -161,13 +157,35 @@ const TurnsComp = ({ type }) => {
                     <InputGroup.Text id="groupTime">
                       <i className="bi bi-clock"></i>
                     </InputGroup.Text>
-                    <Form.Control
-                      type="time"
+                    <Form.Select
                       name="time"
-                      value={values.time}
-                      onChange={handleChange}
                       className={errors.time && touched.time && "is-invalid"}
-                    />
+                      onChange={handleChange}
+                    >
+                      {!values.date ? (
+                        <option>Fecha y hora no especificadas</option>
+                      ) : (
+                        <>
+                        <option>Horario no especificado</option>
+                        <option value="08:00">08:00</option>
+                        <option value="08:30">08:30</option>
+                        <option value="09:00">09:00</option>
+                        <option value="09:30">09:30</option>
+                        <option value="10:00">10:00</option>
+                        <option value="10:30">10:30</option>
+                        <option value="11:00">11:00</option>
+                        <option value="11:30">11:30</option>
+                        <option value="12:00">12:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="16:30">16:30</option>
+                        <option value="17:00">17:00</option>
+                        <option value="17:30">17:30</option>
+                        <option value="18:00">18:00</option>
+                        <option value="18:30">18:30</option>
+                        <option value="19:00">19:00</option>
+                      </>
+                      )}
+                    </Form.Select>
                   </InputGroup>
                   <small className="text-danger">
                     {errors.time && touched.time && errors.time}
@@ -196,7 +214,7 @@ const TurnsComp = ({ type }) => {
             tel: "",
           }}
           validationSchema={errorPlanSchema}
-          onSubmit={(values) => createTurn(values)}
+          onSubmit={(values) => requestPlan(values)}
         >
           {({ values, errors, touched, handleChange, handleSubmit }) => (
             <Form className="bg-info-subtle p-3 rounded-4 w-75">
@@ -209,20 +227,16 @@ const TurnsComp = ({ type }) => {
                     <i className="bi bi-tag-fill"></i>
                   </InputGroup.Text>
                   <Form.Control
-                    placeholder="name@Example.com"
+                    placeholder="name@example.com"
                     type="email"
                     name="email"
                     value={values.email}
                     onChange={handleChange}
-                    className={
-                      errors.email && touched.email && "is-invalid"
-                    }
+                    className={errors.email && touched.email && "is-invalid"}
                   />
                 </InputGroup>
                 <small className="text-danger">
-                  {errors.email &&
-                    touched.email &&
-                    errors.email}
+                  {errors.email && touched.email && errors.email}
                 </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="nameId">
@@ -237,9 +251,7 @@ const TurnsComp = ({ type }) => {
                     name="name"
                     value={values.name}
                     onChange={handleChange}
-                    className={
-                      errors.name && touched.name && "is-invalid"
-                    }
+                    className={errors.name && touched.name && "is-invalid"}
                   />
                 </InputGroup>
                 <small className="text-danger">
@@ -269,21 +281,17 @@ const TurnsComp = ({ type }) => {
                 <Form.Label>Consulta sobre el plan</Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Text id="groupDesc">
-                  <i className="bi bi-file-text-fill"></i>
+                    <i className="bi bi-file-text-fill"></i>
                   </InputGroup.Text>
                   <Form.Control
                     name="desc"
-                    as={'textarea'}
-                    rows={'3'}
+                    as={"textarea"}
+                    rows={"3"}
                     value={values.desc}
                     placeholder="Dejenos un mensaje sobre sus dudas acerca del plan"
                     onChange={handleChange}
-                    className={
-                      errors.desc && touched.desc && "is-invalid"
-                    }
-                  >
-                    
-                  </Form.Control>
+                    className={errors.desc && touched.desc && "is-invalid"}
+                  ></Form.Control>
                 </InputGroup>
                 <small className="text-danger">
                   {errors.desc && touched.desc && errors.desc}
@@ -387,21 +395,17 @@ const TurnsComp = ({ type }) => {
                 <Form.Label>Detalles de la cita</Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Text id="groupDesc">
-                  <i className="bi bi-file-text-fill"></i>
+                    <i className="bi bi-file-text-fill"></i>
                   </InputGroup.Text>
                   <Form.Control
                     name="desc"
-                    as={'textarea'}
-                    rows={'3'}
+                    as={"textarea"}
+                    rows={"3"}
                     placeholder="Cuentenos el motivo de la cita"
                     value={values.desc}
                     onChange={handleChange}
-                    className={
-                      errors.desc && touched.desc && "is-invalid"
-                    }
-                  >
-                    
-                  </Form.Control>
+                    className={errors.desc && touched.desc && "is-invalid"}
+                  ></Form.Control>
                 </InputGroup>
                 <small className="text-danger">
                   {errors.desc && touched.desc && errors.desc}
@@ -420,10 +424,10 @@ const TurnsComp = ({ type }) => {
                     className={errors.vet && touched.vet && "is-invalid"}
                   >
                     <option>Veterinario no seleccionado</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                    <option value="4">Four</option>
+                    <option value="dr.fran">Dr. Francisco Delgado</option>
+                    <option value="dra.sureia">Dra. Sureia Matar</option>
+                    <option value="dr.luciano">Dr. Luciano Kozameh</option>
+                    <option value="dr.francis">Dr. Francis Sir</option>
                   </Form.Select>
                 </InputGroup>
                 <small className="text-danger">
@@ -455,13 +459,35 @@ const TurnsComp = ({ type }) => {
                     <InputGroup.Text id="groupTime">
                       <i className="bi bi-clock"></i>
                     </InputGroup.Text>
-                    <Form.Control
-                      type="time"
+                    <Form.Select
                       name="time"
-                      value={values.time}
-                      onChange={handleChange}
                       className={errors.time && touched.time && "is-invalid"}
-                    />
+                      onChange={handleChange}
+                    >
+                      {!values.date ? (
+                        <option>Fecha y hora no especificadas</option>
+                      ) : (
+                        <>
+                        <option>Horario no especificado</option>
+                        <option value="08:00">08:00</option>
+                        <option value="08:30">08:30</option>
+                        <option value="09:00">09:00</option>
+                        <option value="09:30">09:30</option>
+                        <option value="10:00">10:00</option>
+                        <option value="10:30">10:30</option>
+                        <option value="11:00">11:00</option>
+                        <option value="11:30">11:30</option>
+                        <option value="12:00">12:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="16:30">16:30</option>
+                        <option value="17:00">17:00</option>
+                        <option value="17:30">17:30</option>
+                        <option value="18:00">18:00</option>
+                        <option value="18:30">18:30</option>
+                        <option value="19:00">19:00</option>
+                      </>
+                      )}
+                    </Form.Select>
                   </InputGroup>
                   <small className="text-danger">
                     {errors.time && touched.time && errors.time}
