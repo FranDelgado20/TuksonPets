@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import CardComp from "../components/CardComp";
+import clientAxios, { config } from "../utils/axiosClient";
 
 const ProductsPage = () => {
+  const [products, setProducts] = useState([])
+
+  const getProducts = async () => {
+    const res = await clientAxios.get("/products", config)
+
+    setProducts(res.data.getProducts)
+  }
+
+  useEffect(() => {
+    getProducts()
+  }, [])
   return (
     <Container className="my-5">
       <Row>
@@ -23,12 +35,7 @@ const ProductsPage = () => {
             </Form.Select>
           </Form.Group>
         </div>
-        <CardComp/>
-        <CardComp/>
-        <CardComp/>
-        <CardComp/>
-        <CardComp/>
-        <CardComp/>
+        <CardComp products={products} type={"prods"}/>
       </Row>
     </Container>
   );
