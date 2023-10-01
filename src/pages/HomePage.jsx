@@ -5,7 +5,9 @@ import CardComp from "../components/CardComp";
 import clientAxios, { config } from "../utils/axiosClient";
 
 const HomePage = () => {
+  const [plan, setPlan] = useState([])
   const [products, setProducts] = useState([])
+
 
   const getProducts = async () => {
     const res = await clientAxios.get("/products", config)
@@ -13,8 +15,14 @@ const HomePage = () => {
     setProducts(res.data.getProducts)
   }
 
+  const getPlan = async () => {
+    const res = await clientAxios.get('/planes', config)
+   setPlan(res.data.allPlans)
+  }
+
   useEffect(() => {
-    getProducts()
+    getProducts(),
+    getPlan()
   }, [])
 
   return (
@@ -30,12 +38,11 @@ const HomePage = () => {
             </Row>
           </Col>
           <Col lg={6} md={12} sm={12}>
-            <h2>Servicios</h2>
+            <h2>Nuestros planes</h2>
             <hr />
             <Row className="justify-content-center">
-              <CardComp />
-              <CardComp />
-              <CardComp />
+              <CardComp plan={plan} type={"planes"}/>
+              
             </Row>
           </Col>
           <h2 className="text-center mt-3">Profesionales</h2>

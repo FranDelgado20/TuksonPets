@@ -3,7 +3,7 @@ import { Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 
-const CardComp = ({ type, products }) => {
+const CardComp = ({ type, products, plan }) => {
   return (
     <>
       {type === "prodsDestacados" ? (
@@ -44,9 +44,25 @@ const CardComp = ({ type, products }) => {
             </Card.Body>
           </Card>
         </Col>
-      )) : (
-        ""
-      )}
+      )
+      ) : type === "planes" ?  (
+        plan.map(
+          (plan) => 
+        <Col lg={3} md={6} sm={12} key={plan._id} className="my-2">
+        <Card className="bg-info-subtle sombra">
+          <Card.Img variant="top" src={plan.imagen} alt="Imagen" />
+          <Card.Body>
+            <Card.Title>{plan.nombre}</Card.Title>
+            <Card.Text>${plan.precio}/mes</Card.Text>
+            <hr />
+            <Link className="btn botones" to={`/onePlan/${plan._id}`}>
+              Ver más
+            </Link>
+          </Card.Body>
+        </Card>
+      </Col>
+      )
+      ) : "" }
     </>
   );
 };
