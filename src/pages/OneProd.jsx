@@ -21,7 +21,7 @@ const OneProd = () => {
     <Container className="my-5">
       <Row>
         <Col
-          lg={6}
+          lg={4}
           md={12}
           sm={12}
           className="d-flex justify-content-center my-3"
@@ -32,7 +32,7 @@ const OneProd = () => {
             alt="Imagen Producto"
           />
         </Col>
-        <Col lg={6} md={12} sm={12} className="my-3">
+        <Col lg={8} md={12} sm={12} className="my-3">
           <h2>{prod.nombre}</h2>
           <hr />
           <h4>${prod.precio}</h4>
@@ -40,7 +40,7 @@ const OneProd = () => {
           <p>{prod.descripcion}</p>
           <hr />
           <div className="text-end">
-            <button className="btn botones ">
+            <button className="btn botones fs-5">
               <i className="bi bi-cart-plus-fill me-2"></i>
               Agregar al carrito
             </button>
@@ -49,7 +49,9 @@ const OneProd = () => {
       </Row>
       <hr />
       <div className="text-center">
-        <Link className="btn botones fs-5" to={"/products"}>Volver a productos</Link>
+        <Link className="btn botones fs-5" to={"/products"}>
+          <i className="bi bi-arrow-left-circle"></i> Volver a productos
+        </Link>
       </div>
     </Container>
   );

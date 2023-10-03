@@ -5,25 +5,23 @@ import CardComp from "../components/CardComp";
 import clientAxios, { config } from "../utils/axiosClient";
 
 const HomePage = () => {
-  const [plan, setPlan] = useState([])
-  const [products, setProducts] = useState([])
-
+  const [plan, setPlan] = useState([]);
+  const [products, setProducts] = useState([]);
 
   const getProducts = async () => {
-    const res = await clientAxios.get("/products", config)
+    const res = await clientAxios.get("/products/all", config);
 
-    setProducts(res.data.getProducts)
-  }
+    setProducts(res.data.allProducts);
+  };
 
   const getPlan = async () => {
-    const res = await clientAxios.get('/planes', config)
-   setPlan(res.data.allPlans)
-  }
+    const res = await clientAxios.get("/planes", config);
+    setPlan(res.data.allPlans);
+  };
 
   useEffect(() => {
-    getProducts(),
-    getPlan()
-  }, [])
+    getProducts(), getPlan();
+  }, []);
 
   return (
     <>
@@ -34,26 +32,24 @@ const HomePage = () => {
             <h2>Productos Destacados</h2>
             <hr />
             <Row className="justify-content-center">
-              <CardComp products={products} type={"prodsDestacados"}/>
+              <CardComp products={products} type={"prodsDestacados"} />
             </Row>
           </Col>
           <Col lg={6} md={12} sm={12}>
             <h2>Nuestros planes</h2>
             <hr />
             <Row className="justify-content-center">
-              <CardComp plan={plan} type={"planes"}/>
-              
+              <CardComp plan={plan} type={"planes"} />
             </Row>
           </Col>
           <h2 className="text-center mt-3">Profesionales</h2>
-          <CardComp />
+          <CardComp type={"pros"} />
           <hr />
           <Col lg={12} md={12} sm={12}>
             <Row>
               <CardComp />
             </Row>
           </Col>
-
           <Col lg={6} md={12} sm={12}>
             <h2 className="mt-3">Nuestros patrocinadores</h2>
             <hr />
@@ -63,21 +59,21 @@ const HomePage = () => {
                   <img
                     className="d-block"
                     src="/patrocinadores/purina.png"
-                    alt="First slide"
+                    alt="Purina"
                   />
                 </Carousel.Item>
                 <Carousel.Item>
                   <img
                     className="d-block"
                     src="/patrocinadores/royalCanin.png"
-                    alt="Second slide"
+                    alt="Royal Canin"
                   />
                 </Carousel.Item>
                 <Carousel.Item>
                   <img
                     className="d-block"
                     src="/patrocinadores/whiskas.png"
-                    alt="Third slide"
+                    alt="Whiskas"
                   />
                 </Carousel.Item>
               </Carousel>
