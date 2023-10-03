@@ -1,41 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
 import CardComp from "../components/CardComp";
 import clientAxios, { config } from "../utils/axiosClient";
-
+import FilterComp from "../components/FilterComp";
+import PaginationComp from "../components/PaginationComp";
 const ProductsPage = () => {
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
+  const [to, setTo] = useState(0);
+  const [limit, setLimit] = useState(0);
+  const [count, setCount] = useState(0);
 
   const getProducts = async () => {
-    const res = await clientAxios.get("/products", config)
-
-    setProducts(res.data.getProducts)
-  }
+    const res = await clientAxios.get(
+      `/products?to=${to === 0 ? to : to - 1}&limit=4`
+    );
+    setProducts(res.data.products);
+    setLimit(res.data.limit);
+    setCount(res.data.count);
+  };
 
   useEffect(() => {
-    getProducts()
-  }, [])
+    getProducts();
+  }, [to]);
   return (
     <Container className="my-5">
-      <Row>
-        <h2>Nuestros productos</h2>
+      <Row className="justify-content-center">
+        <h2>Todos nuestros productos</h2>
         <hr />
-        <div className="d-flex justify-content-center">
-          <Form.Group
-            className="mb-3 bg-info-subtle p-3 rounded-4 w-50 sombra"
-            controlId="categoryId"
-          >
-            <Form.Label>Filtra los productos por categoría</Form.Label>
-            <Form.Select aria-label="Default select example">
-              <option>Sin categoría seleccionada</option>
-              <option value="1">Collares</option>
-              <option value="2">Alimento</option>
-              <option value="3">Juguetes</option>
-            </Form.Select>
-          </Form.Group>
+        <FilterComp />
+        <CardComp products={products} type={"prods"} />
+        <div className="d-flex justify-content-center mt-3">
+          <PaginationComp setTo={setTo} limit={limit} count={count} />
         </div>
-        <CardComp products={products} type={"prods"}/>
       </Row>
     </Container>
   );
