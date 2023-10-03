@@ -42,7 +42,7 @@ const AboutUsPage = () => {
               </p>
               <div className="text-center">
                 <a
-                  className="btn btn-info text-end"
+                  className="btn botones text-end"
                   href="https://github.com/SantiJaime"
                   target="_blank"
                 >
@@ -74,7 +74,7 @@ const AboutUsPage = () => {
               </p>
               <div className="text-center">
                 <a
-                  className="btn btn-info text-end"
+                  className="btn botones text-end"
                   href="https://github.com/FranDelgado20"
                   target="_blank"
                 >
