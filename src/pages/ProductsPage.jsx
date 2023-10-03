@@ -12,7 +12,7 @@ const ProductsPage = () => {
 
   const getProducts = async () => {
     const res = await clientAxios.get(
-      `/products?to=${to === 0 ? to : to - 1}&limit=4`
+      `/products?to=${to === 0 ? to : to - 1}&limit=8`
     );
     setProducts(res.data.products);
     setLimit(res.data.limit);
