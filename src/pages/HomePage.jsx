@@ -7,10 +7,10 @@ import clientAxios, { config } from "../utils/axiosClient";
 const HomePage = () => {
   const [plan, setPlan] = useState([]);
   const [products, setProducts] = useState([]);
+  const [pros, setPros] = useState([]);
 
   const getProducts = async () => {
     const res = await clientAxios.get("/products/all", config);
-
     setProducts(res.data.allProducts);
   };
 
@@ -19,35 +19,41 @@ const HomePage = () => {
     setPlan(res.data.allPlans);
   };
 
+  const getPros = async () => {
+    const res = await clientAxios.get("/pros", config);
+    setPros(res.data.allPros);
+  };
+
   useEffect(() => {
-    getProducts(), getPlan();
+    getProducts(), getPlan(), getPros();
   }, []);
 
   return (
     <>
-      <Container fluid className="my-3 ">
+      <Container fluid className="my-3">
         <div className="text-end">Clima</div>
         <Row>
           <Col lg={6} md={12} sm={12}>
-            <h2>Productos Destacados</h2>
+            <h2 className="mt-3">Productos destacados</h2>
             <hr />
             <Row className="justify-content-center">
               <CardComp products={products} type={"prodsDestacados"} />
             </Row>
           </Col>
           <Col lg={6} md={12} sm={12}>
-            <h2>Nuestros planes</h2>
+            <h2 className="mt-3">Nuestros planes</h2>
             <hr />
             <Row className="justify-content-center">
               <CardComp plan={plan} type={"planes"} />
             </Row>
           </Col>
-          <h2 className="text-center mt-3">Profesionales</h2>
-          <CardComp type={"pros"} />
+          <h2 className="text-center mt-3">
+            Profesionales que trabajan con nosotros
+          </h2>
           <hr />
           <Col lg={12} md={12} sm={12}>
             <Row>
-              <CardComp />
+              <CardComp pros={pros} type={"pros"} />
             </Row>
           </Col>
           <Col lg={6} md={12} sm={12}>
@@ -57,21 +63,21 @@ const HomePage = () => {
               <Carousel data-bs-theme="dark">
                 <Carousel.Item>
                   <img
-                    className="d-block"
+                    className="d-block img-fluid"
                     src="/patrocinadores/purina.png"
                     alt="Purina"
                   />
                 </Carousel.Item>
                 <Carousel.Item>
                   <img
-                    className="d-block"
+                    className="d-block img-fluid"
                     src="/patrocinadores/royalCanin.png"
                     alt="Royal Canin"
                   />
                 </Carousel.Item>
                 <Carousel.Item>
                   <img
-                    className="d-block"
+                    className="d-block img-fluid"
                     src="/patrocinadores/whiskas.png"
                     alt="Whiskas"
                   />
