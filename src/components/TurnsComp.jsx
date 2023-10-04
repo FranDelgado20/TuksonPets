@@ -20,6 +20,7 @@ const TurnsComp = ({ type }) => {
             date: "",
             time: "",
             vet: "",
+            raza: ""
           }}
           validationSchema={errorTurnSchema}
           onSubmit={(values) => createTurn(values)}
@@ -49,6 +50,29 @@ const TurnsComp = ({ type }) => {
                     errors.namePatient}
                 </small>
               </Form.Group>
+              <Form.Group className="mb-3" controlId="razaId">
+                <Form.Label>Especie y raza del paciente</Form.Label>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text id="groupRaza">
+                  <i className="bi bi-gear"></i>
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Ej: Perro - Pastor alemán | Gato - Siamés"
+                    type="text"
+                    name="raza"
+                    value={values.raza}
+                    onChange={handleChange}
+                    className={
+                      errors.raza && touched.raza && "is-invalid"
+                    }
+                  />
+                </InputGroup>
+                <small className="text-danger">
+                  {errors.raza &&
+                    touched.raza &&
+                    errors.raza}
+                </small>
+              </Form.Group>
               <Form.Group className="mb-3" controlId="nameOwnerId">
                 <Form.Label>Nombre del dueño</Form.Label>
                 <InputGroup className="mb-3">
@@ -71,7 +95,7 @@ const TurnsComp = ({ type }) => {
                 </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="telId">
-                <Form.Label>Nombre del dueño</Form.Label>
+                <Form.Label>Número de teléfono del dueño</Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Text id="groupTel">
                     <i className="bi bi-telephone-fill"></i>
@@ -320,6 +344,7 @@ const TurnsComp = ({ type }) => {
             date: "",
             time: "",
             vet: "",
+            raza: ""
           }}
           validationSchema={errorTurnSchema}
           onSubmit={(values) => createTurn(values)}
@@ -349,6 +374,29 @@ const TurnsComp = ({ type }) => {
                   {errors.namePatient &&
                     touched.namePatient &&
                     errors.namePatient}
+                </small>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="razaId">
+                <Form.Label>Especie y raza del paciente</Form.Label>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text id="groupRaza">
+                  <i className="bi bi-gear"></i>
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Ej: Perro - Pastor alemán | Gato - Siamés"
+                    type="text"
+                    name="raza"
+                    value={values.raza}
+                    onChange={handleChange}
+                    className={
+                      errors.raza && touched.raza && "is-invalid"
+                    }
+                  />
+                </InputGroup>
+                <small className="text-danger">
+                  {errors.raza &&
+                    touched.raza &&
+                    errors.raza}
                 </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="nameOwnerId">

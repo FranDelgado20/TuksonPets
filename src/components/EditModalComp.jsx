@@ -1,39 +1,34 @@
-import { Formik } from "formik";
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { Button } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import { errorProdSchema } from "../utils/validationSchemas";
-import RegisterComp from "./RegisterComp";
-import TurnsComp from "./TurnsComp";
+import { Formik } from "formik";
 import clientAxios, { config } from "../utils/axiosClient";
 import Swal from "sweetalert2";
 
-const ModalComp = ({ type }) => {
+const EditModalComp = ({ type, prod, getProducts }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const createUser = (values) => {
-    console.log(values);
-  };
-
-  const createProduct = async (values) => {
+  const editProduct = async (values) => {
     try {
-      const res = await clientAxios.post(
-        "/products",
+      const res = await clientAxios.put(
+        `/products/${prod._id}`,
         {
           nombre: values.name,
-          precio: values.price,
-          categoria: values.cat,
+          precio: values.precio,
           descripcion: values.desc,
+          categoria: values.cat,
           imagen: values.img,
         },
         config
       );
 
-      if (res.status === 201) {
+      if (res.status === 200) {
         Swal.fire({
           icon: "success",
           title: res.data.msg,
@@ -54,28 +49,28 @@ const ModalComp = ({ type }) => {
 
   return (
     <>
-      {type === "prod" ? (
+      {type === "prods" ? (
         <>
-          <button className="btn botones" onClick={handleShow}>
-            Crear producto
-          </button>
+          <Button variant="info" onClick={handleShow} className="my-2 mx-2">
+            <i className="bi bi-pencil-fill"></i> Editar
+          </Button>
 
           <Modal show={show} onHide={handleClose}>
             <div className="fondo">
               <Modal.Header closeButton>
-                <Modal.Title>Crea un nuevo producto aquí</Modal.Title>
+                <Modal.Title>Edita este producto</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Formik
                   initialValues={{
-                    name: "",
-                    price: "",
-                    desc: "",
-                    img: "",
-                    cat: "",
+                    name: prod.nombre,
+                    price: prod.precio,
+                    desc: prod.descripcion,
+                    img: prod.imagen,
+                    cat: prod.categoria,
                   }}
                   validationSchema={errorProdSchema}
-                  onSubmit={(values) => createProduct(values)}
+                  onSubmit={(values) => editProduct(values)}
                 >
                   {({
                     values,
@@ -143,7 +138,6 @@ const ModalComp = ({ type }) => {
                               errors.cat && touched.cat && "is-invalid"
                             }
                           >
-                            <option>Sin seleccionar categoría</option>
                             <option value="Destacado">Destacado</option>
                             <option value="Juguetes">Juguetes</option>
                             <option value="Correas">Correas</option>
@@ -166,7 +160,7 @@ const ModalComp = ({ type }) => {
                           <Form.Control
                             placeholder="Detalles del producto"
                             as={"textarea"}
-                            rows={2}
+                            rows={3}
                             name="desc"
                             value={values.desc}
                             onChange={handleChange}
@@ -207,46 +201,12 @@ const ModalComp = ({ type }) => {
                           type="submit"
                           onClick={handleSubmit}
                         >
-                          Crear producto
+                          Guardar cambios
                         </button>
                       </div>
                     </Form>
                   )}
                 </Formik>
-              </Modal.Body>
-            </div>
-          </Modal>
-        </>
-      ) : type === "user" ? (
-        <>
-          <button className="btn botones" onClick={handleShow}>
-            Crear usuario
-          </button>
-
-          <Modal show={show} onHide={handleClose}>
-            <div className="fondo">
-              <Modal.Header closeButton>
-                <Modal.Title>Crea un nuevo usuario aquí</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <RegisterComp type={"admin"} />
-              </Modal.Body>
-            </div>
-          </Modal>
-        </>
-      ) : type === "turn" ? (
-        <>
-          <button className="btn botones" onClick={handleShow}>
-            Crear turno
-          </button>
-
-          <Modal show={show} onHide={handleClose}>
-            <div className="fondo">
-              <Modal.Header closeButton>
-                <Modal.Title>Crea un nuevo turno aquí</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <TurnsComp type={"admin"} />
               </Modal.Body>
             </div>
           </Modal>
@@ -258,4 +218,4 @@ const ModalComp = ({ type }) => {
   );
 };
 
-export default ModalComp;
+export default EditModalComp;
