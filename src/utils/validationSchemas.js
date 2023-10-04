@@ -24,6 +24,7 @@ export const errorProdSchema = yup.object().shape({
     price: yup.number().required("Campo precio del producto obligatorio"),
     desc: yup.string().required("Campo descripción obligatorio"),
     img: yup.string().required("Campo URL de imagen obligatorio").url("Formato URL inválido"),
+    cat: yup.string().required("Campo categoría obligatorio")
 })
 
 export const errorTurnSchema = yup.object().shape({
@@ -34,6 +35,7 @@ export const errorTurnSchema = yup.object().shape({
     vet: yup.string().required("Campo veterinario obligatorio"),
     date: yup.string().required("Campo fecha obligatorio"),
     time: yup.string().required("Campo hora obligatorio"),
+    raza: yup.string().required("Campo raza y especie obligatorio")
 })
 export const errorPlanSchema = yup.object().shape({
     email: yup.string().email('Formato Email inválido').required('Campo email obligatorio'),
