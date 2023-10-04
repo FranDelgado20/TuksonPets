@@ -99,7 +99,7 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers }) => {
               <td>{user.phoneNumber}</td>
               <td>{user.role}</td>
               <td className="text-center">
-                <EditModalComp/>
+                <EditModalComp type={"users"} getUsers={getUsers} user={user}/>
                 <Button
                   variant="danger"
                   className="my-2 mx-2"
@@ -111,15 +111,16 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers }) => {
             </tr>
           ))
         : type === "turns"
-        ? users.map((user) => (
-            <tr key={user._id}>
-              <td>{user._id}</td>
-              <td>{user.name}</td>
-              <td>{user.phoneNumber}</td>
-              <td>{user.role}</td>
+        ? turns.map((turn) => (
+            <tr key={turn._id}>
+              <td>{turn.nombrePaciente}</td>
+              <td>{turn.raza}</td>
+              <td>{turn.vet}</td>
+              <td>{turn.fecha} | {turn.hora}</td>
+              <td>{turn.nombreDueno}</td>
+              <td>{turn.tel}</td>
               <td className="text-center">
                 <EditModalComp/>
-
                 <Button variant="danger" className="my-2 mx-2">
                   <i className="bi bi-trash3-fill"></i> Eliminar
                 </Button>

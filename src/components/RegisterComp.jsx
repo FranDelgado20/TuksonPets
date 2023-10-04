@@ -3,16 +3,52 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Swal from "sweetalert2";
 import { Formik } from "formik";
-import { errorRegisterSchema } from "../utils/validationSchemas";
+import {
+  errorEditUserSchema,
+  errorRegisterOnAdminSchema,
+  errorRegisterSchema,
+} from "../utils/validationSchemas";
 import { Link } from "react-router-dom";
+import clientAxios, { config } from "../utils/axiosClient";
 
-const RegisterComp = ({ type }) => {
-  const handleClick = (values) => {
+const RegisterComp = ({ type, user, getUsers, handleClose }) => {
+  const createUser = (values) => {
     console.log(values);
+  };
+
+  const editUser = async (values) => {
+    try {
+      const res = await clientAxios.put(
+        `/users/${user._id}`,
+        {
+          name: values.name,
+          phoneNumber: values.tel,
+          role: values.role,
+        },
+        config
+      );
+
+      if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: res.data.msg,
+          timer: 1500,
+          showConfirmButton: false,
+        });
+        handleClose();
+        getUsers();
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "No se pudo editar el usuario",
+        text: error.response.data.msg,
+      });
+    }
   };
   return (
     <>
-      {type !== "admin" ? (
+      {type === "user" ? (
         <Formik
           initialValues={{
             email: "",
@@ -22,17 +58,9 @@ const RegisterComp = ({ type }) => {
             tel: "",
           }}
           validationSchema={errorRegisterSchema}
-          onSubmit={(values) => handleClick(values)}
+          onSubmit={(values) => createUser(values)}
         >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-          }) => (
+          {({ values, errors, touched, handleChange, handleSubmit }) => (
             <Form className="bg-info-subtle p-3 w-75 rounded-3 sombra">
               <h3>Crea tu cuenta aquí</h3>
               <hr />
@@ -56,7 +84,7 @@ const RegisterComp = ({ type }) => {
                 </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="nameId">
-                <Form.Label>Nombre y Apellido</Form.Label>
+                <Form.Label>Nombre y apellido</Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Text id="groupName">
                     <i className="bi bi-person-circle"></i>
@@ -149,27 +177,19 @@ const RegisterComp = ({ type }) => {
             </Form>
           )}
         </Formik>
-      ) : (
+      ) : type === "admin" ? (
         <Formik
           initialValues={{
             email: "",
             name: "",
             pass: "",
-            repeatPass: "",
-            tel: ""
+            role: "",
+            tel: "",
           }}
-          validationSchema={errorRegisterSchema}
+          validationSchema={errorRegisterOnAdminSchema}
           onSubmit={(values) => handleClick(values)}
         >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-          }) => (
+          {({ values, errors, touched, handleChange, handleSubmit }) => (
             <Form>
               <Form.Group className="mb-3" controlId="emailId">
                 <Form.Label>Correo electrónico</Form.Label>
@@ -191,7 +211,7 @@ const RegisterComp = ({ type }) => {
                 </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="nameId">
-                <Form.Label>Nombre y Apellido</Form.Label>
+                <Form.Label>Nombre y apellido</Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Text id="groupName">
                     <i className="bi bi-person-circle"></i>
@@ -247,25 +267,25 @@ const RegisterComp = ({ type }) => {
                   {errors.pass && touched.pass && errors.pass}
                 </small>
               </Form.Group>
-              <Form.Group className="mb-3" controlId="repeatPassId">
-                <Form.Label>Repetir contraseña</Form.Label>
+              <Form.Group className="mb-3" controlId="roleId">
+                <Form.Label>Rol</Form.Label>
                 <InputGroup className="mb-3">
-                  <InputGroup.Text id="groupRepeatPass">
-                    <i className="bi bi-key-fill"></i>
+                  <InputGroup.Text id="groupRole">
+                    <i className="bi bi-person-fill-gear"></i>
                   </InputGroup.Text>
-                  <Form.Control
-                    placeholder="***********"
-                    type="password"
-                    name="repeatPass"
-                    value={values.repeatPass}
+                  <Form.Select
+                    name="role"
+                    value={values.role}
                     onChange={handleChange}
-                    className={
-                      errors.repeatPass && touched.repeatPass && "is-invalid"
-                    }
-                  />
+                    className={errors.role && touched.role && "is-invalid"}
+                  >
+                    <option>Rol no seleccionado</option>
+                    <option value="user">Usuario</option>
+                    <option value="admin">Administrador</option>
+                  </Form.Select>
                 </InputGroup>
                 <small className="text-danger">
-                  {errors.repeatPass && touched.repeatPass && errors.repeatPass}
+                  {errors.role && touched.role && errors.role}
                 </small>
               </Form.Group>
               <hr />
@@ -275,12 +295,98 @@ const RegisterComp = ({ type }) => {
                   type="submit"
                   onClick={handleSubmit}
                 >
-                  Registrarse
+                  Crear usuario
                 </button>
               </div>
             </Form>
           )}
         </Formik>
+      ) : type === "editUser" ? (
+        <Formik
+          initialValues={{
+            name: user.name,
+            tel: user.phoneNumber,
+            role: user.role,
+          }}
+          validationSchema={errorEditUserSchema}
+          onSubmit={(values) => editUser(values)}
+        >
+          {({ values, errors, touched, handleChange, handleSubmit }) => (
+            <Form>
+              <Form.Group className="mb-3" controlId="nameId">
+                <Form.Label>Nombre y apellido</Form.Label>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text id="groupName">
+                    <i className="bi bi-person-circle"></i>
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Ejemplo: Juan González"
+                    type="text"
+                    name="name"
+                    value={values.name}
+                    onChange={handleChange}
+                    className={errors.name && touched.name && "is-invalid"}
+                  />
+                </InputGroup>
+                <small className="text-danger">
+                  {errors.name && touched.name && errors.name}
+                </small>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="telId">
+                <Form.Label>Número de teléfono</Form.Label>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text id="groupTel">
+                    <i className="bi bi-telephone-fill"></i>
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="Formato: 000-0000000"
+                    type="number"
+                    name="tel"
+                    value={values.tel}
+                    onChange={handleChange}
+                    className={errors.tel && touched.tel && "is-invalid"}
+                  />
+                </InputGroup>
+                <small className="text-danger">
+                  {errors.tel && touched.tel && errors.tel}
+                </small>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="roleId">
+                <Form.Label>Rol</Form.Label>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text id="groupRole">
+                    <i className="bi bi-person-fill-gear"></i>
+                  </InputGroup.Text>
+                  <Form.Select
+                    name="role"
+                    value={values.role}
+                    onChange={handleChange}
+                    className={errors.role && touched.role && "is-invalid"}
+                  >
+                    <option>Rol no seleccionado</option>
+                    <option value="user">Usuario</option>
+                    <option value="admin">Administrador</option>
+                  </Form.Select>
+                </InputGroup>
+                <small className="text-danger">
+                  {errors.role && touched.role && errors.role}
+                </small>
+              </Form.Group>
+              <hr />
+              <div className="text-end">
+                <button
+                  className="btn botones"
+                  type="submit"
+                  onClick={handleSubmit}
+                >
+                  Guardar cambios
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      ) : (
+        ""
       )}
     </>
   );
