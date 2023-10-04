@@ -26,7 +26,7 @@ const LoginPage = () => {
           JSON.stringify(res.data.userExist._id)
         );
         sessionStorage.setItem("role", JSON.stringify(res.data.userExist.role));
-        sessionStorage.setItem("forzar", JSON.stringify('forzar'));
+        
         res.data?.userExist?.role === "user"
           ? navigate("/")
           : navigate("/admin");
