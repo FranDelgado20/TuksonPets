@@ -12,21 +12,23 @@ const AdminPage = () => {
 
   const getTurns = async () => {
     const resTurns = await clientAxios.get("/turns", config);
-    setTurns(resTurns.data.allTurns)
+    setTurns(resTurns.data.allTurns);
+    console.log(resTurns.data);
+    
   };
 
   const getProducts = async () => {
     const resProducts = await clientAxios.get("/products/all");
     setProducts(resProducts.data.allProducts);
-  }
+  };
 
   const getUsers = async () => {
     const resUsers = await clientAxios.get("/users", config);
     setUsers(resUsers.data.allUsers);
-  }
+  };
 
   useEffect(() => {
-    getProducts(), getUsers()
+    getProducts(), getUsers(), getTurns();
   }, []);
 
   return (
@@ -47,7 +49,7 @@ const AdminPage = () => {
           </tr>
         </thead>
         <tbody>
-          <TableComp users={users} type="users" getUsers={getUsers}/>
+          <TableComp users={users} type="users" getUsers={getUsers} />
         </tbody>
       </Table>
       <div className="mt-4 d-flex justify-content-between">
@@ -67,6 +69,9 @@ const AdminPage = () => {
             <th>Acciones</th>
           </tr>
         </thead>
+        <tbody>
+          <TableComp turns={turns} type="turns" getTurns={getTurns} />
+        </tbody>
       </Table>
       <div className="mt-4 d-flex justify-content-between">
         <h3>Productos</h3>
@@ -85,7 +90,11 @@ const AdminPage = () => {
           </tr>
         </thead>
         <tbody>
-          <TableComp products={products} getProducts={getProducts} type="prods" />
+          <TableComp
+            products={products}
+            getProducts={getProducts}
+            type="prods"
+          />
         </tbody>
       </Table>
     </Container>

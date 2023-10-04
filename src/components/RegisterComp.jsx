@@ -12,7 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import clientAxios, { config } from "../utils/axiosClient";
 
 const RegisterComp = ({ type, user, getUsers, handleClose }) => {
-  navigate = useNavigate()
+ const navigate = useNavigate()
   const createUser = async (values) => {
     try {
       if (values.pass === values.repeatPass) {
