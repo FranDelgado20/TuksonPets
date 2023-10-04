@@ -8,10 +8,11 @@ import {
   errorRegisterOnAdminSchema,
   errorRegisterSchema,
 } from "../utils/validationSchemas";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import clientAxios, { config } from "../utils/axiosClient";
 
 const RegisterComp = ({ type, user, getUsers, handleClose }) => {
+  navigate = useNavigate()
   const createUser = async (values) => {
     try {
       if (values.pass === values.repeatPass) {
@@ -34,6 +35,7 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
             timer: 1500,
           });
           setShow(false);
+          navigate('/login')
         }
       } else {
         Swal.fire({
