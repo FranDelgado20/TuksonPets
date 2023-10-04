@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import clientAxios, { config } from "../utils/axiosClient";
 import EditModalComp from "./EditModalComp";
 
-const TableComp = ({ type, products, users, turns, getProducts, getUsers }) => {
+const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTurns }) => {
   const deleteProd = (id) => {
     Swal.fire({
       title: "¿Estás seguro de borrar este producto?",
@@ -120,7 +120,7 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers }) => {
               <td>{turn.nombreDueno}</td>
               <td>{turn.tel}</td>
               <td className="text-center">
-                <EditModalComp/>
+                <EditModalComp type={'turns'} getTurns={getTurns} />
                 <Button variant="danger" className="my-2 mx-2">
                   <i className="bi bi-trash3-fill"></i> Eliminar
                 </Button>
