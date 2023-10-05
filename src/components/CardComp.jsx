@@ -3,7 +3,7 @@ import { Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 
-const CardComp = ({ type, products, plan, pros }) => {
+const CardComp = ({ type, products, plan, pros, comment }) => {
   return (
     <>
       {type === "prodsDestacados"
@@ -163,7 +163,19 @@ const CardComp = ({ type, products, plan, pros }) => {
                 </Col>
               )
           )
-        : ""}
+        : type === 'comentarios' 
+        ? comment.map (
+          (comments) => 
+          <Col lg={12} md={12} sm={12} key={comments._id} className="my-2">
+                  <Card className="bg-info-subtle sombra">
+                    <Card.Body>
+                      <Card.Title>{comments.nombreApellido}</Card.Title>
+                      <hr />
+                      <Card.Text>${comments.mensaje}</Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Col>
+        ) : ""}
     </>
   );
 };
