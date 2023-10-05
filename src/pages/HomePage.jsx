@@ -8,7 +8,12 @@ const HomePage = () => {
   const [plan, setPlan] = useState([]);
   const [products, setProducts] = useState([]);
   const [pros, setPros] = useState([]);
+  const [comment, setComment] = useState([])
 
+  const getAllComments = async () => {
+    const res = await clientAxios.get('/comments', config)
+    setComment(res.data.getComments)
+  }
   const getProducts = async () => {
     const res = await clientAxios.get("/products/all", config);
     setProducts(res.data.allProducts);
@@ -25,7 +30,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    getProducts(), getPlan(), getPros();
+    getProducts(), getPlan(), getPros(),getAllComments()
   }, []);
 
   return (
@@ -86,17 +91,9 @@ const HomePage = () => {
             </div>
           </Col>
           <Col lg={6} md={12} sm={12}>
-            <h2 className="mt-3">Comentarios</h2>
+            <h2 className="mt-3">Opiniones de nuestros clientes</h2>
             <hr />
-            <div className="bg-info-subtle my-2 p-3 w-75 rounded-3 sombra">
-              Comentario
-            </div>
-            <div className="bg-info-subtle my-2 p-3 w-75 rounded-3 sombra">
-              Comentario
-            </div>
-            <div className="bg-info-subtle my-2 p-3 w-75 rounded-3 sombra">
-              Comentario
-            </div>
+            <CardComp type={'comentarios'} comment={comment}/>
           </Col>
         </Row>
       </Container>
