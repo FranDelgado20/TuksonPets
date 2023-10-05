@@ -91,7 +91,7 @@ const HomePage = () => {
             </div>
           </Col>
           <Col lg={6} md={12} sm={12}>
-            <h2 className="mt-3">Comentarios</h2>
+            <h2 className="mt-3">Opiniones de nuestros clientes</h2>
             <hr />
             <CardComp type={'comentarios'} comment={comment}/>
           </Col>
