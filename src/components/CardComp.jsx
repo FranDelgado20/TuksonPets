@@ -171,7 +171,7 @@ const CardComp = ({ type, products, plan, pros, comment }) => {
                     <Card.Body>
                       <Card.Title>{comments.nombreApellido}</Card.Title>
                       <hr />
-                      <Card.Text>${comments.mensaje}</Card.Text>
+                      <Card.Text>{comments.mensaje}</Card.Text>
                     </Card.Body>
                   </Card>
                 </Col>

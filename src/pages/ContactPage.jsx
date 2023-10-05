@@ -4,8 +4,34 @@ import { Container } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { errorContactSchema } from "../utils/validationSchemas";
 import InputGroup from "react-bootstrap/InputGroup";
+import clientAxios, { config } from "../utils/axiosClient";
+import Swal from "sweetalert2";
 
 const ContactPage = () => {
+  const enviarComentario = async(values) => {
+    try{
+      const res = await clientAxios.post('/comments',{
+        email: values.email,
+        nombreApellido: values.name,
+        mensaje: values.comment
+      },config)
+      if (res.status === 201) {
+        Swal.fire({
+          icon: "success",
+          title: "¡Comentarios enviados con éxito!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+    }}catch(error){
+      console.log(error)
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Al parecer hubo un error!",
+        text: error.response.data.msg,
+      })
+    }
+  }
   return (
     <Container className="my-4">
       <div className="row">
@@ -16,19 +42,17 @@ const ContactPage = () => {
             initialValues={{
               email: "",
               name: "",
-              coment: "",
+              comment: "",
             }}
             validationSchema={errorContactSchema}
-            onSubmit={(values) => handleClick(values)}
+            onSubmit={(values) => enviarComentario(values)}
           >
             {({
               values,
               errors,
               touched,
               handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
+              handleSubmit
             }) => (
               <Form className="bg-info-subtle p-3  rounded-3 ">
                 <Form.Group className="mb-3" controlId="emailId">
@@ -78,16 +102,16 @@ const ContactPage = () => {
                     <Form.Control
                       placeholder="Dejenos un mensaje"
                       as="textarea"
-                      name="coment"
-                      value={values.coment}
+                      name="comment"
+                      value={values.comment}
                       onChange={handleChange}
                       className={
-                        errors.coment && touched.coment && "is-invalid"
+                        errors.comment && touched.comment && "is-invalid"
                       }
                     />
                   </InputGroup>
                   <small className="text-danger">
-                    {errors.coment && touched.coment && errors.coment}
+                    {errors.comment && touched.comment && errors.comment}
                   </small>
                 </Form.Group>
                 <div className="text-end">
