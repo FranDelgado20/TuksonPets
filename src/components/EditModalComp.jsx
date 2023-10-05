@@ -8,8 +8,17 @@ import { Formik } from "formik";
 import clientAxios, { config } from "../utils/axiosClient";
 import Swal from "sweetalert2";
 import RegisterComp from "./RegisterComp";
+import TurnsComp from "./TurnsComp";
 
-const EditModalComp = ({ type, prod, getProducts, user, getUsers }) => {
+const EditModalComp = ({
+  type,
+  prod,
+  getProducts,
+  user,
+  getUsers,
+  turn,
+  getTurns,
+}) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -220,12 +229,39 @@ const EditModalComp = ({ type, prod, getProducts, user, getUsers }) => {
 
           <Modal show={show} onHide={handleClose}>
             <div className="fondo">
-            <Modal.Header closeButton>
-              <Modal.Title>Edita este usuario</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <RegisterComp type={"editUser"} user={user} getUsers={getUsers} handleClose={handleClose}/>
-            </Modal.Body>
+              <Modal.Header closeButton>
+                <Modal.Title>Edita este usuario</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <RegisterComp
+                  type={"editUser"}
+                  user={user}
+                  getUsers={getUsers}
+                  handleClose={handleClose}
+                />
+              </Modal.Body>
+            </div>
+          </Modal>
+        </>
+      ) : type === "turns" ? (
+        <>
+          <Button variant="info" onClick={handleShow} className="my-2 mx-2">
+            <i className="bi bi-pencil-fill"></i> Editar
+          </Button>
+
+          <Modal show={show} onHide={handleClose}>
+            <div className="fondo">
+              <Modal.Header closeButton>
+                <Modal.Title>Edita este turno</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <TurnsComp
+                  type={"editTurn"}
+                  turn={turn}
+                  getTurns={getTurns}
+                  handleClose={handleClose}
+                />
+              </Modal.Body>
             </div>
           </Modal>
         </>
