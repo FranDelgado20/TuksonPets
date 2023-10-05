@@ -13,8 +13,6 @@ const AdminPage = () => {
   const getTurns = async () => {
     const resTurns = await clientAxios.get("/turns", config);
     setTurns(resTurns.data.allTurns);
-    console.log(resTurns.data);
-    
   };
 
   const getProducts = async () => {
@@ -35,7 +33,7 @@ const AdminPage = () => {
     <Container className="my-5">
       <div className="d-flex justify-content-between">
         <h3>Usuarios registrados</h3>
-        <ModalComp type="user" />
+        <ModalComp type="user" getUsers={getUsers}/>
       </div>
       <hr />
       <Table striped bordered hover responsive variant="info">
@@ -54,7 +52,7 @@ const AdminPage = () => {
       </Table>
       <div className="mt-4 d-flex justify-content-between">
         <h3>Pacientes y turnos</h3>
-        <ModalComp type="turn" />
+        <ModalComp type="turn" getTurns={getTurns}/>
       </div>
       <hr />
       <Table striped bordered hover responsive variant="info">
@@ -75,7 +73,7 @@ const AdminPage = () => {
       </Table>
       <div className="mt-4 d-flex justify-content-between">
         <h3>Productos</h3>
-        <ModalComp type="prod" />
+        <ModalComp type="prod" getProducts={getProducts} />
       </div>
       <hr />
       <Table striped bordered hover responsive variant="info">

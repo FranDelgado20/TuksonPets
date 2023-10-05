@@ -59,10 +59,10 @@ const NavbarComp = () => {
               </Nav>
               <Nav className="ms-4 marginNavbar">
                 <NavLink to={"/cart"} className={"nav-link"}>
-                  Mi carrito
+                <i className="bi bi-cart"></i> Mi carrito
                 </NavLink>
-                <Button onClick={logOut} className={"nav-link "}>
-                  Cerrar sesión
+                <Button onClick={logOut} className={"nav-link bg-transparent"}>
+                <i className="bi bi-door-open-fill"></i> Cerrar sesión
                 </Button>
               </Nav>
             </Navbar.Collapse>
@@ -78,10 +78,10 @@ const NavbarComp = () => {
               </Nav>
               <Nav className="ms-4 marginNavbar">
                 <NavLink to={"/admin"} className={"nav-link"}>
-                  Administrador
+                <i className="bi bi-person-fill-gear"></i> Administrador
                 </NavLink>
-                <Button onClick={logOut} className={"nav-link"}>
-                  Cerrar sesión
+                <Button onClick={logOut} className={"nav-link bg-transparent"}>
+                <i className="bi bi-door-open-fill"></i> Cerrar sesión
                 </Button>
               </Nav>
             </Navbar.Collapse>

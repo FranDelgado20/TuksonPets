@@ -69,6 +69,38 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
       }
     });
   };
+  const deleteTurn = (id) => {
+    Swal.fire({
+      title: "¿Estás seguro de borrar este turno?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await clientAxios.delete(`/turns/${id}`, config);
+          if (res.status === 200) {
+            Swal.fire({
+              title: "Turno eliminado correctamente",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            getTurns();
+          }
+        } catch (error) {
+          Swal.fire({
+            title: "No se pudo eliminar el TURNO",
+            text: error.response.data.msg,
+            icon: "error",
+          });
+        }
+      }
+    });
+  };
   return (
     <>
       {type === "prods"
@@ -120,8 +152,8 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
               <td>{turn.nombreDueno}</td>
               <td>{turn.tel}</td>
               <td className="text-center">
-                <EditModalComp type={'turns'} getTurns={getTurns} />
-                <Button variant="danger" className="my-2 mx-2">
+                <EditModalComp type={'turns'} getTurns={getTurns} turn={turn} />
+                <Button variant="danger" className="my-2 mx-2" onClick={() => deleteTurn(turn._id)}>
                   <i className="bi bi-trash3-fill"></i> Eliminar
                 </Button>
               </td>

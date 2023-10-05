@@ -12,7 +12,8 @@ import { Link, useNavigate } from "react-router-dom";
 import clientAxios, { config } from "../utils/axiosClient";
 
 const RegisterComp = ({ type, user, getUsers, handleClose }) => {
- const navigate = useNavigate()
+  const navigate = useNavigate();
+
   const createUser = async (values) => {
     try {
       if (values.pass === values.repeatPass) {
@@ -22,7 +23,6 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
             email: values.email,
             name: values.name,
             pass: values.pass,
-            repeatPass: values.repeatPass,
             phoneNumber: values.tel,
           },
           config
@@ -30,30 +30,56 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
         if (res.status === 201) {
           Swal.fire({
             icon: "success",
-            title: "Registro Exitoso!!!",
+            title: "¡Registro exitoso!",
+            text: "Ya puedes iniciar sesión",
             showConfirmButton: false,
             timer: 1500,
           });
-          setShow(false);
-          navigate('/login')
+          navigate("/login");
         }
       } else {
         Swal.fire({
           icon: "error",
-          title: "OH NO!",
+          title: "¡Oh no!",
           text: "Las contraseñas no coinciden",
         });
       }
     } catch (error) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Al parecer hubo un error!",
+        text: error.response.data.msg,
+      });
+    }
+  };
+
+  const createUserOnAdmin = async (values) => {
+    try {
+      const res = await clientAxios.post("/users", {
+        email: values.email,
+        name: values.name,
+        pass: values.pass,
+        phoneNumber: values.tel,
+        role: values.role,
+      });
+      if (res.status === 201) {
         Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Al parecer hubo un error!",
-          text: error.response.data.msg,
+          icon: "success",
+          title: res.data.msg,
           showConfirmButton: false,
           timer: 1500,
         });
-      
+        getUsers();
+        handleClose();
+      }
+    } catch (error) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Al parecer hubo un error",
+        text: error.response.data.msg,
+      });
     }
   };
 
@@ -155,6 +181,7 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
                     name="tel"
                     value={values.tel}
                     onChange={handleChange}
+                    maxLength={10}
                     className={errors.tel && touched.tel && "is-invalid"}
                   />
                 </InputGroup>
@@ -228,7 +255,7 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
             tel: "",
           }}
           validationSchema={errorRegisterOnAdminSchema}
-          onSubmit={(values) => handleClick(values)}
+          onSubmit={(values) => createUserOnAdmin(values)}
         >
           {({ values, errors, touched, handleChange, handleSubmit }) => (
             <Form>
