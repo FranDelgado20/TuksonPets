@@ -12,28 +12,28 @@ const AdminPage = () => {
 
   const getTurns = async () => {
     const resTurns = await clientAxios.get("/turns", config);
-    setTurns(resTurns.data.allTurns)
+    setTurns(resTurns.data.allTurns);
   };
 
   const getProducts = async () => {
     const resProducts = await clientAxios.get("/products/all");
     setProducts(resProducts.data.allProducts);
-  }
+  };
 
   const getUsers = async () => {
     const resUsers = await clientAxios.get("/users", config);
     setUsers(resUsers.data.allUsers);
-  }
+  };
 
   useEffect(() => {
-    getProducts(), getUsers()
+    getProducts(), getUsers(), getTurns();
   }, []);
 
   return (
     <Container className="my-5">
       <div className="d-flex justify-content-between">
         <h3>Usuarios registrados</h3>
-        <ModalComp type="user" />
+        <ModalComp type="user" getUsers={getUsers}/>
       </div>
       <hr />
       <Table striped bordered hover responsive variant="info">
@@ -47,12 +47,12 @@ const AdminPage = () => {
           </tr>
         </thead>
         <tbody>
-          <TableComp users={users} type="users" getUsers={getUsers}/>
+          <TableComp users={users} type="users" getUsers={getUsers} />
         </tbody>
       </Table>
       <div className="mt-4 d-flex justify-content-between">
         <h3>Pacientes y turnos</h3>
-        <ModalComp type="turn" />
+        <ModalComp type="turn" getTurns={getTurns}/>
       </div>
       <hr />
       <Table striped bordered hover responsive variant="info">
@@ -67,10 +67,13 @@ const AdminPage = () => {
             <th>Acciones</th>
           </tr>
         </thead>
+        <tbody>
+          <TableComp turns={turns} type="turns" getTurns={getTurns} />
+        </tbody>
       </Table>
       <div className="mt-4 d-flex justify-content-between">
         <h3>Productos</h3>
-        <ModalComp type="prod" />
+        <ModalComp type="prod" getProducts={getProducts} />
       </div>
       <hr />
       <Table striped bordered hover responsive variant="info">
@@ -85,7 +88,11 @@ const AdminPage = () => {
           </tr>
         </thead>
         <tbody>
-          <TableComp products={products} getProducts={getProducts} type="prods" />
+          <TableComp
+            products={products}
+            getProducts={getProducts}
+            type="prods"
+          />
         </tbody>
       </Table>
     </Container>

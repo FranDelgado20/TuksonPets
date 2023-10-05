@@ -9,15 +9,11 @@ import TurnsComp from "./TurnsComp";
 import clientAxios, { config } from "../utils/axiosClient";
 import Swal from "sweetalert2";
 
-const ModalComp = ({ type }) => {
+const ModalComp = ({ type, getUsers, getProducts, getTurns }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const createUser = (values) => {
-    console.log(values);
-  };
 
   const createProduct = async (values) => {
     try {
@@ -229,7 +225,7 @@ const ModalComp = ({ type }) => {
                 <Modal.Title>Crea un nuevo usuario aquí</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <RegisterComp type={"admin"} />
+                <RegisterComp type={"admin"} getUsers={getUsers} handleClose={handleClose} />
               </Modal.Body>
             </div>
           </Modal>
@@ -246,7 +242,7 @@ const ModalComp = ({ type }) => {
                 <Modal.Title>Crea un nuevo turno aquí</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <TurnsComp type={"admin"} />
+                <TurnsComp type={"admin"} getTurns={getTurns} handleClose={handleClose} />
               </Modal.Body>
             </div>
           </Modal>
