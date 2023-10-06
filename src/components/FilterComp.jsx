@@ -14,7 +14,7 @@ const FilterComp = () => {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Categorías
+            <i className="bi bi-list-task"></i> Categorías
           </button>
           <div className="dropdown-menu text-center">
             <Link to={"/products"} className="dropdown-item">

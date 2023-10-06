@@ -292,7 +292,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                   type="submit"
                   onClick={handleSubmit}
                 >
-                  Crear turno
+                  <i className="bi bi-calendar-plus"></i> Crear turno
                 </button>
               </div>
             </Form>
@@ -397,7 +397,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                   type="submit"
                   onClick={handleSubmit}
                 >
-                  Solicitar plan
+                  <i className="bi bi-calendar-plus"></i> Solicitar plan
                 </button>
               </div>
             </Form>
@@ -832,7 +832,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                   type="submit"
                   onClick={handleSubmit}
                 >
-                  Solicitar turno
+                  <i className="bi bi-calendar-plus"></i> Solicitar turno
                 </button>
               </div>
             </Form>

@@ -6,6 +6,7 @@ import { errorLoginSchema } from "../utils/validationSchemas";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Link, useNavigate } from "react-router-dom";
 import clientAxios, { config } from "../utils/axiosClient";
+import Swal from "sweetalert2";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -38,16 +39,12 @@ const LoginPage = () => {
         });
       }
     } catch (error) {
-      if (error.response.status === 500) {
         Swal.fire({
           position: "center",
           icon: "error",
           title: "Al parecer hubo un error!",
           text: error.response.data.msg,
-          showConfirmButton: false,
-          timer: 1500,
         });
-      }
     }
   };
 
