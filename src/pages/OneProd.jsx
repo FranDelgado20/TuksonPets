@@ -26,21 +26,28 @@ const OneProd = () => {
     try {
       const idUser = JSON.parse(sessionStorage.getItem("idUser"));
       const resUser = await clientAxios.get(`/users/${idUser}`, config);
-
       const { idCart } = resUser.data.oneUser;
-
+      const prodExistente = cartProds.find((prod)=> prod._id === idProd)
+      if(prodExistente){
+      return  Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Al parecer hubo un error!",
+          text: 'El producto ya existe en el carrito',
+        })
+      }
       const resCart = await clientAxios.post(
         `/cart/${idCart}/${idProd}`,
         {},
         config)
-        
-        
+        if(resCart.status === 200){
           Swal.fire({
             icon: "success",
             title: "¡Producto agregado al carrito!",
             showConfirmButton: false,
             timer: 1500,
           });
+        }
         
 
     } catch (error) {
@@ -55,8 +62,11 @@ const OneProd = () => {
   }
  
   useEffect(() => {
-    getOneProd(),getCart()
+    getOneProd()
   }, []);
+  useEffect(() => {
+    getCart()
+  }, [cartProds]);
 
   return (
     <Container className="my-5">

@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 const CartPage = () => {
   const [products, setProducts] = useState([]);
+  const [precioTotalPorProducto, setPrecioTotalPorProducto] = useState([]);
+  const [precioTotal, setPrecioTotal] = useState(0);
   const idUser = JSON.parse(sessionStorage.getItem("idUser"));
 
   const getProdCart = async () => {
@@ -48,9 +50,47 @@ const eliminarProd = async(idProd) => {
     })
   }
 }
+const sumarCant = (id) => {
+  const filtro = products.find((prod) => prod._id === id);
+  if (filtro) {
+    filtro.cantidad++;
+
+    setProducts((prevCarrito) =>
+      prevCarrito.map((cart) =>
+        products._id === id ? { ...cart, ...filtro } : cart
+      )
+    );
+  }
+};
+const restarCant = (id) => {
+  const filtro = products.find((prod) => prod._id === id);
+  if (filtro && filtro.cantidad > 1) {
+    filtro.cantidad--;
+
+    setProducts((prevCarrito) =>
+      prevCarrito.map((cart) =>
+        products._id === id ? { ...cart, ...filtro } : cart
+      )
+    );
+  }
+};
+
+
   useEffect(() => {
     getProdCart();
   }, []);
+  useEffect(() => {
+    const precios = [];
+    let total = 0;
+    products.forEach((cart) => {
+      const precioTotal = cart.cantidad * cart.precio;
+      precios[cart._id] = precioTotal;
+      total += precioTotal;
+    });
+    setPrecioTotalPorProducto(precios);
+    setPrecioTotal(total);
+    
+  }, [products]);
   return (
     <Container className="my-5">
       <Row>
@@ -72,14 +112,14 @@ const eliminarProd = async(idProd) => {
                     <td>{prod.nombre}</td>
                     <td>${prod.precio}</td>
                     <td className="d-flex justify-content-center align-items-center">
-                      <button className="botones btn border-2 mx-2"><i className="bi bi-dash-lg"></i></button>
+                      <button className="botones btn border-2 mx-2" onClick={() => restarCant(prod._id)}><i className="bi bi-dash-lg"></i></button>
                       <td>{prod.cantidad}</td>
-                      <button className="botones btn border-2 mx-2"><i className="bi bi-plus-lg"></i></button>
+                      <button className="botones btn border-2 mx-2 " onClick={() => sumarCant(prod._id)}><i className="bi bi-plus-lg"></i></button>
                     </td>
                     <td className="text-center">
                       <Button variant="danger" onClick={()=>eliminarProd(prod._id)}><i className="bi bi-trash3-fill" ></i> Eliminar</Button>
                     </td>
-                    <td>$</td>
+                    <td>${precioTotalPorProducto[prod._id]}</td>
                   </tr>
                 ))}
               </tbody>
@@ -97,7 +137,7 @@ const eliminarProd = async(idProd) => {
           )}
         </Col>
         <Col lg={12} md={12} sm={12}>
-          <h2>Total a pagar: $</h2>
+          <h2>Total a pagar: ${precioTotal}</h2>
           <hr />
           <div className="text-center mt-3">
             <button className="ms-5 btn botones w-75 fs-5">
