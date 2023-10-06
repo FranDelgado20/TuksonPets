@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row, Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
+import clientAxios, { config } from "../utils/axiosClient";
 
 const CartPage = () => {
+  const idCart = JSON.parse(sessionStorage.getItem('idCart'))
+  const [products, setProducts] = useState([])
+  const getProdCart = async () =>{
+    const res = await clientAxios.get(`/${idCart}`, config)
+    setProducts(res.data.cart)
+  }
+  useEffect(() => {
+    getProdCart()
+  },[])
   return (
     <Container className="my-3">
       <Row>
@@ -18,19 +28,19 @@ const CartPage = () => {
                 <th>Total</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+            {products.map((prod) => 
+              <tbody>
+              <tr key={prod._id}>
+                <td>{prod.nombre}</td>
+                <td>${prod.precio}</td>
+                <td>{prod.cantidad}</td>
                 <td className="d-flex justify-content-center ">
                   <button className="botones btn border-2 me-2">+</button>
                   <button className="botones btn border-2 ms-2">-</button>
                 </td>
                 <td>$</td>
               </tr>
-            </tbody>
+            </tbody>)}
           </Table>
         </Col>
         <Col className="" lg={12} md={12} sm={12}>

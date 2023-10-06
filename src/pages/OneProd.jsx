@@ -2,17 +2,51 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import clientAxios, { config } from "../utils/axiosClient";
-
+import Swal from "sweetalert2";
 const OneProd = () => {
+  const idCart = JSON.parse(sessionStorage.getItem('idCart'))
   const params = useParams();
   const [prod, setProd] = useState({});
-
+  const [cartProds, setCartProds] = useState([])
+  const getCart = async () => {
+    const res = await clientAxios.get(`/${idCart}`, config)
+    setCartProds(res.data.cart)
+  }
   const getOneProd = async () => {
     const res = await clientAxios.get(`/products/${params.id}`, config);
 
     setProd(res.data.oneProduct);
   };
 
+  const addCart = async (id) => {
+    try {
+      const prodExist = cartProds.find((prod) => prod._id === id)
+      if(prodExist){
+       return Swal.fire({
+          icon: "error",
+          title: "OH NO!",
+          text: "El producto ya existe en el carrito",
+        })
+      }
+      const res = await clientAxios.post(`/${idCart}/${id}`, config) 
+      Swal.fire({
+        icon: "success",
+        title: "¡Producto cargado en el carrito!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Al parecer hubo un error!",
+        text: error.response.data.msg,
+        showConfirmButton: false,
+        timer: 1500,
+      })
+    }
+  }
+ 
   useEffect(() => {
     getOneProd();
   }, []);
@@ -40,7 +74,7 @@ const OneProd = () => {
           <p>{prod.descripcion}</p>
           <hr />
           <div className="text-end">
-            <button className="btn botones fs-5">
+            <button onClick={() => addCart(prod._id)} className="btn botones fs-5">
               <i className="bi bi-cart-plus-fill me-2"></i>
               Agregar al carrito
             </button>
