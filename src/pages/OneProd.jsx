@@ -4,14 +4,17 @@ import { Link, useParams } from "react-router-dom";
 import clientAxios, { config } from "../utils/axiosClient";
 import Swal from "sweetalert2";
 const OneProd = () => {
-  // const idCart = JSON.parse(sessionStorage.getItem('idCart'))
+  
   const params = useParams();
   const [prod, setProd] = useState({});
   const [cartProds, setCartProds] = useState([])
+  const idUser = JSON.parse(sessionStorage.getItem("idUser"));
 
   const getCart = async () => {
-    const res = await clientAxios.get(`/${idCart}`, config)
-    setCartProds(res.data.cart)
+    const resUser = await clientAxios.get(`/users/${idUser}`);
+    const { idCart } = resUser.data.oneUser;
+    const res = await clientAxios.get(`/cart/${idCart}`, config);
+    setCartProds(res.data.cart.productos);
   }
   const getOneProd = async () => {
     const res = await clientAxios.get(`/products/${params.id}`, config);
@@ -30,10 +33,17 @@ const OneProd = () => {
         `/cart/${idCart}/${idProd}`,
         {},
         config)
-      console.log(resCart)
+        // if(res.status === "200"){
+        //   Swal.fire({
+        //     icon: "success",
+        //     title: "¡Producto agregado al carrito!",
+        //     showConfirmButton: false,
+        //     timer: 1500,
+        //   });
+        // }
 
     } catch (error) {
-      console.log(error)
+     
       Swal.fire({
         position: "center",
         icon: "error",
@@ -44,7 +54,7 @@ const OneProd = () => {
   }
  
   useEffect(() => {
-    getOneProd();
+    getOneProd(),getCart()
   }, []);
 
   return (

@@ -3,7 +3,7 @@ import { Col, Container, Row, Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import clientAxios, { config } from "../utils/axiosClient";
 import { Link } from "react-router-dom";
-
+import Swal from "sweetalert2";
 const CartPage = () => {
   const [products, setProducts] = useState([]);
   const idUser = JSON.parse(sessionStorage.getItem("idUser"));
@@ -12,15 +12,34 @@ const CartPage = () => {
     try {
       const resUser = await clientAxios.get(`/users/${idUser}`);
       const { idCart } = resUser.data.oneUser;
-
       const res = await clientAxios.get(`/cart/${idCart}`, config);
-      console.log(res);
       setProducts(res.data.cart.productos);
+      
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Al parecer hubo un error!",
+        text: error.response.data.msg,
+      })
     }
   };
-
+const eliminarProd = async(idProd) => {
+  try {
+    const resUser = await clientAxios.get(`/users/${idUser}`);
+    const { idCart } = resUser.data.oneUser;
+    const res = await clientAxios.delete(`/cart/${idCart}/${idProd}`,config)
+    
+    getProdCart()
+  } catch (error) {
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Al parecer hubo un error!",
+      text: error.response.data.msg,
+    })
+  }
+}
   useEffect(() => {
     getProdCart();
   }, []);
@@ -50,7 +69,7 @@ const CartPage = () => {
                       <button className="botones btn border-2 mx-2"><i className="bi bi-plus-lg"></i></button>
                     </td>
                     <td className="text-center">
-                      <Button variant="danger"><i className="bi bi-trash3-fill"></i> Eliminar</Button>
+                      <Button variant="danger" onClick={()=>eliminarProd(prod._id)}><i className="bi bi-trash3-fill" ></i> Eliminar</Button>
                     </td>
                     <td>$</td>
                   </tr>
