@@ -3,6 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import Carousel from "react-bootstrap/Carousel";
 import CardComp from "../components/CardComp";
 import clientAxios, { config } from "../utils/axiosClient";
+import WeatherComp from "../components/WeatherComp";
 
 const HomePage = () => {
   const [plan, setPlan] = useState([]);
@@ -36,7 +37,9 @@ const HomePage = () => {
   return (
     <>
       <Container fluid className="my-3">
-        <div className="text-end">Clima</div>
+        <Row className="justify-content-end">
+        <WeatherComp/>
+        </Row>
         <Row>
           <Col lg={6} md={12} sm={12}>
             <h2 className="mt-3">Productos destacados</h2>

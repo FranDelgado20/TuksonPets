@@ -26,6 +26,7 @@ const LoginPage = () => {
           "idUser",
           JSON.stringify(res.data.userExist._id)
         );
+        
         sessionStorage.setItem("role", JSON.stringify(res.data.userExist.role));
         
         res.data?.userExist?.role === "user"
