@@ -4,10 +4,11 @@ import { Link, useParams } from "react-router-dom";
 import clientAxios, { config } from "../utils/axiosClient";
 import Swal from "sweetalert2";
 const OneProd = () => {
-  const idCart = JSON.parse(sessionStorage.getItem('idCart'))
+  // const idCart = JSON.parse(sessionStorage.getItem('idCart'))
   const params = useParams();
   const [prod, setProd] = useState({});
   const [cartProds, setCartProds] = useState([])
+
   const getCart = async () => {
     const res = await clientAxios.get(`/${idCart}`, config)
     setCartProds(res.data.cart)
@@ -18,31 +19,26 @@ const OneProd = () => {
     setProd(res.data.oneProduct);
   };
 
-  const addCart = async (id) => {
+  const addCart = async (idProd) => {
     try {
-      const prodExist = cartProds.find((prod) => prod._id === id)
-      if(prodExist){
-       return Swal.fire({
-          icon: "error",
-          title: "OH NO!",
-          text: "El producto ya existe en el carrito",
-        })
-      }
-      const res = await clientAxios.post(`/${idCart}/${id}`, config) 
-      Swal.fire({
-        icon: "success",
-        title: "¡Producto cargado en el carrito!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      const idUser = JSON.parse(sessionStorage.getItem("idUser"));
+      const resUser = await clientAxios.get(`/users/${idUser}`, config);
+
+      const { idCart } = resUser.data.oneUser;
+
+      const resCart = await clientAxios.post(
+        `/cart/${idCart}/${idProd}`,
+        {},
+        config)
+      console.log(resCart)
+
     } catch (error) {
+      console.log(error)
       Swal.fire({
         position: "center",
         icon: "error",
         title: "Al parecer hubo un error!",
         text: error.response.data.msg,
-        showConfirmButton: false,
-        timer: 1500,
       })
     }
   }
