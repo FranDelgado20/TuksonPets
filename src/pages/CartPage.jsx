@@ -29,9 +29,17 @@ const eliminarProd = async(idProd) => {
     const resUser = await clientAxios.get(`/users/${idUser}`);
     const { idCart } = resUser.data.oneUser;
     const res = await clientAxios.delete(`/cart/${idCart}/${idProd}`,config)
-    
-    getProdCart()
+    if(res.status === 200){
+      Swal.fire({
+        icon: "success",
+        title: "¡Producto eliminado!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+   getProdCart()
   } catch (error) {
+    console.log(error)
     Swal.fire({
       position: "center",
       icon: "error",

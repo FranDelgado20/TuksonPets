@@ -33,14 +33,15 @@ const OneProd = () => {
         `/cart/${idCart}/${idProd}`,
         {},
         config)
-        // if(res.status === "200"){
-        //   Swal.fire({
-        //     icon: "success",
-        //     title: "¡Producto agregado al carrito!",
-        //     showConfirmButton: false,
-        //     timer: 1500,
-        //   });
-        // }
+        
+        
+          Swal.fire({
+            icon: "success",
+            title: "¡Producto agregado al carrito!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        
 
     } catch (error) {
      
