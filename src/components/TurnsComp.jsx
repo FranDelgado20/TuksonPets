@@ -5,8 +5,10 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { errorPlanSchema, errorTurnSchema } from "../utils/validationSchemas";
 import clientAxios, { config } from "../utils/axiosClient";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
+  const navigate = useNavigate();
   const createTurn = async (values) => {
     try {
       const res = await clientAxios.post(
@@ -39,7 +41,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         text: error.response.data.msg,
       });
     }
-  }
+  };
 
   const createTurnOnAdmin = async (values) => {
     try {
@@ -67,6 +69,30 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         });
         getTurns();
         handleClose();
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Parece que hubo un error",
+        text: error.response.data.msg,
+      });
+    }
+  };
+  const requestPlan = async (values) => {
+    try {
+      const res = await clientAxios.post("/planes/request", {
+        email: values.email,
+        nombreApellido: values.name,
+        mensaje: values.desc,
+        tel: values.tel,
+      });
+      if (res.status === 201) {
+        Swal.fire({
+          icon: "success",
+          title: res.data.msg,
+          text: "Se te enviará un mensaje a tu Email. Asegurate de checkearlo",
+        });
+        navigate("/");
       }
     } catch (error) {
       Swal.fire({
