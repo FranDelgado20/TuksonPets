@@ -12,7 +12,6 @@ const WeatherComp = () => {
     const res = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=7c335b0c2600bd8036959eec6e72259a&units=metric`
     );
-    console.log(res);
     setWeather(res.data);
   };
   useEffect(() => {

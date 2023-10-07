@@ -3,7 +3,7 @@ import axios from "axios";
 const token = JSON.parse(sessionStorage.getItem("token")) || ""
 
 const clientAxios = axios.create({
-    baseURL: import.meta.env.VITE_URL_DEPLOY
+    baseURL: import.meta.env.VITE_URL_LOCAL
 })
 
 export const config = {
