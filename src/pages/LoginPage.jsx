@@ -26,26 +26,24 @@ const LoginPage = () => {
           "idUser",
           JSON.stringify(res.data.userExist._id)
         );
-        
         sessionStorage.setItem("role", JSON.stringify(res.data.userExist.role));
-        
         res.data?.userExist?.role === "user"
           ? navigate("/")
           : navigate("/admin");
       } else {
         Swal.fire({
           icon: "error",
-          title: "OH NO!",
+          title: "¡Oh no!",
           text: "Usuario y/o contraseña incorrectos",
         });
       }
     } catch (error) {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Al parecer hubo un error!",
-          text: error.response.data.msg,
-        });
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Al parecer hubo un error!",
+        text: error.response.data.msg,
+      });
     }
   };
 
@@ -59,13 +57,7 @@ const LoginPage = () => {
         validationSchema={errorLoginSchema}
         onSubmit={(values) => ingresoCuenta(values)}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleSubmit,
-        }) => (
+        {({ values, errors, touched, handleChange, handleSubmit }) => (
           <Form className="bg-info-subtle p-3 w-75 rounded-3 sombra">
             <h3>Ingresá a tu cuenta</h3>
             <hr />

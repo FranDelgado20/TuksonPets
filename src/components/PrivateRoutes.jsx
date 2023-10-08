@@ -9,7 +9,7 @@ const PrivateRoutes = ({ children, role }) => {
             else location.href = "/"
         }
     }
-    else location.href = "/"
+    else location.href = "/login"
 }
 
 export default PrivateRoutes;

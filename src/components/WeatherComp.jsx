@@ -12,7 +12,6 @@ const WeatherComp = () => {
     const res = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=7c335b0c2600bd8036959eec6e72259a&units=metric`
     );
-    console.log(res);
     setWeather(res.data);
   };
   useEffect(() => {
@@ -22,23 +21,22 @@ const WeatherComp = () => {
   return (
     <Col lg={4} md={6} sm={12}>
       <Card className="fondo">
-        {weather.weather ? (
-            <div className="d-flex justify-content-center">
-
-                <img
-                  variant="top"
-                  src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
-                  alt="Icono del clima"
-                  className="widthImg mx-1"
-                  />
-                  <h4 className="mt-3 mx-1">{weather?.main?.temp} ºC</h4>
-            </div>
-        ) : (
-          ""
+        {weather.weather && (
+          <div className="d-flex justify-content-center">
+            <img
+              variant="top"
+              src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
+              alt="Icono del clima"
+              className="widthImg mx-1"
+            />
+            <h4 className="mt-3 mx-1">{weather?.main?.temp} ºC</h4>
+          </div>
         )}
 
         <Card.Body>
-          <Card.Title className="text-center">{city} | {country}</Card.Title>
+          <Card.Title className="text-center">
+            {city} | {country}
+          </Card.Title>
           <hr />
         </Card.Body>
       </Card>

@@ -28,21 +28,6 @@ const CardComp = ({ type, products, plan, pros, comment }) => {
                 </Col>
               )
           )
-          : type === "pros" ?
-          pros.map(
-            (prof) => (
-                <Col lg={3} md={6} sm={12} key={prof._id} className="my-2">
-                  <Card className="bg-info-subtle sombra">
-                    <Card.Img variant="top" src={prof.img} alt="Imagen" />
-                    <Card.Body>
-                      <Card.Title>{prof.nombre}</Card.Title>
-                      <hr />
-                      <Card.Text>{prof.esp}</Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              )
-          )
         : type === "prods"
         ? products?.map((product) => (
             <Col lg={3} md={6} sm={12} key={product._id} className="my-2">
@@ -163,19 +148,19 @@ const CardComp = ({ type, products, plan, pros, comment }) => {
                 </Col>
               )
           )
-        : type === 'comentarios' 
-        ? comment.map (
-          (comments) => 
-          <Col lg={12} md={12} sm={12} key={comments._id} className="my-2">
-                  <Card className="bg-info-subtle sombra">
-                    <Card.Body>
-                      <Card.Title>{comments.nombreApellido}</Card.Title>
-                      <hr />
-                      <Card.Text>{comments.mensaje}</Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-        ) : ""}
+        : type === "comentarios"
+        ? comment.map((comments) => (
+            <Col lg={12} md={12} sm={12} key={comments._id} className="my-2">
+              <Card className="bg-info-subtle sombra">
+                <Card.Body>
+                  <Card.Title>{comments.nombreApellido}</Card.Title>
+                  <hr />
+                  <Card.Text>{comments.mensaje}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))
+        : ""}
     </>
   );
 };

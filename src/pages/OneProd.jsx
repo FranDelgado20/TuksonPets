@@ -3,19 +3,31 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import clientAxios, { config } from "../utils/axiosClient";
 import Swal from "sweetalert2";
+
 const OneProd = () => {
-  
   const params = useParams();
   const [prod, setProd] = useState({});
-  const [cartProds, setCartProds] = useState([])
+  const [cartProds, setCartProds] = useState([]);
+
   const idUser = JSON.parse(sessionStorage.getItem("idUser"));
+  const token = JSON.parse(sessionStorage.getItem("token"));
 
   const getCart = async () => {
-    const resUser = await clientAxios.get(`/users/${idUser}`);
-    const { idCart } = resUser.data.oneUser;
-    const res = await clientAxios.get(`/cart/${idCart}`, config);
-    setCartProds(res.data.cart.productos);
-  }
+    try {
+      const resUser = await clientAxios.get(`/users/${idUser}`, config);
+      const { idCart } = resUser.data.oneUser;
+      const res = await clientAxios.get(`/cart/${idCart}`, config);
+      setCartProds(res.data.cart.productos);
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Al parecer hubo un error!",
+        text: error.response.data.msg,
+      });
+    }
+  };
   const getOneProd = async () => {
     const res = await clientAxios.get(`/products/${params.id}`, config);
 
@@ -24,49 +36,45 @@ const OneProd = () => {
 
   const addCart = async (idProd) => {
     try {
-      const idUser = JSON.parse(sessionStorage.getItem("idUser"));
       const resUser = await clientAxios.get(`/users/${idUser}`, config);
       const { idCart } = resUser.data.oneUser;
-      const prodExistente = cartProds.find((prod)=> prod._id === idProd)
-      if(prodExistente){
-      return  Swal.fire({
+
+      const prodExistente = cartProds.find((prod) => prod._id === idProd);
+      if (prodExistente) {
+        return Swal.fire({
           position: "center",
           icon: "error",
           title: "Al parecer hubo un error!",
-          text: 'El producto ya existe en el carrito',
-        })
+          text: "El producto ya existe en el carrito",
+        });
       }
       const resCart = await clientAxios.post(
         `/cart/${idCart}/${idProd}`,
         {},
-        config)
-        if(resCart.status === 200){
-          Swal.fire({
-            icon: "success",
-            title: "¡Producto agregado al carrito!",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-        
-
+        config
+      );
+      if (resCart.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "¡Producto agregado al carrito!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
     } catch (error) {
-     
       Swal.fire({
         position: "center",
         icon: "error",
         title: "Al parecer hubo un error!",
         text: error.response.data.msg,
-      })
+      });
     }
-  }
- 
+  };
+
   useEffect(() => {
-    getOneProd()
+    getOneProd();
+    getCart();
   }, []);
-  useEffect(() => {
-    getCart()
-  }, [cartProds]);
 
   return (
     <Container className="my-5">
@@ -91,10 +99,20 @@ const OneProd = () => {
           <p>{prod.descripcion}</p>
           <hr />
           <div className="text-end">
-            <button onClick={() => addCart(prod._id)} className="btn botones fs-5">
-              <i className="bi bi-cart-plus-fill me-2"></i>
-              Agregar al carrito
-            </button>
+            {token ? (
+              <button
+                onClick={() => addCart(prod._id)}
+                className="btn botones fs-5"
+              >
+                <i className="bi bi-cart-plus-fill me-2"></i>
+                Agregar al carrito
+              </button>
+            ) : (
+              <Link className="btn botones fs-5" to={"/login"}>
+                <i className="bi bi-cart-plus-fill me-2"></i>
+                Agregar al carrito
+              </Link>
+            )}
           </div>
         </Col>
       </Row>
