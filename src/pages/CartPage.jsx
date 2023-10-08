@@ -12,12 +12,13 @@ const CartPage = () => {
 
   const getProdCart = async () => {
     try {
-      const resUser = await clientAxios.get(`/users/${idUser}`);
+      const resUser = await clientAxios.get(`/users/${idUser}`, config);
       const { idCart } = resUser.data.oneUser;
       const res = await clientAxios.get(`/cart/${idCart}`, config);
       setProducts(res.data.cart.productos);
       
     } catch (error) {
+      console.log(error)
       Swal.fire({
         position: "center",
         icon: "error",
@@ -113,7 +114,7 @@ const restarCant = (id) => {
                     <td>${prod.precio}</td>
                     <td className="d-flex justify-content-center align-items-center">
                       <button className="botones btn border-2 mx-2" onClick={() => restarCant(prod._id)}><i className="bi bi-dash-lg"></i></button>
-                      <td>{prod.cantidad}</td>
+                      <h6>{prod.cantidad}</h6>
                       <button className="botones btn border-2 mx-2 " onClick={() => sumarCant(prod._id)}><i className="bi bi-plus-lg"></i></button>
                     </td>
                     <td className="text-center">

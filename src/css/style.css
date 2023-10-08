@@ -3,6 +3,9 @@
   flex-direction: column;
   min-height: 100vh;
 }
+body {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
 .main-content {
   margin-top: 74.66px;
   flex-grow: 1;
@@ -52,7 +55,6 @@ footer {
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 15px;
-  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   border: 0px;
 }
 .botonContact:hover {

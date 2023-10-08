@@ -45,12 +45,13 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
         });
       }
     } catch (error) {
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Al parecer hubo un error!",
-        text: error.response.data.msg,
-      });
+      console.log(error)
+      // Swal.fire({
+      //   position: "center",
+      //   icon: "error",
+      //   title: "Al parecer hubo un error!",
+      //   text: error.response.data.msg,
+      // });
     }
   };
 
