@@ -10,6 +10,7 @@ import {
 } from "../utils/validationSchemas";
 import { Link, useNavigate } from "react-router-dom";
 import clientAxios, { config } from "../utils/axiosClient";
+import emailjs from "emailjs-com";
 
 const RegisterComp = ({ type, user, getUsers, handleClose }) => {
   const navigate = useNavigate();
@@ -35,6 +36,18 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
             showConfirmButton: false,
             timer: 1500,
           });
+
+          const templateParams = {
+            to_email: values.email,
+            message:
+              "Gracias por registrarte en nuestra página, aquí podrás obtener diversos productos para tus mascotas ya que contamos con la mejor calidad del mercado, también podrás consultar sobre los distintos planes que ofrecemos y solicitar turnos con nuestros profesionales. ¡Gracias por confiar en nosotros!",
+          };
+          await emailjs.send(
+            import.meta.env.VITE_EMAIL_SERVICE_ID,
+            import.meta.env.VITE_EMAIL_TEMPLATE_ID,
+            templateParams,
+            import.meta.env.VITE_EMAIL_PUBLIC_KEY
+          );
           navigate("/login");
         }
       } else {
@@ -45,13 +58,12 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
         });
       }
     } catch (error) {
-      console.log(error)
-      // Swal.fire({
-      //   position: "center",
-      //   icon: "error",
-      //   title: "Al parecer hubo un error!",
-      //   text: error.response.data.msg,
-      // });
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Al parecer hubo un error!",
+        text: error.response.data.msg,
+      });
     }
   };
 

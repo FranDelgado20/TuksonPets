@@ -6,6 +6,7 @@ import { errorPlanSchema, errorTurnSchema } from "../utils/validationSchemas";
 import clientAxios, { config } from "../utils/axiosClient";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import emailjs from "emailjs-com";
 
 const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
   const navigate = useNavigate();
@@ -92,6 +93,17 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
           title: res.data.msg,
           text: "Se te enviará un mensaje a tu Email. Asegurate de checkearlo",
         });
+        const templateParams = {
+          to_email: values.email,
+          message:
+            "Hemos visto que has solicitado más información acerca de uno de nuestros planes. Próximamente nos pondremos en contacto contigo, por favor espera pacientemente. ¡Gracias por confiar en nosotros!",
+        };
+        await emailjs.send(
+          import.meta.env.VITE_EMAIL_SERVICE_ID,
+          import.meta.env.VITE_EMAIL_TEMPLATE_ID,
+          templateParams,
+          import.meta.env.VITE_EMAIL_PUBLIC_KEY
+        );
         navigate("/");
       }
     } catch (error) {
