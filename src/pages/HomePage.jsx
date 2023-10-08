@@ -4,17 +4,17 @@ import Carousel from "react-bootstrap/Carousel";
 import CardComp from "../components/CardComp";
 import clientAxios, { config } from "../utils/axiosClient";
 import WeatherComp from "../components/WeatherComp";
+import Card from "react-bootstrap/Card";
 
 const HomePage = () => {
   const [plan, setPlan] = useState([]);
   const [products, setProducts] = useState([]);
-  const [pros, setPros] = useState([]);
-  const [comment, setComment] = useState([])
+  const [comment, setComment] = useState([]);
 
   const getAllComments = async () => {
-    const res = await clientAxios.get('/comments', config)
-    setComment(res.data.getComments)
-  }
+    const res = await clientAxios.get("/comments", config);
+    setComment(res.data.getComments);
+  };
   const getProducts = async () => {
     const res = await clientAxios.get("/products/all", config);
     setProducts(res.data.allProducts);
@@ -25,20 +25,15 @@ const HomePage = () => {
     setPlan(res.data.allPlans);
   };
 
-  const getPros = async () => {
-    const res = await clientAxios.get("/pros", config);
-    setPros(res.data.allPros);
-  };
-
   useEffect(() => {
-    getProducts(), getPlan(), getPros(),getAllComments()
+    getProducts(), getPlan(), getAllComments();
   }, []);
 
   return (
     <>
       <Container fluid className="my-3">
         <Row className="justify-content-end">
-        <WeatherComp/>
+          <WeatherComp />
         </Row>
         <Row>
           <Col lg={6} md={12} sm={12}>
@@ -61,7 +56,62 @@ const HomePage = () => {
           <hr />
           <Col lg={12} md={12} sm={12}>
             <Row>
-              <CardComp pros={pros} type={"pros"} />
+              <Col lg={3} md={6} sm={12} className="my-2">
+                <Card className="bg-info-subtle sombra">
+                  <Card.Img
+                    variant="top"
+                    src="/pros/francisco.png"
+                    alt="Imagen"
+                  />
+                  <Card.Body>
+                    <Card.Title>Dr. Francisco Delgado</Card.Title>
+                    <hr />
+                    <Card.Text>Cirujano</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col lg={3} md={6} sm={12} className="my-2">
+                <Card className="bg-info-subtle sombra">
+                  <Card.Img
+                    variant="top"
+                    src="/pros/luciano.png"
+                    alt="Imagen"
+                  />
+                  <Card.Body>
+                    <Card.Title>Dr. Luciano Kozameh</Card.Title>
+                    <hr />
+                    <Card.Text>Cardiólogo</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col lg={3} md={6} sm={12} className="my-2">
+                <Card className="bg-info-subtle sombra">
+                  <Card.Img
+                    variant="top"
+                    src="/pros/sureia.png"
+                    alt="Imagen"
+                  />
+                  <Card.Body>
+                    <Card.Title>Dra. Sureia Matar</Card.Title>
+                    <hr />
+                    <Card.Text>Gastroenteróloga</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col lg={3} md={6} sm={12} className="my-2">
+                <Card className="bg-info-subtle sombra">
+                  <Card.Img
+                    variant="top"
+                    src="/pros/francis.png"
+                    alt="Imagen"
+                  />
+                  <Card.Body>
+                    <Card.Title>Dr. Francis Sir</Card.Title>
+                    <hr />
+                    <Card.Text>Clínico</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
             </Row>
           </Col>
           <Col lg={6} md={12} sm={12}>
@@ -96,7 +146,7 @@ const HomePage = () => {
           <Col lg={6} md={12} sm={12}>
             <h2 className="mt-3">Opiniones de nuestros clientes</h2>
             <hr />
-            <CardComp type={'comentarios'} comment={comment}/>
+            <CardComp type={"comentarios"} comment={comment} />
           </Col>
         </Row>
       </Container>
