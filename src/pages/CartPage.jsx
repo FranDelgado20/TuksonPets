@@ -9,13 +9,14 @@ const CartPage = () => {
   const [precioTotalPorProducto, setPrecioTotalPorProducto] = useState([]);
   const [precioTotal, setPrecioTotal] = useState(0);
   const idUser = JSON.parse(sessionStorage.getItem("idUser"));
-  const [prodMP, setProdMP] = useState([]);
+  const [emailUser, setEmailUser] = useState('')
   const getProdCart = async () => {
     try {
       const resUser = await clientAxios.get(`/users/${idUser}`, config);
-      const { idCart } = resUser.data.oneUser;
+      const { idCart, email } = resUser.data.oneUser;
       const res = await clientAxios.get(`/cart/${idCart}`, config);
       setProducts(res.data.cart.productos);
+      setEmailUser(email)
     } catch (error) {
       console.log(error);
       Swal.fire({
@@ -75,17 +76,7 @@ const CartPage = () => {
     }
   };
 
-  const arrayMP = () => {
-    // const newProdMP = products.map((prod) => {
-    //   return {
-    //     title: prod.nombre,
-    //     unit_price: prod.precio,
-    //     quantity: prod.cantidad,
-    //     currency_id: "ARS",
-    //   };
-    // });
-    // setProdMP(newProdMP)
-
+  const payButton = () => {
     Swal.fire({
       title: "¿Confimar la compra?",
       icon: "warning",
@@ -104,7 +95,21 @@ const CartPage = () => {
             },
             config
           );
-          if(res.status === 200) window.open(res.data.resPay.response.init_point, "_blank")
+          if(res.status === 200 ){
+            window.open(res.data.resPay.response.init_point, "_blank")
+            const templateParams = {
+              to_email: emailUser,
+              message:
+                "Tu pago fue procesado con éxito. ¡Muchas gracias por tu compra!",
+            };
+            await emailjs.send(
+              import.meta.env.VITE_EMAIL_SERVICE_ID,
+              import.meta.env.VITE_EMAIL_TEMPLATE_ID,
+              templateParams,
+              import.meta.env.VITE_EMAIL_PUBLIC_KEY
+            );
+          } 
+
         } catch (error) {
           Swal.fire({
             title: "No se pudo eliminar el producto",
@@ -115,10 +120,6 @@ const CartPage = () => {
       }
     });
   };
-  useEffect(() => {
-    console.log(prodMP);
-  }, [prodMP]);
-
   useEffect(() => {
     getProdCart();
   }, []);
@@ -197,7 +198,7 @@ const CartPage = () => {
           <h2>Total a pagar: ${precioTotal}</h2>
           <hr />
           <div className="text-center mt-3">
-            <button className="ms-5 btn botones w-75 fs-5" onClick={arrayMP}>
+            <button className="ms-5 btn botones w-75 fs-5" onClick={payButton}>
               <i className="bi me-2 bi-cash-coin"></i> Pagar
             </button>
           </div>
