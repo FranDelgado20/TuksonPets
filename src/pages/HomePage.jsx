@@ -5,11 +5,39 @@ import CardComp from "../components/CardComp";
 import clientAxios, { config } from "../utils/axiosClient";
 import WeatherComp from "../components/WeatherComp";
 import Card from "react-bootstrap/Card";
+import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const HomePage = () => {
   const [plan, setPlan] = useState([]);
   const [products, setProducts] = useState([]);
   const [comment, setComment] = useState([]);
+
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const status = searchParams.get("status")
+
+  if(status === "approved"){
+    Swal.fire({
+      icon: "success",
+      title: "¡Pago realizado con éxito!",
+      text: "Te llegará un correo a tu Email. Asegurate de checkearlo"
+    });
+  }
+  else if (status === "rejected"){
+    Swal.fire({
+      icon: "error",
+      title: "¡Pago rechazado!",
+      text: "Intente nuevamente o comuníquese con su compañía de tarjeta"
+    });
+  }
+  else if(status === "in_process"){
+    Swal.fire({
+      icon: "warning",
+      title: "Tu pago está siendo procesado",
+      text: "Se te enviará un correo cuando esté procesado"
+    });
+  }
 
   const getAllComments = async () => {
     const res = await clientAxios.get("/comments", config);

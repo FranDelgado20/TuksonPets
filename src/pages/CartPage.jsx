@@ -9,73 +9,115 @@ const CartPage = () => {
   const [precioTotalPorProducto, setPrecioTotalPorProducto] = useState([]);
   const [precioTotal, setPrecioTotal] = useState(0);
   const idUser = JSON.parse(sessionStorage.getItem("idUser"));
-
+  const [prodMP, setProdMP] = useState([]);
   const getProdCart = async () => {
     try {
       const resUser = await clientAxios.get(`/users/${idUser}`, config);
       const { idCart } = resUser.data.oneUser;
       const res = await clientAxios.get(`/cart/${idCart}`, config);
       setProducts(res.data.cart.productos);
-      
     } catch (error) {
-      console.log(error)
+      console.log(error);
       Swal.fire({
         position: "center",
         icon: "error",
         title: "Al parecer hubo un error!",
         text: error.response.data.msg,
-      })
-    }
-  };
-const eliminarProd = async(idProd) => {
-  try {
-    const resUser = await clientAxios.get(`/users/${idUser}`);
-    const { idCart } = resUser.data.oneUser;
-    const res = await clientAxios.delete(`/cart/${idCart}/${idProd}`,config)
-    if(res.status === 200){
-      Swal.fire({
-        icon: "success",
-        title: "¡Producto eliminado!",
-        showConfirmButton: false,
-        timer: 1500,
       });
     }
-   getProdCart()
-  } catch (error) {
-    console.log(error)
+  };
+  const eliminarProd = async (idProd) => {
+    try {
+      const resUser = await clientAxios.get(`/users/${idUser}`);
+      const { idCart } = resUser.data.oneUser;
+      const res = await clientAxios.delete(`/cart/${idCart}/${idProd}`, config);
+      if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "¡Producto eliminado!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+      getProdCart();
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Al parecer hubo un error!",
+        text: error.response.data.msg,
+      });
+    }
+  };
+  const sumarCant = (id) => {
+    const filtro = products.find((prod) => prod._id === id);
+    if (filtro) {
+      filtro.cantidad++;
+
+      setProducts((prevCarrito) =>
+        prevCarrito.map((cart) =>
+          products._id === id ? { ...cart, ...filtro } : cart
+        )
+      );
+    }
+  };
+  const restarCant = (id) => {
+    const filtro = products.find((prod) => prod._id === id);
+    if (filtro && filtro.cantidad > 1) {
+      filtro.cantidad--;
+
+      setProducts((prevCarrito) =>
+        prevCarrito.map((cart) =>
+          products._id === id ? { ...cart, ...filtro } : cart
+        )
+      );
+    }
+  };
+
+  const arrayMP = () => {
+    // const newProdMP = products.map((prod) => {
+    //   return {
+    //     title: prod.nombre,
+    //     unit_price: prod.precio,
+    //     quantity: prod.cantidad,
+    //     currency_id: "ARS",
+    //   };
+    // });
+    // setProdMP(newProdMP)
+
     Swal.fire({
-      position: "center",
-      icon: "error",
-      title: "Al parecer hubo un error!",
-      text: error.response.data.msg,
-    })
-  }
-}
-const sumarCant = (id) => {
-  const filtro = products.find((prod) => prod._id === id);
-  if (filtro) {
-    filtro.cantidad++;
-
-    setProducts((prevCarrito) =>
-      prevCarrito.map((cart) =>
-        products._id === id ? { ...cart, ...filtro } : cart
-      )
-    );
-  }
-};
-const restarCant = (id) => {
-  const filtro = products.find((prod) => prod._id === id);
-  if (filtro && filtro.cantidad > 1) {
-    filtro.cantidad--;
-
-    setProducts((prevCarrito) =>
-      prevCarrito.map((cart) =>
-        products._id === id ? { ...cart, ...filtro } : cart
-      )
-    );
-  }
-};
-
+      title: "¿Confimar la compra?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await clientAxios.post(
+            "/cart/pay",
+            {
+              items: products,
+            },
+            config
+          );
+          if(res.status === 200) window.open(res.data.resPay.response.init_point, "_blank")
+        } catch (error) {
+          Swal.fire({
+            title: "No se pudo eliminar el producto",
+            text: error.response.data.msg,
+            icon: "error",
+          });
+        }
+      }
+    });
+  };
+  useEffect(() => {
+    console.log(prodMP);
+  }, [prodMP]);
 
   useEffect(() => {
     getProdCart();
@@ -90,7 +132,6 @@ const restarCant = (id) => {
     });
     setPrecioTotalPorProducto(precios);
     setPrecioTotal(total);
-    
   }, [products]);
   return (
     <Container className="my-5">
@@ -113,12 +154,27 @@ const restarCant = (id) => {
                     <td>{prod.nombre}</td>
                     <td>${prod.precio}</td>
                     <td className="d-flex justify-content-center align-items-center">
-                      <button className="botones btn border-2 mx-2" onClick={() => restarCant(prod._id)}><i className="bi bi-dash-lg"></i></button>
+                      <button
+                        className="botones btn border-2 mx-2"
+                        onClick={() => restarCant(prod._id)}
+                      >
+                        <i className="bi bi-dash-lg"></i>
+                      </button>
                       <h6>{prod.cantidad}</h6>
-                      <button className="botones btn border-2 mx-2 " onClick={() => sumarCant(prod._id)}><i className="bi bi-plus-lg"></i></button>
+                      <button
+                        className="botones btn border-2 mx-2 "
+                        onClick={() => sumarCant(prod._id)}
+                      >
+                        <i className="bi bi-plus-lg"></i>
+                      </button>
                     </td>
                     <td className="text-center">
-                      <Button variant="danger" onClick={()=>eliminarProd(prod._id)}><i className="bi bi-trash3-fill" ></i> Eliminar</Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => eliminarProd(prod._id)}
+                      >
+                        <i className="bi bi-trash3-fill"></i> Eliminar
+                      </Button>
                     </td>
                     <td>${precioTotalPorProducto[prod._id]}</td>
                   </tr>
@@ -141,7 +197,7 @@ const restarCant = (id) => {
           <h2>Total a pagar: ${precioTotal}</h2>
           <hr />
           <div className="text-center mt-3">
-            <button className="ms-5 btn botones w-75 fs-5">
+            <button className="ms-5 btn botones w-75 fs-5" onClick={arrayMP}>
               <i className="bi me-2 bi-cash-coin"></i> Pagar
             </button>
           </div>
