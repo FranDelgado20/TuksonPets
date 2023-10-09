@@ -99,10 +99,10 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
             "Hemos visto que has solicitado más información acerca de uno de nuestros planes. Próximamente nos pondremos en contacto contigo, por favor espera pacientemente. ¡Gracias por confiar en nosotros!",
         };
         await emailjs.send(
-          "service_21lpv1c",
-          "template_1s00iid",
+          import.meta.env.VITE_EMAIL_SERVICE_ID,
+          import.meta.env.VITE_EMAIL_TEMPLATE_ID,
           templateParams,
-          "PUL4z4JTxWZ6DviiF"
+          import.meta.env.VITE_EMAIL_PUBLIC_KEY
         );
         navigate("/");
       }
