@@ -4,6 +4,8 @@ import Table from "react-bootstrap/Table";
 import clientAxios, { config } from "../utils/axiosClient";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import emailjs from "emailjs-com";
+
 const CartPage = () => {
   const [products, setProducts] = useState([]);
   const [precioTotalPorProducto, setPrecioTotalPorProducto] = useState([]);
