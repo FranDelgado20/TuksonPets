@@ -7,24 +7,15 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const NavbarComp = () => {
   const navigate = useNavigate();
-  // const [role, setRole] = useState('')
-  // const [token, setToken] = useState('')
+
   const token = JSON.parse(sessionStorage.getItem('token'))
-    const role = JSON.parse(sessionStorage.getItem('role'))
-  // const obtenerDatos = () => {
-  //   setToken(findToken)
-  //   setRole(findRole)
-  // }
-  // useEffect(() => {
-  //   obtenerDatos()
-  // },[JSON.parse(sessionStorage.getItem('role')) || JSON.parse(sessionStorage.getItem('token')) ])
+  const role = JSON.parse(sessionStorage.getItem('role'))
+
   const logOut = () => {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("role");
     sessionStorage.removeItem("idUser");
     navigate("/");
-    // setToken("");
-    // setRole("");
   };
   return (
     <>

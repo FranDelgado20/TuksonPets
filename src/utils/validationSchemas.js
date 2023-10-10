@@ -51,6 +51,14 @@ export const errorTurnSchema = yup.object().shape({
     time: yup.string().required("Campo hora obligatorio"),
     raza: yup.string().required("Campo raza y especie obligatorio")
 })
+export const errorEditTurnSchema = yup.object().shape({
+    namePatient: yup.string().required('Campo nombre del paciente obligatorio'),
+    nameOwner: yup.string().required('Campo nombre del dueño obligatorio'),
+    tel: yup.number().required('Campo número telefónico obligatorio').min(10, "Formáto inválido. El número de teléfono debe tener 10 caracteres"),
+    date: yup.string().required("Campo fecha obligatorio"),
+    time: yup.string().required("Campo hora obligatorio"),
+    raza: yup.string().required("Campo raza y especie obligatorio")
+})
 export const errorPlanSchema = yup.object().shape({
     email: yup.string().email('Formato Email inválido').required('Campo email obligatorio'),
     desc: yup.string().required('Campo descripción obligatorio'),

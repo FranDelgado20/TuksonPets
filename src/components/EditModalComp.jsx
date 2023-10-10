@@ -5,7 +5,6 @@ import { Button } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import { errorProdSchema } from "../utils/validationSchemas";
 import { Formik } from "formik";
-import clientAxios, { config } from "../utils/axiosClient";
 import Swal from "sweetalert2";
 import RegisterComp from "./RegisterComp";
 import TurnsComp from "./TurnsComp";
@@ -24,24 +23,30 @@ const EditModalComp = ({
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const token = JSON.parse(sessionStorage.getItem("token"))
+
   const editProduct = async (values) => {
     try {
-      const res = await clientAxios.put(
-        `/products/${prod._id}`,
-        {
+      const res = await fetch(`${import.meta.env.VITE_URL_LOCAL}/products/${prod._id}`, {
+        method: "PUT",
+        body: JSON.stringify({
           nombre: values.name,
           precio: values.precio,
           descripcion: values.desc,
           categoria: values.cat,
           imagen: values.img,
-        },
-        config
-      );
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+      }
+      })
+      const response = await res.json()
 
-      if (res.status === 200) {
+      if (response.status === 200) {
         Swal.fire({
           icon: "success",
-          title: res.data.msg,
+          title: response.msg,
           timer: 1500,
           showConfirmButton: false,
         });
@@ -52,7 +57,7 @@ const EditModalComp = ({
       Swal.fire({
         icon: "error",
         title: "No se pudo editar el producto",
-        text: error.response.data.msg,
+        text: error
       });
     }
   };

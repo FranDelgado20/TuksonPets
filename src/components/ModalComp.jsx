@@ -15,24 +15,29 @@ const ModalComp = ({ type, getUsers, getProducts, getTurns }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const token = JSON.parse(sessionStorage.getItem("token"))
+
   const createProduct = async (values) => {
     try {
-      const res = await clientAxios.post(
-        "/products",
-        {
+      const res = await fetch(`${import.meta.env.VITE_URL_LOCAL}`, {
+        method: "POST",
+        body: JSON.stringify({
           nombre: values.name,
           precio: values.price,
           categoria: values.cat,
           descripcion: values.desc,
           imagen: values.img,
-        },
-        config
-      );
-
-      if (res.status === 201) {
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+      }
+      })
+      const response = await res.json()
+      if (response.status === 201) {
         Swal.fire({
           icon: "success",
-          title: res.data.msg,
+          title: response.msg,
           timer: 1500,
           showConfirmButton: false,
         });
@@ -43,7 +48,7 @@ const ModalComp = ({ type, getUsers, getProducts, getTurns }) => {
       Swal.fire({
         icon: "error",
         title: "No se pudo crear el producto",
-        text: error.response.data.msg,
+        text: error
       });
     }
   };

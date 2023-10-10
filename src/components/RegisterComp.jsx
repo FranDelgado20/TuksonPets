@@ -15,6 +15,8 @@ import emailjs from "emailjs-com";
 const RegisterComp = ({ type, user, getUsers, handleClose }) => {
   const navigate = useNavigate();
 
+  const token = JSON.parse(sessionStorage.getItem("token"))
+
   const createUser = async (values) => {
     try {
       if (values.pass === values.repeatPass) {
@@ -98,20 +100,24 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
 
   const editUser = async (values) => {
     try {
-      const res = await clientAxios.put(
-        `/users/${user._id}`,
-        {
+      const res = await fetch(`${import.meta.env.VITE_URL_LOCAL}/users/${user._id}`, {
+        method: "PUT",
+        body: JSON.stringify({
           name: values.name,
           phoneNumber: values.tel,
           role: values.role,
-        },
-        config
-      );
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+      }
+      })
+      const response = await res.json()
 
-      if (res.status === 200) {
+      if (response.status === 200) {
         Swal.fire({
           icon: "success",
-          title: res.data.msg,
+          title: response.msg,
           timer: 1500,
           showConfirmButton: false,
         });
@@ -119,11 +125,10 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
         getUsers();
       }
     } catch (error) {
-      console.log(error)
       Swal.fire({
         icon: "error",
         title: "No se pudo editar el usuario",
-        text: error.response.data.msg,
+        text: error
       });
     }
   };

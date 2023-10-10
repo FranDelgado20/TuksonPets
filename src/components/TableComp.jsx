@@ -5,6 +5,8 @@ import clientAxios, { config } from "../utils/axiosClient";
 import EditModalComp from "./EditModalComp";
 
 const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTurns }) => {
+  const token = JSON.parse(sessionStorage.getItem("token"))
+
   const deleteProd = (id) => {
     Swal.fire({
       title: "¿Estás seguro de borrar este producto?",
@@ -17,8 +19,15 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await clientAxios.delete(`/products/${id}`, config);
-          if (res.status === 200) {
+          const res = await fetch(`${import.meta.env.VITE_URL_LOCAL}/products/${id}`, {
+            method: "DELETE",
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          }
+          })
+          const response = await res.json()
+          if (response.status === 200) {
             Swal.fire({
               title: "Producto eliminado correctamente",
               icon: "success",
@@ -30,7 +39,7 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
         } catch (error) {
           Swal.fire({
             title: "No se pudo eliminar el producto",
-            text: error.response.data.msg,
+            text: error,
             icon: "error",
           });
         }
@@ -49,8 +58,15 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await clientAxios.delete(`/users/${id}`, config);
-          if (res.status === 200) {
+          const res = await fetch(`${import.meta.env.VITE_URL_LOCAL}/users/${id}`, {
+            method: "DELETE",
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          }
+          })
+          const response = await res.json()
+          if (response.status === 200) {
             Swal.fire({
               title: "Usuario eliminado correctamente",
               icon: "success",
@@ -62,7 +78,7 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
         } catch (error) {
           Swal.fire({
             title: "No se pudo eliminar el usuario",
-            text: error.response.data.msg,
+            text: error,
             icon: "error",
           });
         }
@@ -81,8 +97,15 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await clientAxios.delete(`/turns/${id}`, config);
-          if (res.status === 200) {
+          const res = await fetch(`${import.meta.env.VITE_URL_LOCAL}/turns/${id}`, {
+            method: "DELETE",
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          }
+          })
+          const response = await res.json()
+          if (response.status === 200) {
             Swal.fire({
               title: "Turno eliminado correctamente",
               icon: "success",
@@ -93,8 +116,8 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
           }
         } catch (error) {
           Swal.fire({
-            title: "No se pudo eliminar el TURNO",
-            text: error.response.data.msg,
+            title: "No se pudo eliminar el turno",
+            text: error,
             icon: "error",
           });
         }

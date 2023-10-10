@@ -1,43 +1,73 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
-import clientAxios, { config } from "../utils/axiosClient";
+import clientAxios from "../utils/axiosClient";
 import Swal from "sweetalert2";
 
 const OneProd = () => {
   const params = useParams();
   const [prod, setProd] = useState({});
   const [cartProds, setCartProds] = useState([]);
-
   const idUser = JSON.parse(sessionStorage.getItem("idUser"));
   const token = JSON.parse(sessionStorage.getItem("token"));
 
   const getCart = async () => {
     try {
-      const resUser = await clientAxios.get(`/users/${idUser}`, config);
-      const { idCart } = resUser.data.oneUser;
-      const res = await clientAxios.get(`/cart/${idCart}`, config);
-      setCartProds(res.data.cart.productos);
+      const resUser = await fetch(
+        `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const response = await resUser.json();
+      const { idCart } = response.oneUser;
+
+      const resCart = await fetch(
+        `${import.meta.env.VITE_URL_LOCAL}/cart/${idCart}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const responseCart = await resCart.json();
+
+      setCartProds(responseCart.cart.productos);
     } catch (error) {
-      console.log(error);
       Swal.fire({
         position: "center",
         icon: "error",
         title: "Al parecer hubo un error!",
-        text: error.response.data.msg,
+        text: error,
       });
     }
   };
   const getOneProd = async () => {
-    const res = await clientAxios.get(`/products/${params.id}`, config);
+    const res = await clientAxios.get(`/products/${params.id}`);
 
     setProd(res.data.oneProduct);
   };
 
   const addCart = async (idProd) => {
     try {
-      const resUser = await clientAxios.get(`/users/${idUser}`, config);
-      const { idCart } = resUser.data.oneUser;
+      const resUser = await fetch(
+        `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const response = await resUser.json();
+      const { idCart } = response.oneUser;
 
       const prodExistente = cartProds.find((prod) => prod._id === idProd);
       if (prodExistente) {
@@ -48,12 +78,19 @@ const OneProd = () => {
           text: "El producto ya existe en el carrito",
         });
       }
-      const resCart = await clientAxios.post(
-        `/cart/${idCart}/${idProd}`,
-        {},
-        config
+      const resCart = await fetch(
+        `${import.meta.env.VITE_URL_LOCAL}/cart/${idCart}/${idProd}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      if (resCart.status === 200) {
+      const responseCart = await resCart.json();
+
+      if (responseCart.status === 200) {
         Swal.fire({
           icon: "success",
           title: "¡Producto agregado al carrito!",
@@ -66,7 +103,7 @@ const OneProd = () => {
         position: "center",
         icon: "error",
         title: "Al parecer hubo un error!",
-        text: error.response.data.msg,
+        text: error,
       });
     }
   };
