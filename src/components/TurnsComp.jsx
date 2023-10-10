@@ -107,7 +107,6 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         navigate("/");
       }
     } catch (error) {
-      console.log(error)
       Swal.fire({
         icon: "error",
         title: "Parece que hubo un error",
@@ -115,6 +114,35 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
       });
     }
   };
+  const editTurn = async(values) => {
+    try {
+      const res = await clientAxios.put(`/turns/${turn._id}`,{
+        nombrePaciente: values.namePatient,
+          desc: values.desc,
+          nombreDueno: values.nameOwner,
+          tel: values.tel,
+          vet: values.vet,
+          fecha: values.date,
+          hora: values.time,
+          raza: values.raza,
+      } ,config)
+       if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: res.data.msg,
+          showConfirmButton: false,
+          timer: 1500,
+        })}
+        getTurns()
+        handleClose()
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Parece que hubo un error",
+        text: error.response.data.msg,
+      });
+    }
+  }
   return (
     <>
       {type === "admin" ? (
