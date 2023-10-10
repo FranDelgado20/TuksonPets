@@ -11,30 +11,72 @@ const CartPage = () => {
   const [precioTotalPorProducto, setPrecioTotalPorProducto] = useState([]);
   const [precioTotal, setPrecioTotal] = useState(0);
   const idUser = JSON.parse(sessionStorage.getItem("idUser"));
-  const [emailUser, setEmailUser] = useState('')
+  const [emailUser, setEmailUser] = useState("");
+  const token = JSON.parse(sessionStorage.getItem("token"))
+
   const getProdCart = async () => {
     try {
-      const resUser = await clientAxios.get(`/users/${idUser}`, config);
-      const { idCart, email } = resUser.data.oneUser;
-      const res = await clientAxios.get(`/cart/${idCart}`, config);
-      setProducts(res.data.cart.productos);
-      setEmailUser(email)
+      const resUser = await fetch(
+        `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const response = await resUser.json();
+      const { idCart, email } = response.oneUser;
+      const resCart = await fetch(
+        `${import.meta.env.VITE_URL_LOCAL}/cart/${idCart}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const responseCart = await resCart.json();
+      setProducts(responseCart.cart.productos);
+      setEmailUser(email);
     } catch (error) {
       console.log(error);
       Swal.fire({
         position: "center",
         icon: "error",
         title: "Al parecer hubo un error!",
-        text: error.response.data.msg,
+        text: error,
       });
     }
   };
   const eliminarProd = async (idProd) => {
     try {
-      const resUser = await clientAxios.get(`/users/${idUser}`);
-      const { idCart } = resUser.data.oneUser;
-      const res = await clientAxios.delete(`/cart/${idCart}/${idProd}`, config);
-      if (res.status === 200) {
+      const resUser = await fetch(
+        `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const response = await resUser.json();
+      const { idCart } = response.oneUser;
+      const resDeleteProd = await fetch(
+        `${import.meta.env.VITE_URL_LOCAL}/cart/${idCart}/${idProd}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const responseDelete = resDeleteProd.json();
+      if (responseDelete.status === 200) {
         Swal.fire({
           icon: "success",
           title: "¡Producto eliminado!",
@@ -44,12 +86,11 @@ const CartPage = () => {
       }
       getProdCart();
     } catch (error) {
-      console.log(error);
       Swal.fire({
         position: "center",
         icon: "error",
         title: "Al parecer hubo un error!",
-        text: error.response.data.msg,
+        text: error,
       });
     }
   };
@@ -97,8 +138,8 @@ const CartPage = () => {
             },
             config
           );
-          if(res.status === 200 ){
-            window.open(res.data.resPay.response.init_point, "_blank")
+          if (res.status === 200) {
+            window.open(res.data.resPay.response.init_point, "_blank");
             const templateParams = {
               to_email: emailUser,
               message:
@@ -110,8 +151,7 @@ const CartPage = () => {
               templateParams,
               import.meta.env.VITE_EMAIL_PUBLIC_KEY
             );
-          } 
-
+          }
         } catch (error) {
           Swal.fire({
             title: "No se pudo eliminar el producto",
