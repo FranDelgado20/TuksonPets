@@ -119,6 +119,7 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
         getUsers();
       }
     } catch (error) {
+      console.log(error)
       Swal.fire({
         icon: "error",
         title: "No se pudo editar el usuario",
