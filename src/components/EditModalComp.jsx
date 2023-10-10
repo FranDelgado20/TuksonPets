@@ -87,9 +87,7 @@ const EditModalComp = ({
                     errors,
                     touched,
                     handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    isSubmitting,
+                    handleSubmit
                   }) => (
                     <Form>
                       <Form.Group className="mb-3" controlId="nameId">
