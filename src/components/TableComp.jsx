@@ -1,7 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
-import clientAxios, { config } from "../utils/axiosClient";
 import EditModalComp from "./EditModalComp";
 
 const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTurns }) => {

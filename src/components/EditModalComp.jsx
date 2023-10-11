@@ -248,7 +248,7 @@ const EditModalComp = ({
         </>
       ) : type === "turns" ? (
         <>
-          <Button variant="info" onClick={handleShow} className="my-2 mx-2">
+          <Button variant="info" onClick={handleShow}>
             <i className="bi bi-pencil-fill"></i> Editar
           </Button>
 
