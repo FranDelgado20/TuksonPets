@@ -15,6 +15,7 @@ import emailjs from "emailjs-com";
 
 const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
   const [user, setUser] = useState({});
+  
 
   const navigate = useNavigate();
   const idUser = JSON.parse(sessionStorage.getItem("idUser"));
@@ -65,6 +66,13 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
           title: responseTurn.msg,
           showConfirmButton: false,
           timer: 1500,
+        });
+      }else{
+        Swal.fire({
+          icon: "error",
+          title: responseTurn.msg,
+          showConfirmButton: false,
+          timer: 2000,
         });
       }
     } catch (error) {
@@ -178,11 +186,17 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
           showConfirmButton: false,
           timer: 1500,
         });
+        getTurns();
+        handleClose();
+      }else{
+        Swal.fire({
+          icon: "error",
+          title: responseEdit.msg,
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
-      getTurns();
-      handleClose();
     } catch (error) {
-      console.log(error);
       Swal.fire({
         icon: "error",
         title: "Parece que hubo un error",

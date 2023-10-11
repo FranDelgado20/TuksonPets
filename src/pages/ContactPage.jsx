@@ -8,13 +8,17 @@ import clientAxios, { config } from "../utils/axiosClient";
 import Swal from "sweetalert2";
 
 const ContactPage = () => {
-  const enviarComentario = async(values) => {
-    try{
-      const res = await clientAxios.post('/comments',{
-        email: values.email,
-        nombreApellido: values.name,
-        mensaje: values.comment
-      },config)
+  const enviarComentario = async (values) => {
+    try {
+      const res = await clientAxios.post(
+        "/comments",
+        {
+          email: values.email,
+          nombreApellido: values.name,
+          mensaje: values.comment,
+        },
+        config
+      );
       if (res.status === 201) {
         Swal.fire({
           icon: "success",
@@ -22,16 +26,16 @@ const ContactPage = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-    }}catch(error){
-      console.log(error)
+      }
+    } catch (error) {
       Swal.fire({
         position: "center",
         icon: "error",
         title: "Al parecer hubo un error!",
         text: error.response.data.msg,
-      })
+      });
     }
-  }
+  };
   return (
     <Container className="my-4">
       <div className="row">
@@ -47,13 +51,7 @@ const ContactPage = () => {
             validationSchema={errorContactSchema}
             onSubmit={(values) => enviarComentario(values)}
           >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleSubmit
-            }) => (
+            {({ values, errors, touched, handleChange, handleSubmit }) => (
               <Form className="bg-info-subtle p-3  rounded-3 ">
                 <Form.Group className="mb-3" controlId="emailId">
                   <Form.Label>Correo electrónico</Form.Label>
@@ -115,11 +113,14 @@ const ContactPage = () => {
                   </small>
                 </Form.Group>
                 <div className="text-end">
-                <button className="btn botonContact" type="submit" onClick={handleSubmit}>
-                <i className="bi bi-send-check me-1"></i>
-                  Enviar comentarios
-                </button>
-
+                  <button
+                    className="btn botonContact"
+                    type="submit"
+                    onClick={handleSubmit}
+                  >
+                    <i className="bi bi-send-check me-1"></i>
+                    Enviar comentarios
+                  </button>
                 </div>
               </Form>
             )}
