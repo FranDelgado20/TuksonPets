@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 import EditModalComp from "./EditModalComp";
 
 const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTurns }) => {
   const token = JSON.parse(sessionStorage.getItem("token"))
-
+  const [idCartUser, setIdCartUser] = useState('')
   const deleteProd = (id) => {
     Swal.fire({
       title: "¿Estás seguro de borrar este producto?",
@@ -57,15 +57,24 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(`${import.meta.env.VITE_URL_LOCAL}/users/${id}`, {
+          const resUser = await fetch(`${import.meta.env.VITE_URL_LOCAL}/users/${id}`, {
             method: "DELETE",
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`
           }
           })
-          const response = await res.json()
-          if (response.status === 200) {
+          const responseUser = await resUser.json()
+          const {idCart} = responseUser.deletedUser
+          const resCart = await fetch(`${import.meta.env.VITE_URL_LOCAL}/cart/${idCart}`, {
+            method: "DELETE",
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          }
+          })
+          const responseCart = await resCart.json()
+          if (responseUser.status === 200 && responseCart.status === 200) {
             Swal.fire({
               title: "Usuario eliminado correctamente",
               icon: "success",
