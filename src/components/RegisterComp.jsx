@@ -100,7 +100,7 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
 
   const editUser = async (values) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_URL_LOCAL}/users/${user._id}`, {
+      const res = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/users/${user._id}`, {
         method: "PUT",
         body: JSON.stringify({
           name: values.name,

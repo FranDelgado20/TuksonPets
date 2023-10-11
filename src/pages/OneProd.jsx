@@ -14,7 +14,7 @@ const OneProd = () => {
   const getCart = async () => {
     try {
       const resUser = await fetch(
-        `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+        `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
         {
           method: "GET",
           headers: {
@@ -27,7 +27,7 @@ const OneProd = () => {
       const { idCart } = response.oneUser;
 
       const resCart = await fetch(
-        `${import.meta.env.VITE_URL_LOCAL}/cart/${idCart}`,
+        `${import.meta.env.VITE_URL_DEPLOY}/cart/${idCart}`,
         {
           method: "GET",
           headers: {
@@ -57,7 +57,7 @@ const OneProd = () => {
   const addCart = async (idProd) => {
     try {
       const resUser = await fetch(
-        `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+        `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
         {
           method: "GET",
           headers: {
@@ -79,7 +79,7 @@ const OneProd = () => {
         });
       }
       const resCart = await fetch(
-        `${import.meta.env.VITE_URL_LOCAL}/cart/${idCart}/${idProd}`,
+        `${import.meta.env.VITE_URL_DEPLOY}/cart/${idCart}/${idProd}`,
         {
           method: "POST",
           headers: {

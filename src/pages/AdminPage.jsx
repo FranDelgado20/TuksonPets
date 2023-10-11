@@ -13,7 +13,7 @@ const AdminPage = () => {
   const token = JSON.parse(sessionStorage.getItem("token"))
 
   const getTurns = async () => {
-    const resTurns = await fetch(`${import.meta.env.VITE_URL_LOCAL}/turns`, {
+    const resTurns = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/turns`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ const AdminPage = () => {
   };
 
   const getProducts = async () => {
-    const resProducts = await fetch(`${import.meta.env.VITE_URL_LOCAL}/products/all`,{
+    const resProducts = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/products/all`,{
       method:'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ const AdminPage = () => {
   };
 
   const getUsers = async () => {
-    const resUsers = await fetch(`${import.meta.env.VITE_URL_LOCAL}/users`, {
+    const resUsers = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/users`, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json',
