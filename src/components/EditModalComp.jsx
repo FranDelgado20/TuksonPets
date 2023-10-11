@@ -27,7 +27,7 @@ const EditModalComp = ({
 
   const editProduct = async (values) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_URL_LOCAL}/products/${prod._id}`, {
+      const res = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/products/${prod._id}`, {
         method: "PUT",
         body: JSON.stringify({
           nombre: values.name,

@@ -24,7 +24,7 @@ const CartPage = () => {
   useEffect(() => {
     const getUser = async () => {
       const resUser = await fetch(
-        `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+        `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
         {
           method: "GET",
           headers: {
@@ -83,7 +83,7 @@ const CartPage = () => {
   const getProdCart = async () => {
     try {
       const resUser = await fetch(
-        `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+        `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
         {
           method: "GET",
           headers: {
@@ -96,7 +96,7 @@ const CartPage = () => {
       const { idCart } = response.oneUser;
 
       const resCart = await fetch(
-        `${import.meta.env.VITE_URL_LOCAL}/cart/${idCart}`,
+        `${import.meta.env.VITE_URL_DEPLOY}/cart/${idCart}`,
         {
           method: "GET",
           headers: {
@@ -120,7 +120,7 @@ const CartPage = () => {
   const getTurns = async () => {
     try {
       const resUser = await fetch(
-        `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+        `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
         {
           method: "GET",
           headers: {
@@ -132,7 +132,7 @@ const CartPage = () => {
       const responseUser = await resUser.json();
       const { name } = responseUser;
 
-      const resTurn = await fetch(`${import.meta.env.VITE_URL_LOCAL}/turns`, {
+      const resTurn = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/turns`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -164,7 +164,7 @@ const CartPage = () => {
       if (result.isConfirmed) {
     try {
       const resUser = await fetch(
-        `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+        `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
         {
           method: "GET",
           headers: {
@@ -177,7 +177,7 @@ const CartPage = () => {
       const { idCart } = response.oneUser;
 
       const resDeleteProd = await fetch(
-        `${import.meta.env.VITE_URL_LOCAL}/cart/${idCart}/${idProd}`,
+        `${import.meta.env.VITE_URL_DEPLOY}/cart/${idCart}/${idProd}`,
         {
           method: "DELETE",
           headers: {
@@ -245,7 +245,7 @@ const CartPage = () => {
       if (result.isConfirmed) {
         try {
           const resUser = await fetch(
-            `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+            `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
             {
               method: "GET",
               headers: {
@@ -306,7 +306,7 @@ const CartPage = () => {
       if (result.isConfirmed) {
         try {
           const res = await fetch(
-            `${import.meta.env.VITE_URL_LOCAL}/turns/${id}`,
+            `${import.meta.env.VITE_URL_DEPLOY}/turns/${id}`,
             {
               method: "DELETE",
               headers: {

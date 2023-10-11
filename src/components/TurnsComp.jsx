@@ -23,7 +23,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
 
   const getUser = async () => {
     const resUser = await fetch(
-      `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+      `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
       {
         method: "GET",
         headers: {
@@ -41,7 +41,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
   }, []);
   const createTurn = async (values) => {
     try {
-      const resTurn = await fetch(`${import.meta.env.VITE_URL_LOCAL}/turns`, {
+      const resTurn = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/turns`, {
         method: "POST",
         body: JSON.stringify({
           nombrePaciente: values.namePatient,
@@ -86,7 +86,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
 
   const createTurnOnAdmin = async (values) => {
     try {
-      const resTurn = await fetch(`${import.meta.env.VITE_URL_LOCAL}/turns`, {
+      const resTurn = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/turns`, {
         method: "POST",
         body: JSON.stringify({
           nombrePaciente: values.namePatient,
@@ -161,7 +161,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
   const editTurn = async (values) => {
     try {
       const resEditTurn = await fetch(
-        `${import.meta.env.VITE_URL_LOCAL}/turns/${turn._id}`,
+        `${import.meta.env.VITE_URL_DEPLOY}/turns/${turn._id}`,
         {
           method: "PUT",
           body: JSON.stringify({

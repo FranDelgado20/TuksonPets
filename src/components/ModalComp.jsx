@@ -19,7 +19,7 @@ const ModalComp = ({ type, getUsers, getProducts, getTurns }) => {
 
   const createProduct = async (values) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_URL_LOCAL}`, {
+      const res = await fetch(`${import.meta.env.VITE_URL_DEPLOY}`, {
         method: "POST",
         body: JSON.stringify({
           nombre: values.name,
