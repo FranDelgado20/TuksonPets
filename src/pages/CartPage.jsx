@@ -57,7 +57,6 @@ const CartPage = () => {
             });
           })
           .catch((error) => {
-            console.log(error);
             Swal.fire({
               icon: "error",
               title: "No se pudo enviar el correo",
@@ -245,10 +244,23 @@ const CartPage = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
+          const resUser = await fetch(
+            `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          const response = await resUser.json();
+          const { idCart } = response.oneUser;
           const res = await clientAxios.post(
             "/cart/pay",
             {
               items: products,
+              id: idCart
             },
             config
           );
