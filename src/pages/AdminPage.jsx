@@ -2,27 +2,50 @@ import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import ModalComp from "../components/ModalComp";
-import clientAxios, { config } from "../utils/axiosClient";
+
 import TableComp from "../components/TableComp";
 
 const AdminPage = () => {
   const [products, setProducts] = useState([]);
   const [users, setUsers] = useState([]);
   const [turns, setTurns] = useState([]);
+  
+  const token = JSON.parse(sessionStorage.getItem("token"))
 
   const getTurns = async () => {
-    const resTurns = await clientAxios.get("/turns", config);
-    setTurns(resTurns.data.allTurns);
+    const resTurns = await fetch(`${import.meta.env.VITE_URL_LOCAL}/turns`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    }
+    })
+    const responseTurns = await resTurns.json()
+    setTurns(responseTurns.allTurns)
   };
 
   const getProducts = async () => {
-    const resProducts = await clientAxios.get("/products/all");
-    setProducts(resProducts.data.allProducts);
+    const resProducts = await fetch(`${import.meta.env.VITE_URL_LOCAL}/products/all`,{
+      method:'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    }
+    })
+    const responseProducts = await resProducts.json()
+    setProducts(responseProducts.allProducts)
   };
 
   const getUsers = async () => {
-    const resUsers = await clientAxios.get("/users", config);
-    setUsers(resUsers.data.allUsers);
+    const resUsers = await fetch(`${import.meta.env.VITE_URL_LOCAL}/users`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    }
+    })
+    const responseUsers = await resUsers.json()
+    setUsers(responseUsers.allUsers)
   };
 
   useEffect(() => {
