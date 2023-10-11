@@ -85,7 +85,7 @@ const NavbarComp = () => {
                 <NavLink to={"/products"} className={"nav-link"}>
                   Productos
                 </NavLink>
-                <NavLink to={"/turns"} className={"nav-link"}>
+                <NavLink to={"/login"} className={"nav-link"}>
                   Solicitar turnos
                 </NavLink>
               </Nav>

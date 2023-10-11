@@ -1,17 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { errorEditTurnSchema, errorPlanSchema, errorTurnSchema } from "../utils/validationSchemas";
+import {
+  errorEditTurnSchema,
+  errorPlanSchema,
+  errorTurnOnAdminSchema,
+  errorTurnSchema,
+} from "../utils/validationSchemas";
 import clientAxios from "../utils/axiosClient";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import emailjs from "emailjs-com";
 
 const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
+  const [user, setUser] = useState({});
+
   const navigate = useNavigate();
+  const idUser = JSON.parse(sessionStorage.getItem("idUser"));
   const token = JSON.parse(sessionStorage.getItem("token"));
 
+  const getUser = async () => {
+    const resUser = await fetch(
+      `${import.meta.env.VITE_URL_LOCAL}/users/${idUser}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const responseUser = await resUser.json();
+    setUser(responseUser.oneUser);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
   const createTurn = async (values) => {
     try {
       const resTurn = await fetch(`${import.meta.env.VITE_URL_LOCAL}/turns`, {
@@ -19,8 +45,8 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         body: JSON.stringify({
           nombrePaciente: values.namePatient,
           desc: values.desc,
-          nombreDueno: values.nameOwner,
-          tel: values.tel,
+          nombreDueno: user.name,
+          tel: user.phoneNumber,
           vet: values.vet,
           fecha: values.date,
           hora: values.time,
@@ -126,20 +152,18 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
   };
   const editTurn = async (values) => {
     try {
-      console.log(values);
       const resEditTurn = await fetch(
         `${import.meta.env.VITE_URL_LOCAL}/turns/${turn._id}`,
         {
           method: "PUT",
           body: JSON.stringify({
             nombrePaciente: values.namePatient,
-            nombreDueno: values.nameOwner,
-            tel: values.tel,
+            nombreDueno: user.name,
+            tel: user.phoneNumber,
             fecha: values.date,
             hora: values.time,
             raza: values.raza,
           }),
-
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -147,7 +171,6 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         }
       );
       const responseEdit = await resEditTurn.json();
-      console.log(responseEdit);
       if (responseEdit.status === 200) {
         Swal.fire({
           icon: "success",
@@ -181,7 +204,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
             vet: "",
             raza: "",
           }}
-          validationSchema={errorTurnSchema}
+          validationSchema={errorTurnOnAdminSchema}
           onSubmit={(values) => createTurnOnAdmin(values)}
         >
           {({ values, errors, touched, handleChange, handleSubmit }) => (
@@ -498,8 +521,6 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         <Formik
           initialValues={{
             namePatient: turn.nombrePaciente,
-            nameOwner: turn.nombreDueno,
-            tel: turn.tel,
             date: turn.fecha,
             time: turn.hora,
             raza: turn.raza,
@@ -557,20 +578,8 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                   <InputGroup.Text id="groupNameOwner">
                     <i className="bi bi-person-circle"></i>
                   </InputGroup.Text>
-                  <Form.Control
-                    placeholder="Ej: Juan González"
-                    type="text"
-                    name="nameOwner"
-                    value={values.nameOwner}
-                    onChange={handleChange}
-                    className={
-                      errors.nameOwner && touched.nameOwner && "is-invalid"
-                    }
-                  />
+                  <Form.Control defaultValue={user.name} disabled />
                 </InputGroup>
-                <small className="text-danger">
-                  {errors.nameOwner && touched.nameOwner && errors.nameOwner}
-                </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="telId">
                 <Form.Label>Número de teléfono</Form.Label>
@@ -578,18 +587,8 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                   <InputGroup.Text id="groupTel">
                     <i className="bi bi-telephone-fill"></i>
                   </InputGroup.Text>
-                  <Form.Control
-                    placeholder="Formato: 000-0000000"
-                    type="number"
-                    name="tel"
-                    value={values.tel}
-                    onChange={handleChange}
-                    className={errors.tel && touched.tel && "is-invalid"}
-                  />
+                  <Form.Control defaultValue={user.phoneNumber} disabled />
                 </InputGroup>
-                <small className="text-danger">
-                  {errors.tel && touched.tel && errors.tel}
-                </small>
               </Form.Group>
 
               <div className="d-flex justify-content-around turnForm">
@@ -665,8 +664,6 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
           initialValues={{
             desc: "",
             namePatient: "",
-            nameOwner: "",
-            tel: "",
             date: "",
             time: "",
             vet: "",
@@ -727,20 +724,8 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                   <InputGroup.Text id="groupNameOwner">
                     <i className="bi bi-person-circle"></i>
                   </InputGroup.Text>
-                  <Form.Control
-                    placeholder="Ej: Juan González"
-                    type="text"
-                    name="nameOwner"
-                    value={values.nameOwner}
-                    onChange={handleChange}
-                    className={
-                      errors.nameOwner && touched.nameOwner && "is-invalid"
-                    }
-                  />
+                  <Form.Control defaultValue={user.name} disabled />
                 </InputGroup>
-                <small className="text-danger">
-                  {errors.nameOwner && touched.nameOwner && errors.nameOwner}
-                </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="telId">
                 <Form.Label>Número de teléfono</Form.Label>
@@ -748,18 +733,8 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                   <InputGroup.Text id="groupTel">
                     <i className="bi bi-telephone-fill"></i>
                   </InputGroup.Text>
-                  <Form.Control
-                    placeholder="Formato: 000-0000000"
-                    type="number"
-                    name="tel"
-                    value={values.tel}
-                    onChange={handleChange}
-                    className={errors.tel && touched.tel && "is-invalid"}
-                  />
+                  <Form.Control defaultValue={user.phoneNumber} disabled />
                 </InputGroup>
-                <small className="text-danger">
-                  {errors.tel && touched.tel && errors.tel}
-                </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="descId">
                 <Form.Label>Detalles de la cita</Form.Label>
