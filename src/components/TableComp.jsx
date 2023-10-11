@@ -18,7 +18,7 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(`${import.meta.env.VITE_URL_LOCAL}/products/${id}`, {
+          const res = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/products/${id}`, {
             method: "DELETE",
             headers: {
               'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const resUser = await fetch(`${import.meta.env.VITE_URL_LOCAL}/users/${id}`, {
+          const resUser = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/users/${id}`, {
             method: "DELETE",
             headers: {
               'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
           })
           const responseUser = await resUser.json()
           const {idCart} = responseUser.deletedUser
-          const resCart = await fetch(`${import.meta.env.VITE_URL_LOCAL}/cart/${idCart}`, {
+          const resCart = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/cart/${idCart}`, {
             method: "DELETE",
             headers: {
               'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(`${import.meta.env.VITE_URL_LOCAL}/turns/${id}`, {
+          const res = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/turns/${id}`, {
             method: "DELETE",
             headers: {
               'Content-Type': 'application/json',
