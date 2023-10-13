@@ -129,7 +129,7 @@ const CardComp = ({ type, products, plan, pros, comment }) => {
         : type === "prodsPlatos"
         ? products.map(
             (product) =>
-              product.categoria === "Platos" && (
+              product.categoria === "Platos de comida" && (
                 <Col lg={3} md={6} sm={12} key={product._id} className="my-2">
                   <Card className="bg-info-subtle sombra">
                     <Card.Img variant="top" src={product.imagen} alt="Imagen" />
