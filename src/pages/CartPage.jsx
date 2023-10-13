@@ -16,7 +16,6 @@ const CartPage = () => {
   const [email, setEmail] = useState("");
   const idUser = JSON.parse(sessionStorage.getItem("idUser"));
   const token = JSON.parse(sessionStorage.getItem("token"));
-
   const locationUse = useLocation();
   const searchParams = new URLSearchParams(locationUse.search);
   const status = searchParams.get("status");
@@ -119,19 +118,6 @@ const CartPage = () => {
 
   const getTurns = async () => {
     try {
-      // const resUser = await fetch(
-      //   `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
-      //   {
-      //     method: "GET",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   }
-      // );
-      // const responseUser = await resUser.json();
-      // const { email } = responseUser;
-
       const resTurn = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/turns`, {
         method: "GET",
         headers: {

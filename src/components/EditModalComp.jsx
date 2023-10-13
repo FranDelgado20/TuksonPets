@@ -31,7 +31,7 @@ const EditModalComp = ({
         method: "PUT",
         body: JSON.stringify({
           nombre: values.name,
-          precio: values.precio,
+          precio: values.price,
           descripcion: values.desc,
           categoria: values.cat,
           imagen: values.img,
