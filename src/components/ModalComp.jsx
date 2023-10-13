@@ -19,7 +19,7 @@ const ModalComp = ({ type, getUsers, getProducts, getTurns }) => {
 
   const createProduct = async (values) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_URL_DEPLOY}`, {
+      const res = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/products`, {
         method: "POST",
         body: JSON.stringify({
           nombre: values.name,
@@ -45,6 +45,7 @@ const ModalComp = ({ type, getUsers, getProducts, getTurns }) => {
         getProducts();
       }
     } catch (error) {
+      console.log(error)
       Swal.fire({
         icon: "error",
         title: "No se pudo crear el producto",
