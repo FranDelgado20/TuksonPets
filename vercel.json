@@ -1,9 +1,0 @@
-{
-    "routes": [
-      {
-        "src": "/api/(:any*)",
-        "dest": "https://tukson-pets-back.vercel.app/api/:1"
-      }
-    ]
-  }
-  

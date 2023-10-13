@@ -11,6 +11,12 @@ const OneProd = () => {
   const idUser = JSON.parse(sessionStorage.getItem("idUser"));
   const token = JSON.parse(sessionStorage.getItem("token"));
 
+  const getOneProd = async () => {
+    const res = await clientAxios.get(`/products/${params.id}`);
+
+    setProd(res.data.oneProduct);
+  };
+
   const getCart = async () => {
     try {
       const resUser = await fetch(
@@ -48,11 +54,6 @@ const OneProd = () => {
       });
     }
   };
-  const getOneProd = async () => {
-    const res = await clientAxios.get(`/products/${params.id}`);
-
-    setProd(res.data.oneProduct);
-  };
 
   const addCart = async (idProd) => {
     try {
@@ -74,8 +75,10 @@ const OneProd = () => {
         return Swal.fire({
           position: "center",
           icon: "error",
-          title: "Al parecer hubo un error!",
+          title: "¡Al parecer hubo un error!",
           text: "El producto ya existe en el carrito",
+          showConfirmButton: false,
+          timer: 2000,
         });
       }
       const resCart = await fetch(
@@ -98,11 +101,21 @@ const OneProd = () => {
           timer: 1500,
         });
       }
+      else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "¡Al parecer hubo un error!",
+          text: responseCart.msg,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
     } catch (error) {
       Swal.fire({
         position: "center",
         icon: "error",
-        title: "Al parecer hubo un error!",
+        title: "¡Al parecer hubo un error!",
         text: error,
       });
     }

@@ -15,7 +15,6 @@ import emailjs from "emailjs-com";
 
 const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
   const [user, setUser] = useState({});
-  
 
   const navigate = useNavigate();
   const idUser = JSON.parse(sessionStorage.getItem("idUser"));
@@ -39,11 +38,13 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
   useEffect(() => {
     getUser();
   }, []);
+
   const createTurn = async (values) => {
     try {
       const resTurn = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/turns`, {
         method: "POST",
         body: JSON.stringify({
+          email: user.email,
           nombrePaciente: values.namePatient,
           desc: values.desc,
           nombreDueno: user.name,
@@ -59,7 +60,6 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         },
       });
       const responseTurn = await resTurn.json();
-
       if (responseTurn.status === 201) {
         Swal.fire({
           icon: "success",
@@ -67,7 +67,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
           showConfirmButton: false,
           timer: 1500,
         });
-      }else{
+      } else {
         Swal.fire({
           icon: "error",
           title: responseTurn.msg,
@@ -76,6 +76,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         });
       }
     } catch (error) {
+      console.log(error)
       Swal.fire({
         icon: "error",
         title: "Parece que hubo un error",
@@ -89,6 +90,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
       const resTurn = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/turns`, {
         method: "POST",
         body: JSON.stringify({
+          email: values.email,
           nombrePaciente: values.namePatient,
           desc: values.desc,
           nombreDueno: values.nameOwner,
@@ -166,10 +168,6 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
           method: "PUT",
           body: JSON.stringify({
             nombrePaciente: values.namePatient,
-            nombreDueno: user.name,
-            tel: user.phoneNumber,
-            fecha: values.date,
-            hora: values.time,
             raza: values.raza,
           }),
           headers: {
@@ -188,7 +186,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         });
         getTurns();
         handleClose();
-      }else{
+      } else {
         Swal.fire({
           icon: "error",
           title: responseEdit.msg,
@@ -210,6 +208,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         <Formik
           initialValues={{
             desc: "",
+            email: "",
             namePatient: "",
             nameOwner: "",
             tel: "",
@@ -284,6 +283,25 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                 </InputGroup>
                 <small className="text-danger">
                   {errors.nameOwner && touched.nameOwner && errors.nameOwner}
+                </small>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="emailId">
+                <Form.Label>Email del dueño</Form.Label>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text id="groupEmail">
+                    <i className="bi bi-envelope-fill"></i>
+                  </InputGroup.Text>
+                  <Form.Control
+                    placeholder="name@example.com"
+                    type="text"
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    className={errors.email && touched.email && "is-invalid"}
+                  />
+                </InputGroup>
+                <small className="text-danger">
+                  {errors.email && touched.email && errors.email}
                 </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="telId">
@@ -535,8 +553,6 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         <Formik
           initialValues={{
             namePatient: turn.nombrePaciente,
-            date: turn.fecha,
-            time: turn.hora,
             raza: turn.raza,
           }}
           validationSchema={errorEditTurnSchema}
@@ -612,17 +628,8 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                     <InputGroup.Text id="groupDate">
                       <i className="bi bi-calendar"></i>
                     </InputGroup.Text>
-                    <Form.Control
-                      type="date"
-                      name="date"
-                      value={values.date}
-                      onChange={handleChange}
-                      className={errors.date && touched.date && "is-invalid"}
-                    />
+                    <Form.Control defaultValue={turn.fecha} disabled />
                   </InputGroup>
-                  <small className="text-danger">
-                    {errors.date && touched.date && errors.date}
-                  </small>
                 </Form.Group>
                 <Form.Group className="mb-3 ms-1" controlId="timeId">
                   <Form.Label>Hora</Form.Label>
@@ -630,34 +637,8 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                     <InputGroup.Text id="groupTime">
                       <i className="bi bi-clock"></i>
                     </InputGroup.Text>
-                    <Form.Select
-                      name="time"
-                      value={values.time}
-                      className={errors.time && touched.time && "is-invalid"}
-                      onChange={handleChange}
-                    >
-                      <option>Horario no especificado</option>
-                      <option value="08:00">08:00</option>
-                      <option value="08:30">08:30</option>
-                      <option value="09:00">09:00</option>
-                      <option value="09:30">09:30</option>
-                      <option value="10:00">10:00</option>
-                      <option value="10:30">10:30</option>
-                      <option value="11:00">11:00</option>
-                      <option value="11:30">11:30</option>
-                      <option value="12:00">12:00</option>
-                      <option value="16:00">16:00</option>
-                      <option value="16:30">16:30</option>
-                      <option value="17:00">17:00</option>
-                      <option value="17:30">17:30</option>
-                      <option value="18:00">18:00</option>
-                      <option value="18:30">18:30</option>
-                      <option value="19:00">19:00</option>
-                    </Form.Select>
+                    <Form.Control defaultValue={turn.hora} disabled />
                   </InputGroup>
-                  <small className="text-danger">
-                    {errors.time && touched.time && errors.time}
-                  </small>
                 </Form.Group>
               </div>
               <hr />
