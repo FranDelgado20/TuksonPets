@@ -13,7 +13,7 @@ const CartPage = () => {
   const [precioTotalPorProducto, setPrecioTotalPorProducto] = useState([]);
   const [precioTotal, setPrecioTotal] = useState(0);
   const [turns, setTurns] = useState([]);
-  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const idUser = JSON.parse(sessionStorage.getItem("idUser"));
   const token = JSON.parse(sessionStorage.getItem("token"));
 
@@ -34,8 +34,8 @@ const CartPage = () => {
         }
       );
       const response = await resUser.json();
-      const { email, name } = response.oneUser;
-      setName(name);
+      const { email } = response.oneUser;
+      setEmail(email);
       if (status === "approved") {
         const templateParams = {
           to_email: email,
@@ -119,18 +119,18 @@ const CartPage = () => {
 
   const getTurns = async () => {
     try {
-      const resUser = await fetch(
-        `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const responseUser = await resUser.json();
-      const { name } = responseUser;
+      // const resUser = await fetch(
+      //   `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
+      //   {
+      //     method: "GET",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
+      // const responseUser = await resUser.json();
+      // const { email } = responseUser;
 
       const resTurn = await fetch(`${import.meta.env.VITE_URL_DEPLOY}/turns`, {
         method: "GET",
@@ -417,12 +417,12 @@ const CartPage = () => {
         <Col>
           <hr />
           <h2>Mis turnos solicitados</h2>
-          {turns.filter((turn) => turn.nombreDueno === name).length > 0 ? (
+          {turns.filter((turn) => turn.email === email).length > 0 ? (
             <>
               <hr />
               <Row className="justify-content-center">
                 {turns
-                  .filter((turn) => turn.nombreDueno === name)
+                  .filter((turn) => turn.email === email)
                   .map((turn) => (
                     <Col lg={3} md={6} sm={12} key={turn._id}>
                       <Card className="fondo my-2">
