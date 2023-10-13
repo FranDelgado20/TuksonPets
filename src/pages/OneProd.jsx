@@ -19,17 +19,20 @@ const OneProd = () => {
 
   const getCart = async () => {
     try {
-      const resUser = await fetch(
-        `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
-        {
+      if(idUser){
+
+        const resUser = await fetch(
+          `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
+          {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
-      );
-      const response = await resUser.json();
+        );
+        const response = await resUser.json();
+        
       const { idCart } = response.oneUser;
 
       const resCart = await fetch(
@@ -41,12 +44,13 @@ const OneProd = () => {
             Authorization: `Bearer ${token}`,
           },
         }
-      );
-      const responseCart = await resCart.json();
-
-      setCartProds(responseCart.cart.productos);
-    } catch (error) {
-      Swal.fire({
+        );
+        const responseCart = await resCart.json();
+        
+        setCartProds(responseCart.cart.productos);
+      }
+      } catch (error) {
+        Swal.fire({
         position: "center",
         icon: "error",
         title: "Al parecer hubo un error!",
