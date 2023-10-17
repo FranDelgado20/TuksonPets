@@ -117,6 +117,14 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         getTurns();
         handleClose();
       }
+      else {
+        Swal.fire({
+          icon: "error",
+          title: responseTurn.msg,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -286,7 +294,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                 </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="emailId">
-                <Form.Label>Email del dueño</Form.Label>
+                <Form.Label>Correo electrónico del dueño</Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Text id="groupEmail">
                     <i className="bi bi-envelope-fill"></i>
@@ -397,7 +405,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                     </InputGroup.Text>
                     <Form.Select
                       name="time"
-                      value={values.date}
+                      value={values.time}
                       className={errors.time && touched.time && "is-invalid"}
                       onChange={handleChange}
                     >
@@ -601,24 +609,6 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                 <small className="text-danger">
                   {errors.raza && touched.raza && errors.raza}
                 </small>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="nameOwnerId">
-                <Form.Label>Nombre del dueño</Form.Label>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text id="groupNameOwner">
-                    <i className="bi bi-person-circle"></i>
-                  </InputGroup.Text>
-                  <Form.Control defaultValue={user.name} disabled />
-                </InputGroup>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="telId">
-                <Form.Label>Número de teléfono</Form.Label>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text id="groupTel">
-                    <i className="bi bi-telephone-fill"></i>
-                  </InputGroup.Text>
-                  <Form.Control defaultValue={user.phoneNumber} disabled />
-                </InputGroup>
               </Form.Group>
 
               <div className="d-flex justify-content-around turnForm">
