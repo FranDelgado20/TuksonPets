@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import ModalComp from "../components/ModalComp";
-
 import TableComp from "../components/TableComp";
 
 const AdminPage = () => {
