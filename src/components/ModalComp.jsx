@@ -6,7 +6,6 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { errorProdSchema } from "../utils/validationSchemas";
 import RegisterComp from "./RegisterComp";
 import TurnsComp from "./TurnsComp";
-import clientAxios, { config } from "../utils/axiosClient";
 import Swal from "sweetalert2";
 
 const ModalComp = ({ type, getUsers, getProducts, getTurns }) => {
@@ -84,9 +83,7 @@ const ModalComp = ({ type, getUsers, getProducts, getTurns }) => {
                     errors,
                     touched,
                     handleChange,
-                    handleBlur,
                     handleSubmit,
-                    isSubmitting,
                   }) => (
                     <Form>
                       <Form.Group className="mb-3" controlId="nameId">
