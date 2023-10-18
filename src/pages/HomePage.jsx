@@ -5,8 +5,6 @@ import CardComp from "../components/CardComp";
 import clientAxios, { config } from "../utils/axiosClient";
 import WeatherComp from "../components/WeatherComp";
 import Card from "react-bootstrap/Card";
-import { useLocation } from "react-router-dom";
-import Swal from "sweetalert2";
 
 const HomePage = () => {
   const [plan, setPlan] = useState([]);
