@@ -537,12 +537,8 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                     value={values.desc}
                     placeholder="Dejenos un mensaje sobre sus dudas acerca del plan"
                     onChange={handleChange}
-                    className={errors.desc && touched.desc && "is-invalid"}
                   ></Form.Control>
                 </InputGroup>
-                <small className="text-danger">
-                  {errors.desc && touched.desc && errors.desc}
-                </small>
               </Form.Group>
               <hr />
               <div className="text-end">
