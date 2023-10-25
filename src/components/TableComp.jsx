@@ -5,7 +5,7 @@ import EditModalComp from "./EditModalComp";
 
 const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTurns }) => {
   const token = JSON.parse(sessionStorage.getItem("token"))
-  const [idCartUser, setIdCartUser] = useState('')
+
   const deleteProd = (id) => {
     Swal.fire({
       title: "¿Estás seguro de borrar este producto?",
@@ -45,7 +45,15 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
       }
     });
   };
-  const deleteUser = (id) => {
+  const deleteUser = (id, role) => {
+    if(role === "admin"){
+      return Swal.fire({
+        icon: "error",
+        title: "No es posible eliminar un usuario administrador",
+        showConfirmButton: false,
+        timer: 2000
+    })
+  }
     Swal.fire({
       title: "¿Estás seguro de borrar este usuario?",
       icon: "warning",
@@ -166,7 +174,7 @@ const TableComp = ({ type, products, users, turns, getProducts, getUsers, getTur
                 <Button
                   variant="danger"
                   className="my-2 mx-2"
-                  onClick={() => deleteUser(user._id)}
+                  onClick={() => deleteUser(user._id, user.role)}
                 >
                   <i className="bi bi-trash3-fill"></i> Eliminar
                 </Button>
