@@ -76,7 +76,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       Swal.fire({
         icon: "error",
         title: "Parece que hubo un error",
@@ -116,8 +116,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         });
         getTurns();
         handleClose();
-      }
-      else {
+      } else {
         Swal.fire({
           icon: "error",
           title: responseTurn.msg,
@@ -170,7 +169,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
   };
   const editTurn = async (values) => {
     try {
-      if(values.time !== turn.hora || values.date !== turn.fecha){
+      if (values.time !== turn.hora || values.date !== turn.fecha) {
         const resEditTurn = await fetch(
           `${import.meta.env.VITE_URL_DEPLOY}/turns/${turn._id}`,
           {
@@ -179,7 +178,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
               nombrePaciente: values.namePatient,
               raza: values.raza,
               fecha: values.date,
-              hora: values.time
+              hora: values.time,
             }),
             headers: {
               "Content-Type": "application/json",
@@ -205,8 +204,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
             timer: 2000,
           });
         }
-      }
-      else{
+      } else {
         const resEditTurn = await fetch(
           `${import.meta.env.VITE_URL_DEPLOY}/turns/${turn._id}`,
           {
@@ -597,7 +595,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
             namePatient: turn.nombrePaciente,
             raza: turn.raza,
             date: turn.fecha,
-            time: turn.hora
+            time: turn.hora,
           }}
           validationSchema={errorEditTurnSchema}
           onSubmit={(values) => editTurn(values)}
@@ -677,29 +675,22 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                       className={errors.time && touched.time && "is-invalid"}
                       onChange={handleChange}
                     >
-                      {!values.date ? (
-                        <option>Fecha y hora no especificadas</option>
-                      ) : (
-                        <>
-                          <option>Horario no especificado</option>
-                          <option value="08:00">08:00</option>
-                          <option value="08:30">08:30</option>
-                          <option value="09:00">09:00</option>
-                          <option value="09:30">09:30</option>
-                          <option value="10:00">10:00</option>
-                          <option value="10:30">10:30</option>
-                          <option value="11:00">11:00</option>
-                          <option value="11:30">11:30</option>
-                          <option value="12:00">12:00</option>
-                          <option value="16:00">16:00</option>
-                          <option value="16:30">16:30</option>
-                          <option value="17:00">17:00</option>
-                          <option value="17:30">17:30</option>
-                          <option value="18:00">18:00</option>
-                          <option value="18:30">18:30</option>
-                          <option value="19:00">19:00</option>
-                        </>
-                      )}
+                      <option value="08:00">08:00</option>
+                      <option value="08:30">08:30</option>
+                      <option value="09:00">09:00</option>
+                      <option value="09:30">09:30</option>
+                      <option value="10:00">10:00</option>
+                      <option value="10:30">10:30</option>
+                      <option value="11:00">11:00</option>
+                      <option value="11:30">11:30</option>
+                      <option value="12:00">12:00</option>
+                      <option value="16:00">16:00</option>
+                      <option value="16:30">16:30</option>
+                      <option value="17:00">17:00</option>
+                      <option value="17:30">17:30</option>
+                      <option value="18:00">18:00</option>
+                      <option value="18:30">18:30</option>
+                      <option value="19:00">19:00</option>
                     </Form.Select>
                   </InputGroup>
                   <small className="text-danger">
