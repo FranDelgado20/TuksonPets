@@ -104,7 +104,6 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
         method: "PUT",
         body: JSON.stringify({
           name: values.name,
-          phoneNumber: values.tel,
           role: values.role,
         }),
         headers: {
@@ -392,7 +391,6 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
         <Formik
           initialValues={{
             name: user.name,
-            tel: user.phoneNumber,
             role: user.role,
           }}
           validationSchema={errorEditUserSchema}
@@ -417,25 +415,6 @@ const RegisterComp = ({ type, user, getUsers, handleClose }) => {
                 </InputGroup>
                 <small className="text-danger">
                   {errors.name && touched.name && errors.name}
-                </small>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="telId">
-                <Form.Label>Número de teléfono</Form.Label>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text id="groupTel">
-                    <i className="bi bi-telephone-fill"></i>
-                  </InputGroup.Text>
-                  <Form.Control
-                    placeholder="Formato: 000-0000000"
-                    type="number"
-                    name="tel"
-                    value={values.tel}
-                    onChange={handleChange}
-                    className={errors.tel && touched.tel && "is-invalid"}
-                  />
-                </InputGroup>
-                <small className="text-danger">
-                  {errors.tel && touched.tel && errors.tel}
                 </small>
               </Form.Group>
               <Form.Group className="mb-3" controlId="roleId">
