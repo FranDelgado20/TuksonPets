@@ -18,8 +18,7 @@ export const errorRegisterOnAdminSchema = yup.object().shape({
 
 export const errorEditUserSchema = yup.object().shape({
     name: yup.string().required("Campo nombre y apellido obligatorio"),
-    role: yup.string().required("Campo rol del usuario obligatorio"),
-    tel: yup.number().required("Campo número telefónico obligatorio").min(10, "Formato inválido. El número de teléfono debe tener 10 caracteres")
+    role: yup.string().required("Campo rol del usuario obligatorio")
 })
 
 export const errorLoginSchema = yup.object().shape({
