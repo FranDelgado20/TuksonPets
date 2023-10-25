@@ -44,7 +44,6 @@ const ModalComp = ({ type, getUsers, getProducts, getTurns }) => {
         getProducts();
       }
     } catch (error) {
-      console.log(error)
       Swal.fire({
         icon: "error",
         title: "No se pudo crear el producto",

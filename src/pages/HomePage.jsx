@@ -26,7 +26,6 @@ const HomePage = () => {
     );
     const response = await res.json();
     setUser(response.oneUser);
-    console.log(response)
   };
   const getAllComments = async () => {
     const res = await clientAxios.get("/comments", config);

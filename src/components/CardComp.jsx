@@ -1,26 +1,21 @@
 import { useState } from "react";
 import { Formik } from "formik";
 import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-
 import { Button, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 import clientAxios, { config } from "../utils/axiosClient";
 import Swal from "sweetalert2";
 import Modal from "react-bootstrap/Modal";
+import InputGroup from "react-bootstrap/InputGroup";
 import { errorContactSchema } from "../utils/validationSchemas";
 
 const CardComp = ({ type, products, plan, comment, user, getAllComments }) => {
-  const [idCommentEdit, setIdCommentEdit] = useState("");
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = (id) => {
-    setIdCommentEdit(id);
+  const handleShow = () => setShow(true);
 
-    setShow(true);
-  };
   const eliminarComentario = async (id) => {
     Swal.fire({
       title: "¿Estás seguro de borrar este comentario?",
@@ -34,7 +29,7 @@ const CardComp = ({ type, products, plan, comment, user, getAllComments }) => {
       if (result.isConfirmed) {
         try {
           const deleteComment = await clientAxios.delete(
-            `/comments/${idCommentEdit}`,
+            `/comments/${id}`,
             config
           );
           if (deleteComment.status === 200) {
@@ -49,17 +44,17 @@ const CardComp = ({ type, products, plan, comment, user, getAllComments }) => {
         } catch (error) {
           Swal.fire({
             title: "No se pudo eliminar el comentario",
-            text: error,
+            text: error.response.data.msg,
             icon: "error",
           });
         }
       }
     });
   };
-  const editarComentario = async (values, idCommentEdit) => {
+  const editarComentario = async (values, id) => {
     try {
       const editComment = await clientAxios.put(
-        `/comments/${idCommentEdit}`,
+        `/comments/${id}`,
         {
           mensaje: values.comment,
         },
@@ -73,11 +68,12 @@ const CardComp = ({ type, products, plan, comment, user, getAllComments }) => {
           timer: 1500,
         });
         getAllComments();
+        handleClose()
       }
     } catch (error) {
       Swal.fire({
         title: "No se pudo editar el comentario",
-        text: error,
+        text: error.response.data.msg,
         icon: "error",
       });
     }
@@ -242,77 +238,83 @@ const CardComp = ({ type, products, plan, comment, user, getAllComments }) => {
                     {comments.email === user.email && (
                       <div>
                         <Button
-                          className="me-3"
+                          className="mx-2"
+                          variant="info"
+                          onClick={() => handleShow()}
+                        >
+                          <i className="bi bi-pencil-fill"></i>
+                        </Button>
+                        <Button
+                          className="mx-2"
                           variant="danger"
                           onClick={() => eliminarComentario(comments._id)}
                         >
                           <i className="bi bi-trash3-fill"></i>
                         </Button>
 
-                        <Button
-                          variant="primary"
-                          onClick={() => handleShow(comments._id)}
-                        >
-                          <i className="bi bi-pencil-fill"></i>
-                        </Button>
-
                         <Modal show={show} onHide={handleClose}>
-                          <Modal.Body>
-                            <Formik
-                              initialValues={{
-                                comment: "",
-                              }}
-                              validationSchema={errorContactSchema}
-                              onSubmit={(values) =>
-                                editarComentario(values, idCommentEdit)
-                              }
-                            >
-                              {({
-                                values,
-
-                                errors,
-                                touched,
-                                handleChange,
-                                handleSubmit,
-                              }) => (
-                                <Form.Group className="" controlId="descId">
-                                  <Form.Control
-                                    placeholder="Edite su comentario aquí"
-                                    as="textarea"
-                                    name="comment"
-                                    value={values.comment}
-                                    onChange={handleChange}
-                                    className={
-                                      errors.comment &&
-                                      touched.comment &&
-                                      "is-invalid"
-                                    }
-                                  />
-
-                                  <small className="text-danger">
-                                    {errors.comment &&
-                                      touched.comment &&
-                                      errors.comment}
-                                  </small>
-
-                                  <Modal.Footer>
-                                    <Button
-                                      variant="danger"
-                                      onClick={handleClose}
-                                    >
-                                      Cerrar
-                                    </Button>
-                                    <Button
-                                      variant="success"
-                                      onClick={handleSubmit}
-                                    >
-                                      Aceptar
-                                    </Button>
-                                  </Modal.Footer>
-                                </Form.Group>
-                              )}
-                            </Formik>
-                          </Modal.Body>
+                          <div className="fondo">
+                            <Modal.Header closeButton>
+                              <Modal.Title>Edita tu comentario</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                              <Formik
+                                initialValues={{
+                                  comment: comments.mensaje,
+                                }}
+                                validationSchema={errorContactSchema}
+                                onSubmit={(values) =>
+                                  editarComentario(values, comments._id)
+                                }
+                              >
+                                {({
+                                  values,
+                                  errors,
+                                  touched,
+                                  handleChange,
+                                  handleSubmit,
+                                }) => (
+                                  <Form.Group
+                                    className="mb-3"
+                                    controlId="descId"
+                                  >
+                                    <InputGroup className="mb-3">
+                                      <InputGroup.Text id="groupRole">
+                                        <i className="bi bi-file-text-fill"></i>
+                                      </InputGroup.Text>
+                                      <Form.Control
+                                        as="textarea"
+                                        rows={3}
+                                        name="comment"
+                                        value={values.comment}
+                                        onChange={handleChange}
+                                        className={
+                                          errors.comment &&
+                                          touched.comment &&
+                                          "is-invalid"
+                                        }
+                                      />
+                                    </InputGroup>
+                                    <small className="text-danger">
+                                      {errors.comment &&
+                                        touched.comment &&
+                                        errors.comment}
+                                    </small>
+                                    <hr />
+                                    <div className="text-end">
+                                      <button
+                                        className="btn botones"
+                                        type="submit"
+                                        onClick={handleSubmit}
+                                      >
+                                        Guardar cambios
+                                      </button>
+                                    </div>
+                                  </Form.Group>
+                                )}
+                              </Formik>
+                            </Modal.Body>
+                          </div>
                         </Modal>
                       </div>
                     )}
