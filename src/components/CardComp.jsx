@@ -1,9 +1,87 @@
-import React from "react";
-import { Col } from "react-bootstrap";
+import { useState } from "react";
+import { Formik } from "formik";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+
+import { Button, Col } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
+import clientAxios, { config } from "../utils/axiosClient";
+import Swal from "sweetalert2";
+import Modal from "react-bootstrap/Modal";
+import { errorContactSchema } from "../utils/validationSchemas";
 
-const CardComp = ({ type, products, plan, pros, comment }) => {
+const CardComp = ({ type, products, plan, comment, user, getAllComments }) => {
+  const [idCommentEdit, setIdCommentEdit] = useState("");
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (id) => {
+    setIdCommentEdit(id);
+
+    setShow(true);
+  };
+  const eliminarComentario = async (id) => {
+    Swal.fire({
+      title: "¿Estás seguro de borrar este comentario?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const deleteComment = await clientAxios.delete(
+            `/comments/${idCommentEdit}`,
+            config
+          );
+          if (deleteComment.status === 200) {
+            Swal.fire({
+              title: "Comentario eliminado correctamente",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            getAllComments();
+          }
+        } catch (error) {
+          Swal.fire({
+            title: "No se pudo eliminar el comentario",
+            text: error,
+            icon: "error",
+          });
+        }
+      }
+    });
+  };
+  const editarComentario = async (values, idCommentEdit) => {
+    try {
+      const editComment = await clientAxios.put(
+        `/comments/${idCommentEdit}`,
+        {
+          mensaje: values.comment,
+        },
+        config
+      );
+      if (editComment.status === 200) {
+        Swal.fire({
+          title: "Comentario editado correctamente",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        getAllComments();
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "No se pudo editar el comentario",
+        text: error,
+        icon: "error",
+      });
+    }
+  };
   return (
     <>
       {type === "prodsDestacados"
@@ -32,7 +110,11 @@ const CardComp = ({ type, products, plan, pros, comment }) => {
         ? products?.map((product) => (
             <Col lg={3} md={6} sm={12} key={product._id} className="my-2">
               <Card className="bg-info-subtle sombra">
-                <Card.Img variant="top" src={product.imagen} alt={product.nombre} />
+                <Card.Img
+                  variant="top"
+                  src={product.imagen}
+                  alt={product.nombre}
+                />
                 <Card.Body>
                   <Card.Title>{product.nombre}</Card.Title>
                   <Card.Text>${product.precio}</Card.Text>
@@ -155,7 +237,86 @@ const CardComp = ({ type, products, plan, pros, comment }) => {
                 <Card.Body>
                   <Card.Title>{comments.nombreApellido}</Card.Title>
                   <hr />
-                  <Card.Text>{comments.mensaje}</Card.Text>
+                  <div className="d-flex justify-content-between">
+                    <Card.Text>{comments.mensaje}</Card.Text>
+                    {comments.email === user.email && (
+                      <div>
+                        <Button
+                          className="me-3"
+                          variant="danger"
+                          onClick={() => eliminarComentario(comments._id)}
+                        >
+                          <i className="bi bi-trash3-fill"></i>
+                        </Button>
+
+                        <Button
+                          variant="primary"
+                          onClick={() => handleShow(comments._id)}
+                        >
+                          <i className="bi bi-pencil-fill"></i>
+                        </Button>
+
+                        <Modal show={show} onHide={handleClose}>
+                          <Modal.Body>
+                            <Formik
+                              initialValues={{
+                                comment: "",
+                              }}
+                              validationSchema={errorContactSchema}
+                              onSubmit={(values) =>
+                                editarComentario(values, idCommentEdit)
+                              }
+                            >
+                              {({
+                                values,
+
+                                errors,
+                                touched,
+                                handleChange,
+                                handleSubmit,
+                              }) => (
+                                <Form.Group className="" controlId="descId">
+                                  <Form.Control
+                                    placeholder="Edite su comentario aquí"
+                                    as="textarea"
+                                    name="comment"
+                                    value={values.comment}
+                                    onChange={handleChange}
+                                    className={
+                                      errors.comment &&
+                                      touched.comment &&
+                                      "is-invalid"
+                                    }
+                                  />
+
+                                  <small className="text-danger">
+                                    {errors.comment &&
+                                      touched.comment &&
+                                      errors.comment}
+                                  </small>
+
+                                  <Modal.Footer>
+                                    <Button
+                                      variant="danger"
+                                      onClick={handleClose}
+                                    >
+                                      Cerrar
+                                    </Button>
+                                    <Button
+                                      variant="success"
+                                      onClick={handleSubmit}
+                                    >
+                                      Aceptar
+                                    </Button>
+                                  </Modal.Footer>
+                                </Form.Group>
+                              )}
+                            </Formik>
+                          </Modal.Body>
+                        </Modal>
+                      </div>
+                    )}
+                  </div>
                 </Card.Body>
               </Card>
             </Col>
