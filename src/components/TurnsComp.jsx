@@ -76,7 +76,6 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         });
       }
     } catch (error) {
-      console.log(error);
       Swal.fire({
         icon: "error",
         title: "Parece que hubo un error",
