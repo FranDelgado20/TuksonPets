@@ -28,8 +28,7 @@ export const errorLoginSchema = yup.object().shape({
 })
 
 export const errorContactSchema = yup.object().shape({
-    email: yup.string().email('Formato Email inválido').required('Campo correo electrónico obligatorio'),
-    name: yup.string().required("Campo nombre y apellido obligatorio"),
+    
     comment: yup.string().required("Campo comentarios obligatorio").min(5, "Mínimo de 5 caracteres")
 })
 

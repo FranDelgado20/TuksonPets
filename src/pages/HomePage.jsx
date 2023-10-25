@@ -7,10 +7,27 @@ import WeatherComp from "../components/WeatherComp";
 import Card from "react-bootstrap/Card";
 
 const HomePage = () => {
+  const idUser = JSON.parse(sessionStorage.getItem('idUser'))
+  const token = JSON.parse(sessionStorage.getItem('token'))
   const [plan, setPlan] = useState([]);
   const [products, setProducts] = useState([]);
   const [comment, setComment] = useState([]);
-
+  const [user, setUser] = useState({});
+  const getUser = async () => {
+    const res = await fetch(
+      `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const response = await res.json();
+    setUser(response.oneUser);
+    console.log(response)
+  };
   const getAllComments = async () => {
     const res = await clientAxios.get("/comments", config);
     setComment(res.data.getComments);
@@ -26,7 +43,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    getProducts(), getPlan(), getAllComments();
+    getProducts(), getPlan(), getAllComments(),getUser();
   }, []);
 
   return (
@@ -146,7 +163,7 @@ const HomePage = () => {
           <Col lg={6} md={12} sm={12}>
             <h2 className="mt-3">Opiniones de nuestros clientes</h2>
             <hr />
-            <CardComp type={"comentarios"} comment={comment} />
+            <CardComp type={"comentarios"} comment={comment} user={user} getAllComments={getAllComments}/>
           </Col>
         </Row>
       </Container>
