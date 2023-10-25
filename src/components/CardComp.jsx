@@ -32,7 +32,7 @@ const CardComp = ({ type, products, plan, pros, comment }) => {
         ? products?.map((product) => (
             <Col lg={3} md={6} sm={12} key={product._id} className="my-2">
               <Card className="bg-info-subtle sombra">
-                <Card.Img variant="top" src={product.imagen} alt={product.imagen} />
+                <Card.Img variant="top" src={product.imagen} alt={product.nombre} />
                 <Card.Body>
                   <Card.Title>{product.nombre}</Card.Title>
                   <Card.Text>${product.precio}</Card.Text>
