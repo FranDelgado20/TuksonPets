@@ -80,6 +80,11 @@ footer {
 .widthImg{
   width: 60px;
 }
+.tdCart{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 @media (max-width: 550px) {
   .turnForm {
     display: flex;
@@ -90,7 +95,6 @@ footer {
     width: 100%;
   }
 }
-
 @media (min-width: 551px){
   .turnFormFecha {
     width: 50%;
@@ -107,5 +111,8 @@ footer {
 @media (max-width: 991px) {
   .margenLogo {
     margin-bottom: 15px;
+  }
+  .tdCart{
+    height: 135px;
   }
 }

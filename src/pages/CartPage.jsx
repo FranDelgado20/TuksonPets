@@ -343,7 +343,7 @@ const CartPage = () => {
                     <tr key={prod._id}>
                       <td>{prod.nombre}</td>
                       <td>${prod.precio}</td>
-                      <td className="d-flex justify-content-center align-items-center">
+                      <td className="tdCart">
                         <button
                           className="botones btn border-2 mx-2"
                           onClick={() => restarCant(prod._id)}

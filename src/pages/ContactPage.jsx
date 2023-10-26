@@ -1,20 +1,48 @@
 import { Formik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { errorContactSchema } from "../utils/validationSchemas";
 import InputGroup from "react-bootstrap/InputGroup";
 import clientAxios, { config } from "../utils/axiosClient";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const ContactPage = () => {
+  const token = JSON.parse(sessionStorage.getItem("token"));
+  const idUser = JSON.parse(sessionStorage.getItem("idUser"));
+  const [allComments, setAllComments] = useState([]);
+  const [user, setUser] = useState("");
+  const getAllComments = async () => {
+    const res = await clientAxios.get("/comments", config);
+    setAllComments(res.data.getComments);
+  };
+  const comentarioExistente = allComments.filter(
+    (comentario) => comentario?.email === user?.email
+  );
+  console.log(comentarioExistente);
+  const getUser = async () => {
+    const res = await fetch(
+      `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const response = await res.json();
+    setUser(response.oneUser);
+  };
   const enviarComentario = async (values) => {
     try {
+      
       const res = await clientAxios.post(
         "/comments",
         {
-          email: values.email,
-          nombreApellido: values.name,
+          email: user.email,
+          nombreApellido: user.name,
           mensaje: values.comment,
         },
         config
@@ -27,6 +55,7 @@ const ContactPage = () => {
           timer: 1500,
         });
       }
+      getAllComments()
     } catch (error) {
       Swal.fire({
         position: "center",
@@ -36,95 +65,149 @@ const ContactPage = () => {
       });
     }
   };
+  useEffect(() => {
+    getUser(), getAllComments();
+  }, []);
   return (
     <Container className="my-4">
       <div className="row">
         <div className="col-lg-6 col-md-12 col-sm-12 my-1">
           <h3 className="text-center">¿Tienes algo que contarnos?</h3>
           <hr />
-          <Formik
-            initialValues={{
-              email: "",
-              name: "",
-              comment: "",
-            }}
-            validationSchema={errorContactSchema}
-            onSubmit={(values) => enviarComentario(values)}
-          >
-            {({ values, errors, touched, handleChange, handleSubmit }) => (
-              <Form className="bg-info-subtle p-3  rounded-3 ">
-                <Form.Group className="mb-3" controlId="emailId">
-                  <Form.Label>Correo electrónico</Form.Label>
-                  <InputGroup className="mb-3">
-                    <InputGroup.Text id="groupEmail">
-                      <i className="bi bi-envelope-at-fill"></i>
-                    </InputGroup.Text>
-                    <Form.Control
-                      placeholder="name@example.com"
-                      type="email"
-                      name="email"
-                      value={values.email}
-                      onChange={handleChange}
-                      className={errors.email && touched.email && "is-invalid"}
-                    />
-                  </InputGroup>
-                  <small className="text-danger">
-                    {errors.email && touched.email && errors.email}
-                  </small>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="nameId">
-                  <Form.Label>Nombre y Apellido</Form.Label>
-                  <InputGroup className="mb-3">
-                    <InputGroup.Text id="groupName">
-                      <i className="bi bi-person-circle"></i>
-                    </InputGroup.Text>
-                    <Form.Control
-                      placeholder="Ejemplo: Juan González"
-                      type="text"
-                      name="name"
-                      value={values.name}
-                      onChange={handleChange}
-                      className={errors.name && touched.name && "is-invalid"}
-                    />
-                  </InputGroup>
-                  <small className="text-danger">
-                    {errors.name && touched.name && errors.name}
-                  </small>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="descId">
-                  <Form.Label>Comentarios</Form.Label>
-                  <InputGroup className="mb-3">
-                    <InputGroup.Text id="groupDesc">
-                      <i className="bi bi-file-text-fill"></i>
-                    </InputGroup.Text>
-                    <Form.Control
-                      placeholder="Dejenos un mensaje"
-                      as="textarea"
-                      name="comment"
-                      value={values.comment}
-                      onChange={handleChange}
-                      className={
-                        errors.comment && touched.comment && "is-invalid"
-                      }
-                    />
-                  </InputGroup>
-                  <small className="text-danger">
-                    {errors.comment && touched.comment && errors.comment}
-                  </small>
-                </Form.Group>
-                <div className="text-end">
-                  <button
-                    className="btn botonContact"
-                    type="submit"
-                    onClick={handleSubmit}
-                  >
-                    <i className="bi bi-send-check me-1"></i>
-                    Enviar comentarios
-                  </button>
-                </div>
-              </Form>
-            )}
-          </Formik>
+
+          {token && comentarioExistente.length === 1 ? (
+            <Form className="bg-info-subtle p-3  rounded-3 ">
+              <h2 className="text-center">Oh No!</h2>
+              <hr />
+              <p>
+                
+              Al parecer ya existe un comentario con esta cuenta. Si deseas volver a comentar, debes eliminar el comentario anterior o también puedes editarlo desde la página principal. Gracias por comprender.
+              </p>
+              <Link
+                className="btn botonContact align-items-center d-flex justify-content-center "
+                to={"/"}
+              >
+                <i class="bi bi-house-fill me-1"></i>
+                Dirigirme al inicio
+              </Link>
+            </Form>
+          ) : token ? (
+            <Formik
+              initialValues={{
+                comment: "",
+              }}
+              validationSchema={errorContactSchema}
+              onSubmit={(values) => enviarComentario(values)}
+            >
+              {({ values, errors, touched, handleChange, handleSubmit }) => (
+                <Form className="bg-info-subtle p-3  rounded-3 ">
+                  <Form.Group className="mb-3" controlId="emailId">
+                    <Form.Label>Correo electrónico</Form.Label>
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text id="groupEmail">
+                        <i className="bi bi-envelope-at-fill"></i>
+                      </InputGroup.Text>
+                      <Form.Control defaultValue={user.email} disabled />
+                    </InputGroup>
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="nameId">
+                    <Form.Label>Nombre y Apellido</Form.Label>
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text id="groupName">
+                        <i className="bi bi-person-circle"></i>
+                      </InputGroup.Text>
+                      <Form.Control defaultValue={user.name} disabled />
+                    </InputGroup>
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="descId">
+                    <Form.Label>Comentarios</Form.Label>
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text id="groupDesc">
+                        <i className="bi bi-file-text-fill"></i>
+                      </InputGroup.Text>
+                      <Form.Control
+                        placeholder="Dejenos un mensaje"
+                        as="textarea"
+                        name="comment"
+                        value={values.comment}
+                        onChange={handleChange}
+                        className={
+                          errors.comment && touched.comment && "is-invalid"
+                        }
+                      />
+                    </InputGroup>
+                    <small className="text-danger">
+                      {errors.comment && touched.comment && errors.comment}
+                    </small>
+                  </Form.Group>
+                  <div className="text-end">
+                    <button
+                      className="btn botonContact"
+                      type="submit"
+                      onClick={handleSubmit}
+                    >
+                      <i className="bi bi-send-check me-1"></i>
+                      Enviar comentarios
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          ) : (
+            <Formik
+              initialValues={{}}
+              validationSchema={errorContactSchema}
+              onSubmit={() => enviarComentario()}
+            >
+              {() => (
+                <Form className="bg-info-subtle p-3  rounded-3 ">
+                  <Form.Group className="mb-3" controlId="emailId">
+                    <Form.Label>Correo electrónico</Form.Label>
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text id="groupEmail">
+                        <i className="bi bi-envelope-at-fill"></i>
+                      </InputGroup.Text>
+                      <Form.Control placeholder="name@example.com" disabled />
+                    </InputGroup>
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="nameId">
+                    <Form.Label>Nombre y Apellido</Form.Label>
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text id="groupName">
+                        <i className="bi bi-person-circle"></i>
+                      </InputGroup.Text>
+                      <Form.Control
+                        placeholder="Ejemplo: Juan González"
+                        disabled
+                      />
+                    </InputGroup>
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="descId">
+                    <Form.Label>Comentarios</Form.Label>
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text id="groupDesc">
+                        <i className="bi bi-file-text-fill"></i>
+                      </InputGroup.Text>
+                      <Form.Control
+                        placeholder="Dejenos un mensaje"
+                        as="textarea"
+                        disabled
+                      />
+                    </InputGroup>
+                  </Form.Group>
+                  <div className="text-end">
+                    <Link
+                      className="btn botonContact align-items-center d-flex justify-content-center "
+                      to={"/login"}
+                    >
+                      <i className="bi bi-box-arrow-in-right"></i>
+                      Debes iniciar sesión
+                    </Link>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          )}
         </div>
         <div className="col-lg-6 col-md-12 col-sm-12 mt-1 mb-5">
           <h3 className="text-center">¡Buscanos en nuestro local!</h3>

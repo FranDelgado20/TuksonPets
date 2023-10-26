@@ -76,7 +76,6 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         });
       }
     } catch (error) {
-      console.log(error)
       Swal.fire({
         icon: "error",
         title: "Parece que hubo un error",
@@ -116,8 +115,7 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
         });
         getTurns();
         handleClose();
-      }
-      else {
+      } else {
         Swal.fire({
           icon: "error",
           title: responseTurn.msg,
@@ -170,37 +168,74 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
   };
   const editTurn = async (values) => {
     try {
-      const resEditTurn = await fetch(
-        `${import.meta.env.VITE_URL_DEPLOY}/turns/${turn._id}`,
-        {
-          method: "PUT",
-          body: JSON.stringify({
-            nombrePaciente: values.namePatient,
-            raza: values.raza,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+      if (values.time !== turn.hora || values.date !== turn.fecha) {
+        const resEditTurn = await fetch(
+          `${import.meta.env.VITE_URL_DEPLOY}/turns/${turn._id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              nombrePaciente: values.namePatient,
+              raza: values.raza,
+              fecha: values.date,
+              hora: values.time,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const responseEdit = await resEditTurn.json();
+        if (responseEdit.status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: responseEdit.msg,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          getTurns();
+          handleClose();
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: responseEdit.msg,
+            showConfirmButton: false,
+            timer: 2000,
+          });
         }
-      );
-      const responseEdit = await resEditTurn.json();
-      if (responseEdit.status === 200) {
-        Swal.fire({
-          icon: "success",
-          title: responseEdit.msg,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        getTurns();
-        handleClose();
       } else {
-        Swal.fire({
-          icon: "error",
-          title: responseEdit.msg,
-          showConfirmButton: false,
-          timer: 2000,
-        });
+        const resEditTurn = await fetch(
+          `${import.meta.env.VITE_URL_DEPLOY}/turns/${turn._id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              nombrePaciente: values.namePatient,
+              raza: values.raza,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const responseEdit = await resEditTurn.json();
+        if (responseEdit.status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: responseEdit.msg,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          getTurns();
+          handleClose();
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: responseEdit.msg,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
       }
     } catch (error) {
       Swal.fire({
@@ -537,12 +572,8 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                     value={values.desc}
                     placeholder="Dejenos un mensaje sobre sus dudas acerca del plan"
                     onChange={handleChange}
-                    className={errors.desc && touched.desc && "is-invalid"}
                   ></Form.Control>
                 </InputGroup>
-                <small className="text-danger">
-                  {errors.desc && touched.desc && errors.desc}
-                </small>
               </Form.Group>
               <hr />
               <div className="text-end">
@@ -562,6 +593,8 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
           initialValues={{
             namePatient: turn.nombrePaciente,
             raza: turn.raza,
+            date: turn.fecha,
+            time: turn.hora,
           }}
           validationSchema={errorEditTurnSchema}
           onSubmit={(values) => editTurn(values)}
@@ -610,16 +643,24 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                   {errors.raza && touched.raza && errors.raza}
                 </small>
               </Form.Group>
-
-              <div className="d-flex justify-content-around turnForm">
-                <Form.Group className="mb-3 turnFormFecha" controlId="dateId">
+              <div className="d-flex justify-content-around">
+                <Form.Group className="mb-3" controlId="dateId">
                   <Form.Label>Fecha</Form.Label>
                   <InputGroup className="mb-3">
                     <InputGroup.Text id="groupDate">
                       <i className="bi bi-calendar"></i>
                     </InputGroup.Text>
-                    <Form.Control defaultValue={turn.fecha} disabled />
+                    <Form.Control
+                      type="date"
+                      name="date"
+                      value={values.date}
+                      onChange={handleChange}
+                      className={errors.date && touched.date && "is-invalid"}
+                    />
                   </InputGroup>
+                  <small className="text-danger">
+                    {errors.date && touched.date && errors.date}
+                  </small>
                 </Form.Group>
                 <Form.Group className="mb-3 ms-1" controlId="timeId">
                   <Form.Label>Hora</Form.Label>
@@ -627,8 +668,33 @@ const TurnsComp = ({ type, getTurns, handleClose, turn }) => {
                     <InputGroup.Text id="groupTime">
                       <i className="bi bi-clock"></i>
                     </InputGroup.Text>
-                    <Form.Control defaultValue={turn.hora} disabled />
+                    <Form.Select
+                      name="time"
+                      value={values.time}
+                      className={errors.time && touched.time && "is-invalid"}
+                      onChange={handleChange}
+                    >
+                      <option value="08:00">08:00</option>
+                      <option value="08:30">08:30</option>
+                      <option value="09:00">09:00</option>
+                      <option value="09:30">09:30</option>
+                      <option value="10:00">10:00</option>
+                      <option value="10:30">10:30</option>
+                      <option value="11:00">11:00</option>
+                      <option value="11:30">11:30</option>
+                      <option value="12:00">12:00</option>
+                      <option value="16:00">16:00</option>
+                      <option value="16:30">16:30</option>
+                      <option value="17:00">17:00</option>
+                      <option value="17:30">17:30</option>
+                      <option value="18:00">18:00</option>
+                      <option value="18:30">18:30</option>
+                      <option value="19:00">19:00</option>
+                    </Form.Select>
                   </InputGroup>
+                  <small className="text-danger">
+                    {errors.time && touched.time && errors.time}
+                  </small>
                 </Form.Group>
               </div>
               <hr />
