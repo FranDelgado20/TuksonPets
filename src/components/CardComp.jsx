@@ -235,7 +235,7 @@ const CardComp = ({ type, products, plan, comment, user, getAllComments }) => {
                   <hr />
                   <div className="d-flex justify-content-between">
                     <Card.Text>{comments.mensaje}</Card.Text>
-                    {comments.email === user.email && (
+                    {comments.email === user?.email && (
                       <div>
                         <Button
                           className="mx-2"

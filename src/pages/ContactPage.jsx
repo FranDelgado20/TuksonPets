@@ -11,7 +11,16 @@ import { Link } from "react-router-dom";
 const ContactPage = () => {
   const token = JSON.parse(sessionStorage.getItem("token"));
   const idUser = JSON.parse(sessionStorage.getItem("idUser"));
+  const [allComments, setAllComments] = useState([]);
   const [user, setUser] = useState("");
+  const getAllComments = async () => {
+    const res = await clientAxios.get("/comments", config);
+    setAllComments(res.data.getComments);
+  };
+  const comentarioExistente = allComments.filter(
+    (comentario) => comentario?.email === user?.email
+  );
+  console.log(comentarioExistente);
   const getUser = async () => {
     const res = await fetch(
       `${import.meta.env.VITE_URL_DEPLOY}/users/${idUser}`,
@@ -25,10 +34,10 @@ const ContactPage = () => {
     );
     const response = await res.json();
     setUser(response.oneUser);
-  
   };
   const enviarComentario = async (values) => {
     try {
+      
       const res = await clientAxios.post(
         "/comments",
         {
@@ -46,6 +55,7 @@ const ContactPage = () => {
           timer: 1500,
         });
       }
+      getAllComments()
     } catch (error) {
       Swal.fire({
         position: "center",
@@ -56,7 +66,7 @@ const ContactPage = () => {
     }
   };
   useEffect(() => {
-    getUser();
+    getUser(), getAllComments();
   }, []);
   return (
     <Container className="my-4">
@@ -65,7 +75,23 @@ const ContactPage = () => {
           <h3 className="text-center">¿Tienes algo que contarnos?</h3>
           <hr />
 
-          {token ? (
+          {token && comentarioExistente.length === 1 ? (
+            <Form className="bg-info-subtle p-3  rounded-3 ">
+              <h2 className="text-center">Oh No!</h2>
+              <hr />
+              <p>
+                
+              Al parecer ya existe un comentario con esta cuenta. Si deseas volver a comentar, debes eliminar el comentario anterior o también puedes editarlo desde la página principal. Gracias por comprender.
+              </p>
+              <Link
+                className="btn botonContact align-items-center d-flex justify-content-center "
+                to={"/"}
+              >
+                <i class="bi bi-house-fill me-1"></i>
+                Dirigirme al inicio
+              </Link>
+            </Form>
+          ) : token ? (
             <Formik
               initialValues={{
                 comment: "",
